@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 
-//Custom models//
-const categories = require("../api/models/customCategories");
+//Custom categories with model//
+const categories = require("../api/models/customCategoryModels");
 
-// add user
+// Get category
 router.get("/:category", (req, res, next) => {
   const category = categories[req.params.category];
 

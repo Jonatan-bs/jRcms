@@ -8,9 +8,13 @@ const addFieldEvent = {
   element: "#newCategoryWrap .add",
   collection() {
     let div = document.createElement("div");
+    let label = document.createElement("label");
+    label.textContent = "Input type";
+    label.for = "inputType";
+    div.appendChild(label);
     div.classList.add("collection");
     let select = document.createElement("select");
-    select.name = "inputTypes";
+    select.name = "inputType";
     let option = document.createElement("option");
     option.value = "field";
     option.textContent = "field";
@@ -20,12 +24,28 @@ const addFieldEvent = {
     option.textContent = "textArea";
     select.appendChild(option);
     div.appendChild(select);
+    label = document.createElement("label");
+    label.textContent = "Display Name";
+    label.for = "displayname";
+    div.appendChild(label);
     let input = document.createElement("input");
     input.type = "text";
-    input.name = "name";
+    input.name = "displayname";
     div.appendChild(input);
+    label = document.createElement("label");
+    label.textContent = "Document name";
+    label.for = "nameInDoc";
+    div.appendChild(label);
+    input = document.createElement("input");
+    input.type = "text";
+    input.name = "nameInDoc";
+    div.appendChild(input);
+    label = document.createElement("label");
+    label.textContent = "Data type";
+    label.for = "dataType";
+    div.appendChild(label);
     select = document.createElement("select");
-    select.name = "dataTypes";
+    select.name = "dataType";
     option = document.createElement("option");
     option.value = "number";
     option.textContent = "number";
@@ -39,10 +59,18 @@ const addFieldEvent = {
     option.value = "boolean";
     option.textContent = "boolean";
     select.appendChild(option);
+    label = document.createElement("label");
+    label.textContent = "Requred";
+    label.for = "requred";
+    div.appendChild(label);
     input = document.createElement("input");
     input.type = "checkbox";
     input.name = "requred";
     div.appendChild(input);
+    label = document.createElement("label");
+    label.textContent = "Unique";
+    label.for = "unique";
+    div.appendChild(label);
     input = document.createElement("input");
     input.type = "checkbox";
     input.name = "unique";
@@ -68,7 +96,23 @@ const submitCatEvent = {
     const collections = formHelper.JSONstringCollections(form);
     const catName = form.querySelector("#catName").value;
     const formObj = { catName: catName, collections: collections };
+
     console.log(formObj);
+
+    fetch("http://localhost:3000/api/add/category", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formObj)
+    })
+      .then(response => response.json())
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
 

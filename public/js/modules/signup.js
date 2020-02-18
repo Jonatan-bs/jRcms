@@ -11,7 +11,6 @@ const addUser = {
     e.preventDefault();
     const form = document.querySelector(this.target);
     const jsonBody = formHelper.JSONstring(form);
-    const xhr = new XMLHttpRequest();
     fetch("http://localhost:3000/users/add/", {
       method: "post",
       headers: {
