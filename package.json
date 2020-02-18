@@ -1,0 +1,26 @@
+{
+  "name": "nodecms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jonatan-bs/nodeCMS.git"
+  },
+  "author": "Jonatan Shoshan <Jonatan-bs@live.dk>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jonatan-bs/nodeCMS/issues"
+  },
+  "homepage": "https://github.com/Jonatan-bs/nodeCMS#readme",
+  "dependencies": {
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "mongodb": "^3.5.3",
+    "mongoose": "^5.9.1",
+    "morgan": "^1.9.1"
+  }
+}
