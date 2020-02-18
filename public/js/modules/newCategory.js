@@ -60,8 +60,8 @@ const addFieldEvent = {
     option.textContent = "boolean";
     select.appendChild(option);
     label = document.createElement("label");
-    label.textContent = "Requred";
-    label.for = "requred";
+    label.textContent = "Required";
+    label.for = "required";
     div.appendChild(label);
     input = document.createElement("input");
     input.type = "checkbox";
@@ -94,8 +94,13 @@ const submitCatEvent = {
   function() {
     const form = document.querySelector(this.target);
     const collections = formHelper.JSONstringCollections(form);
-    const catName = form.querySelector("#catName").value;
-    const formObj = { catName: catName, collections: collections };
+    const displayName = form.querySelector("#displayName").value;
+    const nameInDoc = form.querySelector("#nameInDoc").value;
+    const formObj = {
+      displayName: displayName,
+      nameInDoc: nameInDoc,
+      collections: collections
+    };
 
     console.log(formObj);
 

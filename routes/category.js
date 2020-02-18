@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 //Custom categories with model//
 const categories = require("../api/models/customCategoryModels");
 
-// Get category
+// Get all from category
 router.get("/:category", (req, res, next) => {
   const category = categories[req.params.category];
 

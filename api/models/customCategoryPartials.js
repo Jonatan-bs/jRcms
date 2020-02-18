@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 module.exports.modelsInit = models => {
   for (const modelName in models) {
     const model = models[modelName];
-    console.log(modelName);
 
     let obj = { _id: mongoose.Schema.Types.ObjectId };
 
