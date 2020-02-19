@@ -16,7 +16,6 @@ router.get("/:category", (req, res, next) => {
       .find({})
       .then(collection => {
         console.log(collection);
-        //res.status("200").json({ result });
         // Render page
         res.render("index", {
           title: category.name,

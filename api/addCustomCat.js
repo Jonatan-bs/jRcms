@@ -3,7 +3,7 @@ const fs = require("fs");
 const util = require("util");
 
 module.exports = (req, res, next) => {
-  //remove model
+  //remove model property
   for (const model in models) {
     models[model].model = "";
   }
@@ -23,34 +23,9 @@ module.exports = (req, res, next) => {
   fileContent += "module.exports = models;";
 
   // Write to file
-  fs.writeFile("./api/models/customCategoryModels.js", fileContent, function(
-    err
-  ) {
+  fs.writeFile("./api/models/customCategoryModels.js", fileContent, err => {
     if (err) throw err;
     console.log("Saved!");
+    res.end(`{"message":"Category (${req.body.displayName}) has been added"}`);
   });
 };
-
-// products: {
-//     displayName: "Products",
-//     fields: [
-//       {
-//         displayname: "name",
-//         nameInDoc: "name",
-//         inputType: "field",
-//         dataType: "string",
-//         required: true,
-//         unique: false
-//       },
-//       {
-//         displayname: "price",
-//         nameInDoc: "price",
-//         inputType: "field",
-//         dataType: "number",
-//         required: false,
-//         unique: false
-//       }
-//     ],
-//     model: ""
-//   }
-// }

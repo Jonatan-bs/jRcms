@@ -47,3 +47,19 @@ export function JSONstringCollections(form) {
 
   return arr;
 }
+
+//// convert string to Id
+export function string2id(input, output) {
+  let prefix = "jr_";
+
+  output.value = input.value.replace(/\W/g, "_").toLowerCase();
+  if (input === output && output.value.length < prefix.length) {
+    output.value = prefix;
+  } else if (output.value.substring(0, prefix.length) != prefix) {
+    output.value = prefix + input.value.replace(/\W/g, "_").toLowerCase();
+  }
+}
+
+// export function fixedPrefix(form) {
+//   output.value = input.value.replace(/\W/g, "_").toLowerCase();
+// }

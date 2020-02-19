@@ -1,5 +1,19 @@
 import * as formHelper from "../helpers/form.js";
 
+//create dynamic document name
+const catDisplayName = document.querySelector("#newCategoryWrap #displayName");
+const catDocName = document.querySelector("#newCategoryWrap #nameInDoc");
+
+if (catDisplayName) {
+  //Automatic write document name
+  catDisplayName.addEventListener("input", e => {
+    formHelper.string2id(e.target, catDocName);
+  });
+  catDocName.addEventListener("input", e => {
+    formHelper.string2id(e.target, e.target);
+  });
+}
+
 // Events
 let events = [];
 
@@ -28,18 +42,18 @@ const addFieldEvent = {
     label.textContent = "Display Name";
     label.for = "displayname";
     div.appendChild(label);
-    let input = document.createElement("input");
-    input.type = "text";
-    input.name = "displayname";
-    div.appendChild(input);
+    let inputDisplayName = document.createElement("input");
+    inputDisplayName.type = "text";
+    inputDisplayName.name = "displayname";
+    div.appendChild(inputDisplayName);
     label = document.createElement("label");
     label.textContent = "Document name";
     label.for = "nameInDoc";
     div.appendChild(label);
-    input = document.createElement("input");
-    input.type = "text";
-    input.name = "nameInDoc";
-    div.appendChild(input);
+    let inputDocName = document.createElement("input");
+    inputDocName.type = "text";
+    inputDocName.name = "nameInDoc";
+    div.appendChild(inputDocName);
     label = document.createElement("label");
     label.textContent = "Data type";
     label.for = "dataType";
@@ -63,7 +77,7 @@ const addFieldEvent = {
     label.textContent = "Required";
     label.for = "required";
     div.appendChild(label);
-    input = document.createElement("input");
+    let input = document.createElement("input");
     input.type = "checkbox";
     input.name = "requred";
     div.appendChild(input);
@@ -75,6 +89,14 @@ const addFieldEvent = {
     input.type = "checkbox";
     input.name = "unique";
     div.appendChild(input);
+
+    //create dynamic document name
+    inputDisplayName.addEventListener("keyup", e => {
+      formHelper.string2id(e.target, inputDocName);
+    });
+    inputDocName.addEventListener("input", e => {
+      formHelper.string2id(e.target, e.target);
+    });
 
     return div;
   },
@@ -101,8 +123,6 @@ const submitCatEvent = {
       nameInDoc: nameInDoc,
       collections: collections
     };
-
-    console.log(formObj);
 
     fetch("http://localhost:3000/api/add/category", {
       method: "post",
