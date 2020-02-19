@@ -1,6 +1,15 @@
-<p>show <%= title %></p>
+<p>All from <%= title %></p>
 
-<% for(document of collection) {%>
-<p>product: <%= document.name %></p>
-<p>price: <%= document.price %></p>
-<% } %>
+<% for(let document of documents) {%>
+
+    <% for(let key in document) {%>
+        <% if(rewrite[key]) {%>
+            <%= rewrite[key] %>:
+        <% } else { %>
+            <%= key %>:
+        <% } %> 
+        <%= document[key] %>
+        <br>
+    <% } %> 
+    <br><br>
+<% } %> 

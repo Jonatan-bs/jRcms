@@ -6,51 +6,24 @@ let models = {
     displayName: 'Product',
     fields: [
       {
-        inputType: 'field',
-        displayname: 'Price',
-        nameInDoc: 'jr_price',
-        dataType: 'number',
-        requred: true,
-        unique: false
-      },
-      {
-        inputType: 'field',
-        displayname: 'Name',
+        inputType: 'text',
+        displayName: 'Name',
         nameInDoc: 'jr_name',
         dataType: 'string',
-        requred: true,
-        unique: true
-      }
-    ],
-    model: ''
-  },
-  jr_aaaaa: {
-    displayName: 'aaaaa',
-    fields: [
-      {
-        inputType: 'field',
-        displayname: 'aaaa',
-        nameInDoc: 'jr_aaaa',
-        dataType: 'number',
-        requred: true,
+        required: true,
         unique: true
       },
       {
-        inputType: 'field',
-        displayname: '',
-        nameInDoc: '',
+        inputType: 'number',
+        displayName: 'Price',
+        nameInDoc: 'jr_price',
         dataType: 'number',
-        requred: false,
+        required: true,
         unique: false
       }
     ],
-    model: ''
-  },
-  jr_ddd: { displayName: 'ddd', fields: [], model: '' },
-  jr_dd: { displayName: 'dd', fields: [], model: '' },
-  '': { displayName: '', fields: [], model: '' },
-  jr_d: { displayName: 'd', fields: [], model: '' },
-  jr_ss: { displayName: 'ss', fields: [] }
+    rewriteObj: { jr_name: 'Name', jr_price: 'Price' }
+  }
 }
 
 partials.modelsInit(models);

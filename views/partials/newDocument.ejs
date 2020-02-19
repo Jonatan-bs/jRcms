@@ -1,0 +1,24 @@
+
+<p><%= title %></p>
+
+<% fields.forEach(field => { %> 
+    <%= field.displayname %> 
+<% if(field.inputType==="text") { %>
+     <input type="text" />
+<% } else if (field.inputType ==="number"){%>
+    <input type="number" />
+<% } else if (field.inputType ==="checkbox"){%>
+    <input type="checkbox" />
+<% } else if (field.inputType ==="date"){%>
+    <input type="date" />
+<% } else if (field.inputType ==="email"){%>
+    <input type="email" />
+<% } else if (field.inputType ==="image"){%>
+    <p>image not configured</p>
+<% } else if (field.inputType ==="select"){%>
+<% } else if (field.inputType ==="textarea"){%>
+    <input type="textarea" />
+<% } else {%> 
+    <%= field.nameInDoc %> <%= field.dataType %> <%= field.requred %>
+<% } %> 
+    <% });%>

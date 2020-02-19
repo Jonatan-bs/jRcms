@@ -10,8 +10,12 @@ const models = require("../api/models/customCategoryModels");
 
 // add document to category
 router.post("/add/:category", (req, res, next) => {
-  if (models[req.params.category]) {
-    api.addToDB(req, res, models[req.params.category].model);
+  prefix = "jr_";
+  let category = prefix + req.params.category;
+  category = models[category];
+
+  if (category) {
+    api.addToDB(req, res, category.model);
   } else {
     next();
   }

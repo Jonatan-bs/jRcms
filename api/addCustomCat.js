@@ -7,11 +7,19 @@ module.exports = (req, res, next) => {
   for (const model in models) {
     models[model].model = "";
   }
+
+  //Create rewrite object
+  let rewriteObj = {};
+  for (const field of req.body.collections) {
+    rewriteObj[field.nameInDoc] = field.displayName;
+  }
+
+  //Create model object
   models[req.body.nameInDoc] = {
     displayName: req.body.displayName,
-    fields: req.body.collections
+    fields: req.body.collections,
+    rewriteObj: rewriteObj
   };
-  console.log(models);
 
   let fileContent = "";
   fileContent += 'const mongoose = require("mongoose"); \n';
