@@ -1,0 +1,36 @@
+body {
+  font-family: sans-serif;
+  margin:0;
+  padding:0;
+}
+
+.menu {
+  width: 220px;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: #111;
+  box-sizing: border-box;
+  color: #fff;
+}
+
+.menu a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px;
+  display: block;
+  border-bottom: #4d4d4d 1px solid;
+}
+
+.content {
+    box-sizing: border-box;
+    padding: 20px 20px 20px 250px;
+}
+
+.menu .logo {
+    width: 140px;
+    margin: 0 auto;
+    display: block;
+    padding: 20px 0;
+}

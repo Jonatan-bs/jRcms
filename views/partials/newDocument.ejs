@@ -1,24 +1,17 @@
 
 <p><%= title %></p>
-
+<form id="newDocumentForm">
 <% fields.forEach(field => { %> 
-    <%= field.displayname %> 
+
+    
+    <%= field.displayName %> 
 <% if(field.inputType==="text") { %>
-     <input type="text" />
+     <input name ="<%= field.nameInDoc %>" type="text" <% if(field.required){%>required<%}%>/>
 <% } else if (field.inputType ==="number"){%>
-    <input type="number" />
-<% } else if (field.inputType ==="checkbox"){%>
-    <input type="checkbox" />
-<% } else if (field.inputType ==="date"){%>
-    <input type="date" />
-<% } else if (field.inputType ==="email"){%>
-    <input type="email" />
-<% } else if (field.inputType ==="image"){%>
-    <p>image not configured</p>
-<% } else if (field.inputType ==="select"){%>
-<% } else if (field.inputType ==="textarea"){%>
-    <input type="textarea" />
-<% } else {%> 
-    <%= field.nameInDoc %> <%= field.dataType %> <%= field.requred %>
-<% } %> 
+    <input name ="<%= field.nameInDoc %>" type="number" <% if(field.required){%>required<%}%>/>
+    <% } %> 
+
     <% });%>
+    <input type="hidden" name="nameInDoc" value="<%= nameInDoc %> "/>
+    <button id="submitNewDocument" >submit</button>
+</form>

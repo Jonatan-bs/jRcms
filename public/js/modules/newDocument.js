@@ -3,21 +3,26 @@ import * as formHelper from "../helpers/form.js";
 // Events
 let events = [];
 
-// Add user
-const addUser = {
-  element: "#jRsignup button",
-  target: "#jRsignup",
+// Add field
+const addFieldEvent = {
+  element: "#submitNewDocument",
+  target: "#newDocumentForm",
+
   function(e) {
     e.preventDefault();
-    const form = document.querySelector(this.target);
-    const jsonBody = formHelper.JSONstring(form);
 
-    fetch("http://localhost:3000/api/add/user", {
+    const form = document.querySelector(this.target);
+    let formData = formHelper.JSONstring(form);
+    formData = JSON.parse(formData);
+    const category = formData.nameInDoc;
+    delete formData.nameInDoc;
+
+    fetch("http://localhost:3000/api/add/" + category, {
       method: "post",
       headers: {
         "Content-Type": "application/json"
       },
-      body: jsonBody
+      body: JSON.stringify(formData)
     })
       .then(response => response.json())
       .then(response => {
@@ -29,6 +34,6 @@ const addUser = {
   }
 };
 
-events.push(addUser);
+events.push(addFieldEvent);
 
 export { events };

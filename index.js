@@ -1,6 +1,6 @@
 const express = require("express"); // Håndtering af server
 const logger = require("morgan"); // module for logging
-const usersRouter = require("./routes/users"); // Routing for user API requests
+const usersRouter = require("./routes/user"); // Routing for user API requests
 const viewsRouter = require("./routes/views"); // Routing for main site
 const catRouter = require("./routes/category"); // Routing for categories
 const apiRouter = require("./routes/api"); // Routing for API requests
@@ -32,7 +32,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 
 // Routes
-app.use("/users", usersRouter); // mount routes for users
+app.use("/user", usersRouter); // mount routes for users
 app.use("/api", apiRouter); // mount routes for API requests
 app.use("/category", catRouter); // mount routes for categories
 app.use("/", viewsRouter); // mount routes for views

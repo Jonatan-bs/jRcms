@@ -9,11 +9,6 @@ router.get("/", (req, res) => {
 });
 
 // Register page
-router.get("/signup", (req, res) => {
-  res.render("signup");
-});
-
-// Register page
 router.get("/newCategory", (req, res) => {
   res.render("index", { title: "new category", partial: "newCategory" });
 });

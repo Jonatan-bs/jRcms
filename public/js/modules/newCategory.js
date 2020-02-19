@@ -1,8 +1,8 @@
 import * as formHelper from "../helpers/form.js";
 
 //create dynamic document name
-const catDisplayName = document.querySelector("#newCategoryWrap #displayName");
-const catDocName = document.querySelector("#newCategoryWrap #nameInDoc");
+const catDisplayName = document.querySelector("#newCategoryForm #displayName");
+const catDocName = document.querySelector("#newCategoryForm #nameInDoc");
 
 if (catDisplayName) {
   //Automatic write document name
@@ -19,7 +19,7 @@ let events = [];
 
 // Add field
 const addFieldEvent = {
-  element: "#newCategoryWrap .add",
+  element: "#newCategoryField",
   collection() {
     let div = document.createElement("div");
     let label = document.createElement("label");
@@ -106,7 +106,7 @@ const addFieldEvent = {
   },
 
   function() {
-    const form = document.querySelector("#newCategoryWrap form");
+    const form = document.querySelector("#newCategoryForm");
     form.append(this.collection());
   }
 };
@@ -115,9 +115,10 @@ events.push(addFieldEvent);
 
 // Submit category
 const submitCatEvent = {
-  element: "#newCategoryWrap .submit",
-  target: "#newCategoryWrap form",
-  function() {
+  element: "#submitNewCategory",
+  target: "#newCategoryForm",
+  function(e) {
+    e.preventDefault();
     const form = document.querySelector(this.target);
     const collections = formHelper.JSONstringCollections(form);
     const displayName = form.querySelector("#displayName").value;

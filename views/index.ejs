@@ -1,3 +1,8 @@
-<%- include('partials/header') %> <%- include('partials/menu') %>
-<br />
+<%- include('partials/header') %> 
+<div class="menu">
+<%- include('partials/menu') %>
+</div>
+<div class="content">
 <% if(partial) {%> <%- include('partials/' + partial) %> <% } %>
+</div>
+<%- include('partials/footer') %> 

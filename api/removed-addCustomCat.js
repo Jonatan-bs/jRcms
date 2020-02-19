@@ -16,6 +16,7 @@ module.exports = (req, res, next) => {
 
   //Create model object
   models[req.body.nameInDoc] = {
+    nameInDoc: req.body.nameInDoc,
     displayName: req.body.displayName,
     fields: req.body.collections,
     rewriteObj: rewriteObj

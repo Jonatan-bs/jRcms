@@ -6,14 +6,15 @@ module.exports.addToDB = (req, res, schema) => {
     _id: new mongoose.Types.ObjectId(),
     ...req.body
   });
-
+  console.log(req.body);
+  console.log(newDocument);
   newDocument
     .save()
     .then(result => {
-      console.log(result);
+      //console.log(result);
       res.status("201").json({
         message: "Document created",
-        createdUser: newDocument
+        createdDocument: newDocument
       });
     })
     .catch(err => {
