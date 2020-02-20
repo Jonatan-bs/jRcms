@@ -24,3 +24,15 @@ module.exports.addToDB = (req, res, schema) => {
       });
     });
 };
+
+// Get all from db PROMISE
+module.exports.getFromDB = (model, target, properties, param) => {
+  return new Promise((resolve, reject) => {
+    // show all documents from collection
+    model
+      .find(target, properties, param, (err, documents) => {
+        if (err) reject(err);
+      })
+      .then(data => resolve(data));
+  });
+};

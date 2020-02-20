@@ -1,11 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
+const Category = require("../api/models/categoryModel");
+const categoryModel = require("../api/models/categoryModel");
+const api = require("../api/main");
 
 //Custom categories with model//
 const getCategories = require("../api/models/customCatModels");
 
-// Get all from category
+// Get all from custom category
 router.get("/:category", (req, res, next) => {
   prefix = "jr_";
   let category = prefix + req.params.category;
@@ -18,13 +21,21 @@ router.get("/:category", (req, res, next) => {
         .find({}, "-__v", { lean: true }, (err, documents) => {
           if (err) console.log(err);
           // Render page
-          res.render("index", {
-            nameInDoc: req.params.category,
-            title: category.displayName,
-            partial: "category",
-            documents: documents,
-            rewrite: category.rewriteObj
-          });
+          api
+            .getFromDB(categoryModel, {}, "displayName nameInDoc -_id", {
+              lean: true
+            })
+            .then(categoriesDB => {
+              res.render("index", {
+                nameInDoc: req.params.category,
+                title: category.displayName,
+                partial: "category",
+                documents: documents,
+                rewrite: category.rewriteObj,
+                categories: categoriesDB
+              });
+            })
+            .catch(err => console.log(err));
         })
         .then()
         .catch(err => {
@@ -47,13 +58,21 @@ router.get("/:category/add", (req, res, next) => {
     category = categories[category];
 
     if (category) {
-      res.render("index", {
-        nameInDoc: req.params.category,
-        title: category.displayName,
-        partial: "newDocument",
-        category: category,
-        fields: category.collections
-      });
+      api
+        .getFromDB(categoryModel, {}, "displayName nameInDoc -_id", {
+          lean: true
+        })
+        .then(categoriesDB => {
+          res.render("index", {
+            nameInDoc: req.params.category,
+            title: category.displayName,
+            partial: "newDocument",
+            category: category,
+            categories: categoriesDB,
+            fields: category.collections
+          });
+        })
+        .catch(err => console.log(err));
     } else {
       next();
     }
