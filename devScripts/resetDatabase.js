@@ -12,7 +12,8 @@ const connection = mongoose.connection;
 connection.once("open", function() {
   console.log("*** MongoDB got connected ***");
   console.log(`Our Current Database Name : ${connection.db.databaseName}`);
-  mongoose.connection.db.dropDatabase(
-    console.log(`${connection.db.databaseName} database dropped.`)
-  );
+  mongoose.connection.db.dropDatabase(() => {
+    mongoose.connection.close();
+    console.log(`${connection.db.databaseName} database dropped.`);
+  });
 });
