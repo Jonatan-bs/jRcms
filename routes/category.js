@@ -12,7 +12,7 @@ const getCategories = require("../api/models/customCatModels");
 router.get("/:category", (req, res, next) => {
   prefix = "jr_";
   let category = prefix + req.params.category;
-  getCategories.then(categories => {
+  getCategories().then(categories => {
     category = categories[category];
     if (category) {
       const model = category.model;
@@ -54,7 +54,7 @@ router.get("/:category", (req, res, next) => {
 router.get("/:category/add", (req, res, next) => {
   prefix = "jr_";
   let category = prefix + req.params.category;
-  getCategories.then(categories => {
+  getCategories().then(categories => {
     category = categories[category];
 
     if (category) {

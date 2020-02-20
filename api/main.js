@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // Add to database
-module.exports.addToDB = (req, res, schema) => {
+module.exports.addToDB = (req, res, schema, callback) => {
   const newDocument = new schema({
     _id: new mongoose.Types.ObjectId(),
     ...req.body
@@ -16,6 +16,9 @@ module.exports.addToDB = (req, res, schema) => {
         message: "Document created",
         createdDocument: newDocument
       });
+      if (callback) {
+        callback();
+      }
     })
     .catch(err => {
       console.log(err);

@@ -139,6 +139,7 @@ const submitCatEvent = {
       .then(response => response.json())
       .then(response => {
         console.log(response);
+        location.reload();
       })
       .catch(err => {
         console.log(err);

@@ -11,22 +11,24 @@ const categoryModel = require("../api/models/categoryModel");
 
 // add new category
 router.post("/add/category", (req, res, next) => {
-  api.addToDB(req, res, categoryModel);
-});
-
-// add document to category
-router.post("/add/:category", (req, res, next) => {
-  prefix = "jr_";
-  let category = prefix + req.params.category;
-  getCategories.then(categories => {
-    category = categories[category];
-    api.addToDB(req, res, category.model);
+  api.addToDB(req, res, categoryModel, () => {
+    getCategories(true);
   });
 });
 
 // add user
 router.post("/add/user", (req, res) => {
   api.addToDB(req, res, User);
+});
+
+// add document to category
+router.post("/add/:category", (req, res, next) => {
+  prefix = "jr_";
+  let category = prefix + req.params.category;
+  getCategories().then(categories => {
+    category = categories[category];
+    api.addToDB(req, res, category.model);
+  });
 });
 
 // Get all categories
