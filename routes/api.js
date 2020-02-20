@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const api = require("../api/post");
 //const addCustomCategory = require("../api/addCustomCat.js");
 const User = require("../api/models/userModel");
-const CustomCategory = require("../api/models/customCatModels");
+const getCategories = require("../api/models/customCatModels");
 const Category = require("../api/models/categoryModel");
 
 // add new category
@@ -16,11 +16,11 @@ router.post("/add/category", (req, res, next) => {
 // add document to category
 router.post("/add/:category", (req, res, next) => {
   prefix = "jr_";
-
   let category = prefix + req.params.category;
-  category = CustomCategory[category];
-
-  //api.addToDB(req, res, category.model);
+  getCategories.then(categories => {
+    category = categories[category];
+    api.addToDB(req, res, category.model);
+  });
 });
 
 // add user
