@@ -11,7 +11,7 @@ module.exports.addToDB = (req, res, schema) => {
   newDocument
     .save()
     .then(result => {
-      //console.log(result);
+      // console.log('result');
       res.status("201").json({
         message: "Document created",
         createdDocument: newDocument
