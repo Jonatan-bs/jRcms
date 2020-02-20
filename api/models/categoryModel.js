@@ -25,11 +25,11 @@ const categorySchema = new mongoose.Schema(
 );
 
 //Chek if collecions is empty array befor passing it to schema
-// categorySchema.pre("save", function(next) {
-// if (this.collections.length < 1) {
-//   next("No fields were selected");
-// }
-// next();
-// });
+categorySchema.pre("save", function(next) {
+  if (this.collections.length < 1) {
+    next("No fields were selected");
+  }
+  next();
+});
 
 module.exports = mongoose.model("jr_category", categorySchema);
