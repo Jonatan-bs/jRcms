@@ -8,7 +8,8 @@ const collectionsSchema = new mongoose.Schema(
     nameInDoc: { type: String, required: true },
     dataType: { type: String, required: true },
     required: { type: Boolean, required: true },
-    unique: { type: Boolean, required: true }
+    unique: { type: Boolean, required: true },
+    options: { type: Array, required: false }
   },
   { _id: false }
 );
@@ -24,11 +25,23 @@ const categorySchema = new mongoose.Schema(
   { collection: "jr_category" }
 );
 
-//Chek if collecions is empty array befor passing it to schema
 categorySchema.pre("save", function(next) {
+  //Check if collecions is empty array befor passing it to schema
   if (this.collections.length < 1) {
     next("No fields were selected");
   }
+  //Check if there's duplicate nameInDoc's
+  let nameInDocs = [];
+  this.collections.forEach(collection => {
+    if (nameInDocs.includes(collection.nameInDoc)) {
+      next(
+        "Document name has to be unique. Multiple fields with document name: " +
+          collection.nameInDoc
+      );
+    }
+    nameInDocs.push(collection.nameInDoc);
+  });
+
   next();
 });
 

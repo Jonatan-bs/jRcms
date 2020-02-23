@@ -1,14 +1,32 @@
 
 <p><%= title %></p>
 <form id="newDocumentForm">
+    <% console.log(fields) %>
 <% fields.forEach(field => { %> 
 
     
-    <%= field.displayName %> 
-<% if(field.inputType==="text") { %>
-     <input name ="<%= field.nameInDoc %>" type="text" <% if(field.required){%>required<%}%>/>
-<% } else if (field.inputType ==="number"){%>
-    <input name ="<%= field.nameInDoc %>" type="number" <% if(field.required){%>required<%}%>/>
+   <p><%= field.displayName %> </p> 
+<% if(field.inputType==="text" || field.inputType==="number" || field.inputType==="date" || field.inputType==="file" ) { %>
+     <input name ="<%= field.nameInDoc %>" type="<%= field.inputType %>" <% if(field.required){%>required<%}%>/>
+   
+     <% } else if (field.inputType ==="select"){%>
+
+    <select name ="<%= field.nameInDoc %>" type="number" <% if(field.required){%>required<%}%>>
+        <% field.options.forEach(option =>{ %>
+            <option value="<%= option.name %>" name="<%= field.nameInDoc %>"><%= option.value %></option>
+        <%})%>
+    </select>
+
+    <% } else if (field.inputType ==="radio" || field.inputType ==="checkbox" ){%>
+            <% field.options.forEach(option =>{ %>
+                <input name="<%= field.nameInDoc %>" value="<%= option.value %>" type="<%= field.inputType %>" <% if(field.required){%>required<%}%>/>
+                <label for="<%= option.value %>"><%= option.name %></label><br>
+
+                <%})%>
+        
+        
+        <% } else if (field.inputType==="textArea" ){%>
+    <textarea name ="<%= field.nameInDoc %>" > </textarea>
     <% } %> 
 
     <% });%>

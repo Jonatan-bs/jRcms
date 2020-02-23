@@ -21,78 +21,81 @@ let events = [];
 const addFieldEvent = {
   element: "#newCategoryField",
   collection() {
-    let div = document.createElement("div");
-    let label = document.createElement("label");
-    label.textContent = "Input type";
-    label.for = "inputType";
+    let div, input, select, label;
+
+    div = formHelper.createElm.div({ class: "collection" });
+
+    label = formHelper.createElm.label({
+      text: "Input type",
+      for: "Input type"
+    });
     div.appendChild(label);
-    div.classList.add("collection");
-    let select = document.createElement("select");
-    select.name = "inputType";
-    let option = document.createElement("option");
-    option.value = "text";
-    option.textContent = "text";
-    select.appendChild(option);
-    option = document.createElement("option");
-    option.value = "textArea";
-    option.textContent = "textArea";
-    select.appendChild(option);
-    option = document.createElement("option");
-    option.value = "number";
-    option.textContent = "number";
-    select.appendChild(option);
+
+    select = formHelper.createElm.select({
+      name: "inputType",
+      options: [
+        { val: "text", text: "Text" },
+        { val: "textArea", text: "TextArea" },
+        { val: "number", text: "Number" },
+        { val: "select", text: "Select" },
+        { val: "checkbox", text: "Checkbox" },
+        { val: "radio", text: "Radio" },
+        { val: "file", text: "File" },
+        { val: "date", text: "Date" }
+      ]
+    });
     div.appendChild(select);
-    label = document.createElement("label");
-    label.textContent = "Display Name";
-    label.for = "displayName";
+
+    label = formHelper.createElm.label({
+      text: "Display Name",
+      for: "displayName"
+    });
     div.appendChild(label);
-    let inputDisplayName = document.createElement("input");
-    inputDisplayName.type = "text";
-    inputDisplayName.name = "displayName";
+
+    let inputDisplayName = formHelper.createElm.input({
+      name: "displayName",
+      type: "text"
+    });
     div.appendChild(inputDisplayName);
-    label = document.createElement("label");
-    label.textContent = "Document name";
-    label.for = "nameInDoc";
+
+    label = formHelper.createElm.label({
+      text: "Document name",
+      for: "nameInDoc"
+    });
     div.appendChild(label);
-    let inputDocName = document.createElement("input");
-    inputDocName.type = "text";
-    inputDocName.name = "nameInDoc";
+
+    let inputDocName = formHelper.createElm.input({
+      name: "nameInDoc",
+      type: "text"
+    });
     div.appendChild(inputDocName);
-    label = document.createElement("label");
-    label.textContent = "Data type";
-    label.for = "dataType";
+
+    label = formHelper.createElm.label({
+      text: "Required",
+      for: "required"
+    });
     div.appendChild(label);
-    select = document.createElement("select");
-    select.name = "dataType";
-    option = document.createElement("option");
-    option.value = "number";
-    option.textContent = "number";
-    select.appendChild(option);
-    option = document.createElement("option");
-    option.value = "string";
-    option.textContent = "string";
-    select.appendChild(option);
-    div.appendChild(select);
-    option = document.createElement("option");
-    option.value = "boolean";
-    option.textContent = "boolean";
-    select.appendChild(option);
-    label = document.createElement("label");
-    label.textContent = "Required";
-    label.for = "required";
-    div.appendChild(label);
-    let input = document.createElement("input");
-    input.type = "checkbox";
-    input.name = "required";
+
+    input = formHelper.createElm.input({
+      name: "required",
+      type: "checkbox"
+    });
     div.appendChild(input);
-    label = document.createElement("label");
-    label.textContent = "Unique";
-    label.for = "unique";
+
+    label = formHelper.createElm.label({
+      text: "Unique",
+      for: "unique"
+    });
     div.appendChild(label);
-    input = document.createElement("input");
-    input.type = "checkbox";
-    input.name = "unique";
+
+    input = formHelper.createElm.input({
+      name: "unique",
+      type: "checkbox"
+    });
     div.appendChild(input);
+
+    let optionsDiv = formHelper.createElm.div({ class: "options" });
+    div.appendChild(optionsDiv);
 
     //create dynamic document name
     inputDisplayName.addEventListener("keyup", e => {
@@ -100,6 +103,54 @@ const addFieldEvent = {
     });
     inputDocName.addEventListener("input", e => {
       formHelper.string2id(e.target, e.target);
+    });
+
+    // add option fields
+    select.addEventListener("change", e => {
+      let elm = e.target;
+      let targetDiv = elm.parentNode.querySelector(".options");
+      targetDiv.innerHTML = "";
+      if (
+        elm.value == "select" ||
+        elm.value == "radio" ||
+        elm.value == "checkbox"
+      ) {
+        let button = formHelper.createElm.button({
+          text: "Add option",
+          class: "addoption"
+        });
+        targetDiv.appendChild(button);
+
+        let input1 = formHelper.createElm.input({
+          name: "optionName",
+          type: "text",
+          class: "option"
+        });
+        let input2 = formHelper.createElm.input({
+          name: "optionVal",
+          type: "text",
+          class: "option"
+        });
+        targetDiv.appendChild(input1);
+        targetDiv.appendChild(input2);
+
+        button.addEventListener("click", e => {
+          e.preventDefault();
+
+          input1 = formHelper.createElm.input({
+            name: "optionName",
+            type: "text",
+            class: "option"
+          });
+          input2 = formHelper.createElm.input({
+            name: "optionVal",
+            type: "text",
+            class: "option"
+          });
+          targetDiv.appendChild(input1);
+          targetDiv.appendChild(input2);
+        });
+      }
     });
 
     return div;
@@ -121,6 +172,7 @@ const submitCatEvent = {
     e.preventDefault();
     const form = document.querySelector(this.target);
     const collections = formHelper.JSONstringCollections(form);
+
     const displayName = form.querySelector("#displayName").value;
     const nameInDoc = form.querySelector("#nameInDoc").value;
     const formObj = {
@@ -128,6 +180,11 @@ const submitCatEvent = {
       nameInDoc: nameInDoc,
       collections: collections
     };
+    formHelper.createOptions(formObj);
+
+    formObj.collections.forEach(collection => {
+      collection.dataType = formHelper.input2data[collection.inputType];
+    });
 
     fetch("http://localhost:3000/api/add/category", {
       method: "post",
@@ -139,7 +196,7 @@ const submitCatEvent = {
       .then(response => response.json())
       .then(response => {
         console.log(response);
-        location.reload();
+        //location.reload();
       })
       .catch(err => {
         console.log(err);

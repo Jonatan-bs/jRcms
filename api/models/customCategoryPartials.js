@@ -6,13 +6,13 @@ module.exports.modelsInit = models => {
 
   for (const modelName in models) {
     const model = models[modelName];
-
     //Create rewrite object
     let rewriteObj = {};
     for (const collection of model.collections) {
       rewriteObj[collection.nameInDoc] = collection.displayName;
     }
     model.rewriteObj = rewriteObj;
+
     // Create and add model, if not already defined
     if (!mongoose.connection.models[model.nameInDoc]) {
       let schemaObj = { _id: mongoose.Schema.Types.ObjectId };
