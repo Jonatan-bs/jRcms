@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const category = require("./categoryModel.js");
 const partials = require("./customCategoryPartials.js");
 
@@ -17,6 +16,8 @@ let getCategories = reset => {
       })
       .then(data => {
         categoryObj = partials.modelsInit(data);
+        console.log(categoryObj);
+
         resolve(categoryObj);
       })
       .catch(err => {

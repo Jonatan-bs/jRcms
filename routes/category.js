@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
-const Category = require("../api/models/categoryModel");
 const categoryModel = require("../api/models/categoryModel");
 const api = require("../api/main");
 

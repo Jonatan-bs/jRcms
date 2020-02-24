@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const api = require("../api/main");
-const mongoose = require("mongoose");
 const categoryModel = require("../api/models/categoryModel");
 
 //const User = require("../api/models/userModel");

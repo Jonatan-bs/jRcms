@@ -8,7 +8,7 @@ const apiRouter = require("./routes/api"); // Routing for API requests
 const mongoose = require("mongoose"); // Mongoose for database
 
 //connect to database
-mongoose.connect("mongodb://localhost:27017/testSite", {
+mongoose.connect("mongodb://localhost:27017/jrCMS", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
@@ -28,7 +28,8 @@ app.use(
 // Set render engine
 app.set("view engine", "ejs");
 
-// Set routing for static public files
+// Set routing for static files
+app.use("/admin", express.static("admin"));
 app.use(express.static("public"));
 
 // Routes

@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const path = require("path");
-const mongoose = require("mongoose");
 const api = require("../api/main");
 
 //const addCustomCategory = require("../api/addCustomCat.js");

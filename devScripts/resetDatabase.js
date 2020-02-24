@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 //connect to database
-mongoose.connect("mongodb://localhost:27017/testSite", {
+mongoose.connect("mongodb://localhost:27017/jrCMS", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
