@@ -11,13 +11,6 @@ const viewsRouter = require("./routes/views"); // Routing for main site
 const catRouter = require("./routes/category"); // Routing for categories
 const apiRouter = require("./routes/api"); // Routing for API requests
 
-//connect to database
-// mongoose.connect("mongodb://localhost:27017/jrCMS", {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   useCreateIndex: true
-// });
-
 var app = express();
 
 // view engine setup
