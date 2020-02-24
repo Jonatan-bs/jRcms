@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const api = require("../api/main");
+const multer = require("multer"); // Handle file uploads
+const upload = multer({ dest: "admin/uploads" }); // Handle file uploads
 
 //const addCustomCategory = require("../api/addCustomCat.js");
 const User = require("../api/models/userModel");

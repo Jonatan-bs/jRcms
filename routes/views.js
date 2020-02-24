@@ -3,8 +3,6 @@ const router = express.Router();
 const api = require("../api/main");
 const categoryModel = require("../api/models/categoryModel");
 
-//const User = require("../api/models/userModel");
-
 // Routes
 router.get("/", (req, res) => {
   api
@@ -12,7 +10,7 @@ router.get("/", (req, res) => {
       lean: true
     })
     .then(categoriesDB => {
-      res.render("index", {
+      res.render("admin/index", {
         title: "index",
         partial: "index",
         categories: categoriesDB
@@ -28,7 +26,7 @@ router.get("/newCategory", (req, res) => {
       lean: true
     })
     .then(categoriesDB => {
-      res.render("index", {
+      res.render("admin/index", {
         title: "new category",
         partial: "newCategory",
         categories: categoriesDB

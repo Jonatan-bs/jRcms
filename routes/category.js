@@ -24,7 +24,7 @@ router.get("/:category", (req, res, next) => {
               lean: true
             })
             .then(categoriesDB => {
-              res.render("index", {
+              res.render("admin/index", {
                 nameInDoc: req.params.category,
                 title: category.displayName,
                 partial: "category",
@@ -61,7 +61,7 @@ router.get("/:category/add", (req, res, next) => {
           lean: true
         })
         .then(categoriesDB => {
-          res.render("index", {
+          res.render("admin/index", {
             nameInDoc: req.params.category,
             title: category.displayName,
             partial: "newDocument",

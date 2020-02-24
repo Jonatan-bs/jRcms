@@ -36,6 +36,7 @@ module.exports.getFromDB = (model, target, properties, param) => {
       .find(target, properties, param, (err, documents) => {
         if (err) reject(err);
       })
-      .then(data => resolve(data));
+      .then(data => resolve(data))
+      .catch(err => reject(err));
   });
 };

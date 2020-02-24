@@ -10,7 +10,7 @@ router.get("/signup", (req, res) => {
       lean: true
     })
     .then(categoriesDB => {
-      res.render("index", {
+      res.render("admin/index", {
         title: "Sign up",
         partial: "signup",
         categories: categoriesDB
