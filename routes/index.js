@@ -1,12 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const api = require("../api/main");
 const categoryModel = require("../api/models/categoryModel");
 
 // Routes
-router.get("/", (req, res) => {
-  api
-    .getFromDB(categoryModel, {}, "displayName nameInDoc -_id", {
+router.get("/", (req, res, next) => {
+  return categoryModel
+    .find({}, "displayName nameInDoc -_id", {
       lean: true
     })
     .then(categoriesDB => {
@@ -16,13 +15,13 @@ router.get("/", (req, res) => {
         categories: categoriesDB
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => next(err));
 });
 
 // Register page
 router.get("/newCategory", (req, res) => {
-  api
-    .getFromDB(categoryModel, {}, "displayName nameInDoc -_id", {
+  categoryModel
+    .find({}, "displayName nameInDoc -_id", {
       lean: true
     })
     .then(categoriesDB => {

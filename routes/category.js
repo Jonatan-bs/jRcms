@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const categoryModel = require("../api/models/categoryModel");
-const api = require("../api/main");
 const mongoose = require("mongoose");
 
 //Custom categories with model//
@@ -25,22 +24,18 @@ router.get("/:category", (req, res, next) => {
     })
     .then(response => {
       documents = response;
-      //documents = response;
-      return api.getFromDB(categoryModel, {}, "displayName nameInDoc -_id", {
+      return categoryModel.find({}, "displayName nameInDoc -_id", {
         lean: true
       });
     })
     .then(response => {
       categories = response;
-      //documents = response;
       return categoryModel.findOne(
         { nameInDoc: category },
         "displayName rewriteObj -_id"
       );
     })
     .then(category => {
-      console.log(category);
-
       res.render("admin/index", {
         nameInDoc: req.params.category,
         title: category.displayName,
@@ -62,7 +57,7 @@ router.get("/:category/add", (req, res, next) => {
   initCatModels()
     // Get model from category matching req.params.category
     .then(() => {
-      return api.getFromDB(categoryModel, {}, "-_id", {
+      return categoryModel.find({}, "-_id", {
         lean: true
       });
     })

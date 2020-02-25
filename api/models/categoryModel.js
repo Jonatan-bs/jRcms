@@ -29,16 +29,17 @@ const categorySchema = new mongoose.Schema(
 categorySchema.pre("save", function(next) {
   //Check if collecions is empty array befor passing it to schema
   if (this.collections.length < 1) {
-    next("No fields were selected");
+    let err = "No fields were selected";
+    return next(err);
   }
   //Check if there's duplicate nameInDoc's
   let nameInDocs = [];
   this.collections.forEach(collection => {
     if (nameInDocs.includes(collection.nameInDoc)) {
-      next(
+      let err =
         "Document name has to be unique. Multiple fields with document name: " +
-          collection.nameInDoc
-      );
+        collection.nameInDoc;
+      return next(err);
     }
     nameInDocs.push(collection.nameInDoc);
   });

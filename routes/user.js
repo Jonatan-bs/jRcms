@@ -5,8 +5,8 @@ const categoryModel = require("../api/models/categoryModel");
 
 // Register page
 router.get("/signup", (req, res) => {
-  api
-    .getFromDB(categoryModel, {}, "displayName nameInDoc -_id", {
+  categoryModel
+    .find({}, "displayName nameInDoc -_id", {
       lean: true
     })
     .then(categoriesDB => {
