@@ -13,19 +13,6 @@ const customCategoryCtrl = require("../controllers/admin/customCategory");
 router.get("/", indexCtrl.getMainPage);
 
 /////////////////
-//// CUSTOM CATEGORIES
-/////////////////
-
-// Custom category page
-router.get("/:category", customCategoryCtrl.getPage);
-
-// Add custom category document page
-router.get("/:category/add", customCategoryCtrl.addDocumentPage);
-
-// Add custom category document
-router.post("/:category/add", customCategoryCtrl.addDocument);
-
-/////////////////
 //// CATEGORY
 /////////////////
 
@@ -46,3 +33,16 @@ router.get("/signup", userCtrl.signupPage);
 router.post("/signup", userCtrl.addUser);
 
 module.exports = router;
+
+/////////////////
+//// CUSTOM CATEGORIES
+/////////////////
+
+// Custom category page
+router.get("/:category", customCategoryCtrl.getPage);
+
+// Add custom category document page
+router.get("/:category/add", customCategoryCtrl.addDocumentPage);
+
+// Add custom category document
+router.post("/:category/add", customCategoryCtrl.addDocument);

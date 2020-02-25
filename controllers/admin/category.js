@@ -15,7 +15,7 @@ controller = {
           categories: categoriesDB
         });
       })
-      .catch(err => next());
+      .catch(next);
   },
   addCategory: (req, res, next) => {
     const newDocument = new categoryModel({
@@ -30,9 +30,7 @@ controller = {
           createdDocument: newDocument
         });
       })
-      .catch(err => {
-        res.status("500").json({ error: err });
-      });
+      .catch(err => res.status("500").json(err));
   }
 };
 module.exports = controller;

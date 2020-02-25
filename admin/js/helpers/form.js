@@ -10,8 +10,9 @@ export function JSONstring(form) {
     const element = elements[i];
     const name = element.name;
     const value = element.value;
-
-    if (name) {
+    if (obj[name]) {
+      obj[name] = [obj[name], value];
+    } else if (name) {
       obj[name] = value;
     }
   }

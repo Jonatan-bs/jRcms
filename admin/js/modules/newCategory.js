@@ -94,6 +94,18 @@ const addFieldEvent = {
     });
     div.appendChild(input);
 
+    label = formHelper.createElm.label({
+      text: "Multiple Fields",
+      for: "multiple"
+    });
+    div.appendChild(label);
+
+    input = formHelper.createElm.input({
+      name: "multiple",
+      type: "checkbox"
+    });
+    div.appendChild(input);
+
     let optionsDiv = formHelper.createElm.div({ class: "options" });
     div.appendChild(optionsDiv);
 

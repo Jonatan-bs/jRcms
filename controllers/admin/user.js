@@ -16,9 +16,7 @@ controller = {
           createdDocument: newDocument
         });
       })
-      .catch(err => {
-        res.status("500").json({ error: err });
-      });
+      .catch(next);
   },
   signupPage: (req, res, next) => {
     categoryModel
@@ -32,7 +30,7 @@ controller = {
           categories: categoriesDB
         });
       })
-      .catch(err => next());
+      .catch(next);
   }
 };
 module.exports = controller;

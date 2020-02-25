@@ -13,7 +13,7 @@ controller = {
           categories: categoriesDB
         });
       })
-      .catch(err => next());
+      .catch(next);
   }
 };
 module.exports = controller;

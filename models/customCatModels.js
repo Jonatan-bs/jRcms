@@ -23,7 +23,7 @@ let initCatModels = reInitialise => {
 };
 
 module.exports = initCatModels;
-
+initCatModels();
 // setModelsForEachCategory
 
 function setModels(categories) {
@@ -31,11 +31,21 @@ function setModels(categories) {
     if (!mongoose.connection.models[category.nameInDoc]) {
       let schemaObj = { _id: mongoose.Schema.Types.ObjectId };
       category.collections.forEach(collection => {
-        schemaObj[collection.nameInDoc] = {
-          type: collection.dataType,
-          required: collection.required,
-          unique: collection.unique
-        };
+        if (collection.multiple) {
+          schemaObj[collection.nameInDoc] = [
+            {
+              type: String,
+              required: collection.required,
+              unique: collection.unique
+            }
+          ];
+        } else {
+          schemaObj[collection.nameInDoc] = {
+            type: collection.dataType,
+            required: collection.required,
+            unique: collection.unique
+          };
+        }
       });
       mongoose.model(
         category.nameInDoc,

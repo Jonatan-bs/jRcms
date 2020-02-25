@@ -14,6 +14,8 @@ const addFieldEvent = {
     const form = document.querySelector(this.target);
     let formData = formHelper.JSONstring(form);
     formData = JSON.parse(formData);
+    console.log(formData);
+
     const category = formData.nameInDoc;
     delete formData.nameInDoc;
 

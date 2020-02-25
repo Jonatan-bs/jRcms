@@ -1,5 +1,14 @@
 const mongoose = require("mongoose");
 
+// Create schema for options
+const optionsSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    value: { type: String, required: true }
+  },
+  { _id: false }
+);
+
 // Create schema for collections
 const collectionsSchema = new mongoose.Schema(
   {
@@ -9,7 +18,8 @@ const collectionsSchema = new mongoose.Schema(
     dataType: { type: String, required: true },
     required: { type: Boolean, required: true },
     unique: { type: Boolean, required: true },
-    options: { type: Array, required: false }
+    options: [optionsSchema],
+    multiple: { type: Boolean, required: true }
   },
   { _id: false }
 );
@@ -29,16 +39,35 @@ const categorySchema = new mongoose.Schema(
 categorySchema.pre("save", function(next) {
   //Check if collecions is empty array befor passing it to schema
   if (this.collections.length < 1) {
-    let err = "No fields were selected";
+    let err = { message: "No fields were selected" };
     return next(err);
   }
+  //Check if option any option fields were created
+  this.collections.forEach(collection => {
+    if (
+      collection.inputType === "select" ||
+      collection.inputType === "checkbox" ||
+      collection.inputType === "radio"
+    ) {
+      if (collection.options < 1) {
+        let err = {
+          message: "Empty option fields"
+        };
+        return next(err);
+      }
+    }
+  });
+
   //Check if there's duplicate nameInDoc's
-  let nameInDocs = [];
+  let nameInDocs = [this.nameInDoc];
+
   this.collections.forEach(collection => {
     if (nameInDocs.includes(collection.nameInDoc)) {
-      let err =
-        "Document name has to be unique. Multiple fields with document name: " +
-        collection.nameInDoc;
+      let err = {
+        message:
+          "Document name has to be unique. Multiple fields with document name: " +
+          collection.nameInDoc
+      };
       return next(err);
     }
     nameInDocs.push(collection.nameInDoc);

@@ -43,7 +43,7 @@ controller = {
           categories: categories
         });
       })
-      .catch(err => next());
+      .catch(next);
   },
   addDocument: (req, res, next) => {
     let category = req.params.category;
@@ -65,10 +65,7 @@ controller = {
           createdDocument: savedDocument
         });
       })
-      .catch(err => {
-        console.log(err);
-        res.status("500").json({ error: err });
-      });
+      .catch(err => res.status("500").json(err));
   },
   addDocumentPage: (req, res, next) => {
     prefix = "jr_";
@@ -89,8 +86,6 @@ controller = {
         });
       })
       .then(category => {
-        console.log(category);
-
         res.render("admin/index", {
           nameInDoc: category.nameInDoc,
           title: category.nameInDoc,
@@ -100,7 +95,7 @@ controller = {
           fields: category.collections
         });
       })
-      .catch(err => next(err));
+      .catch(next);
   }
 };
 module.exports = controller;
