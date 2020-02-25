@@ -1,7 +1,7 @@
-const categoryModel = require("../../api/models/categoryModel");
-const User = require("../../api/models/userModel");
+const categoryModel = require("../../models/categoryModel");
+const User = require("../../models/userModel");
 const mongoose = require("mongoose");
-const initCatModels = require("../../api/models/customCatModels");
+const initCatModels = require("../../models/customCatModels");
 
 controller = {
   getPage(req, res, next) {

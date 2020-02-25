@@ -1,4 +1,4 @@
-const categoryModel = require("../../api/models/categoryModel");
+const categoryModel = require("../../models/categoryModel");
 
 controller = {
   getMainPage: (req, res, next) => {

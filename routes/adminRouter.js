@@ -1,16 +1,15 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const router = express.Router();
 const multer = require("multer"); // Handle file uploads
 const upload = multer({ dest: "admin/uploads/" }); // Handle file uploads
-const categoryModel = require("../api/models/categoryModel");
-const initCatModels = require("../api/models/customCatModels");
-const User = require("../api/models/userModel");
 const indexCtrl = require("../controllers/admin/index");
 const userCtrl = require("../controllers/admin/user");
 const categoryCtrl = require("../controllers/admin/category");
 const customCategoryCtrl = require("../controllers/admin/customCategory");
 
+/////////////////
+//// MAIN PAGE
+/////////////////
 router.get("/", indexCtrl.getMainPage);
 
 /////////////////
