@@ -38,6 +38,7 @@ router.get("/:category", (req, res, next) => {
     // Get model from category matching req.params.category
     .then(() => {
       model = mongoose.models[category];
+
       if (!model) throw new Error("Category doesn't exist!");
       // get all documents from collection
       return model.find({}, "-__v", { lean: true });
@@ -105,24 +106,29 @@ router.get("/:category/add", (req, res, next) => {
 // Add custom category document
 router.post("/:category/add", (req, res, next) => {
   let category = req.params.category;
-  initCatModels().then(() => {
-    model = mongoose.models[category];
-    const newDocument = new model({
-      _id: new mongoose.Types.ObjectId(),
-      ...req.body
-    });
-    newDocument
-      .save()
-      .then(() => {
-        res.status("201").json({
-          message: "Document created",
-          createdDocument: newDocument
-        });
-      })
-      .catch(err => {
-        res.status("500").json({ error: err });
+
+  initCatModels()
+    .then(() => {
+      model = mongoose.models[category];
+      return new model({
+        _id: new mongoose.Types.ObjectId(),
+        ...req.body
       });
-  });
+    })
+    .then(newDocument => {
+      return newDocument.save();
+    })
+    .then(savedDocument => {
+      res.status("201").json({
+        message: "Document created",
+        createdDocument: savedDocument
+      });
+    })
+    .catch(err => {
+      console.log(err);
+
+      res.status("500").json({ error: err });
+    });
 });
 
 /////////////////
