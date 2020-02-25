@@ -1,12 +1,12 @@
 
 <a href="/"><img class="logo" src="http://localhost:3000/admin/images/signature.png" alt="logo"></a>
-<a href="http://localhost:3000/user/signup">Signup</a>
-<a href="http://localhost:3000/newCategory">Create category</a>
+<a href="http://localhost:3000/admin/signup">Signup</a>
+<a href="http://localhost:3000/admin/category">Create category</a>
 
 <% categories.forEach((category => { %>
     <% let urlName = category.nameInDoc 
     urlName = urlName.substring(3)
     
     %>
-    <a href="http://localhost:3000/category/<%= urlName %>"><%= category.displayName %> </a>
+    <a href="http://localhost:3000/admin/<%= urlName %>"><%= category.displayName %> </a>
 <% })) %>

@@ -195,7 +195,7 @@ const submitCatEvent = {
       collection.dataType = formHelper.input2data[collection.inputType];
     });
 
-    fetch("http://localhost:3000/api/add/category", {
+    fetch("http://localhost:3000/admin/category", {
       method: "post",
       headers: {
         "Content-Type": "application/json"

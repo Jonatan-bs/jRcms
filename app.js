@@ -6,10 +6,11 @@ const express = require("express"); // Håndtering af server
 const logger = require("morgan"); // module for logging
 
 // Ruters
-const usersRouter = require("./routes/user"); // Routing for user API requests
-const indexRouter = require("./routes/index"); // Routing for main site
-const catRouter = require("./routes/category"); // Routing for categories
-const apiRouter = require("./routes/api"); // Routing for API requests
+// const usersRouter = require("./routes/user"); // Routing for user API requests
+// const indexRouter = require("./routes/index"); // Routing for main site
+// const catRouter = require("./routes/category"); // Routing for categories
+// const apiRouter = require("./routes/api"); // Routing for API requests
+const adminRouter = require("./routes/adminRouter"); // Routing for API requests
 
 var app = express();
 
@@ -27,10 +28,11 @@ app.use("/admin", express.static(path.join(__dirname, "admin")));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Mount routes
-app.use("/user", usersRouter); // mount routes for users
-app.use("/api", apiRouter); // mount routes for API requests
-app.use("/category", catRouter); // mount routes for categories
-app.use("/", indexRouter); // mount routes for views
+// app.use("/user", usersRouter); // mount routes for users
+// app.use("/api", apiRouter); // mount routes for API requests
+// app.use("/category", catRouter); // mount routes for categories
+// app.use("/", indexRouter); // mount routes for views
+app.use("/admin", adminRouter); // mount routes for views
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -15,7 +15,6 @@ export function JSONstring(form) {
       obj[name] = value;
     }
   }
-  console.log(obj);
 
   return JSON.stringify(obj);
 }

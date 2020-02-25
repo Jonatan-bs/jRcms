@@ -17,7 +17,7 @@ const addFieldEvent = {
     const category = formData.nameInDoc;
     delete formData.nameInDoc;
 
-    fetch("http://localhost:3000/api/add/" + category, {
+    fetch("http://localhost:3000/admin/" + category + "/add", {
       method: "post",
       headers: {
         "Content-Type": "application/json"
