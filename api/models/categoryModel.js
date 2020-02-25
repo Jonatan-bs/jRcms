@@ -20,7 +20,8 @@ const categorySchema = new mongoose.Schema(
     _id: mongoose.Schema.Types.ObjectId,
     nameInDoc: { type: String, required: true, unique: true },
     displayName: { type: String, required: true, unique: true },
-    collections: [collectionsSchema]
+    collections: [collectionsSchema],
+    rewriteObj: { type: Object, required: true }
   },
   { collection: "jr_category" }
 );

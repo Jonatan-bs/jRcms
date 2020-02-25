@@ -175,10 +175,19 @@ const submitCatEvent = {
 
     const displayName = form.querySelector("#displayName").value;
     const nameInDoc = form.querySelector("#nameInDoc").value;
+
+    let rewriteObj = {};
+    rewriteObj[displayName] = nameInDoc;
+
+    collections.forEach(collection => {
+      rewriteObj[collection.nameInDoc] = collection.displayName;
+    });
+
     const formObj = {
       displayName: displayName,
       nameInDoc: nameInDoc,
-      collections: collections
+      collections: collections,
+      rewriteObj: rewriteObj
     };
     formHelper.createOptions(formObj);
 

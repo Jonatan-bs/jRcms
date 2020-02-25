@@ -2,79 +2,89 @@ const express = require("express");
 const router = express.Router();
 const categoryModel = require("../api/models/categoryModel");
 const api = require("../api/main");
+const mongoose = require("mongoose");
 
 //Custom categories with model//
-const getCategories = require("../api/models/customCatModels");
+const initCatModels = require("../api/models/customCatModels");
 
 // Get all from custom category
 router.get("/:category", (req, res, next) => {
   prefix = "jr_";
   let category = prefix + req.params.category;
-  getCategories().then(categories => {
-    category = categories[category];
-    if (category) {
-      const model = category.model;
-      // show all documents from collection
-      model
-        .find({}, "-__v", { lean: true }, (err, documents) => {
-          if (err) console.log(err);
-          // Render page
-          api
-            .getFromDB(categoryModel, {}, "displayName nameInDoc -_id", {
-              lean: true
-            })
-            .then(categoriesDB => {
-              res.render("admin/index", {
-                nameInDoc: req.params.category,
-                title: category.displayName,
-                partial: "category",
-                documents: documents,
-                rewrite: category.rewriteObj,
-                categories: categoriesDB
-              });
-            })
-            .catch(err => console.log(err));
-        })
-        .then()
-        .catch(err => {
-          console.log(err);
-          res.status("500").json({
-            error: err
-          });
-        });
-    } else {
-      next();
-    }
-  });
+  let categories;
+  let documents;
+  let model;
+
+  initCatModels()
+    // Get model from category matching req.params.category
+    .then(() => {
+      model = mongoose.models[category];
+      if (!model) throw new Error("Category doesn't exist!");
+      // get all documents from collection
+      return model.find({}, "-__v", { lean: true });
+    })
+    .then(response => {
+      documents = response;
+      //documents = response;
+      return api.getFromDB(categoryModel, {}, "displayName nameInDoc -_id", {
+        lean: true
+      });
+    })
+    .then(response => {
+      categories = response;
+      //documents = response;
+      return categoryModel.findOne(
+        { nameInDoc: category },
+        "displayName rewriteObj -_id"
+      );
+    })
+    .then(category => {
+      console.log(category);
+
+      res.render("admin/index", {
+        nameInDoc: req.params.category,
+        title: category.displayName,
+        partial: "category",
+        documents: documents,
+        rewrite: category.rewriteObj,
+        categories: categories
+      });
+    })
+    .catch(err => next(err));
 });
 
 // Add new document
 router.get("/:category/add", (req, res, next) => {
   prefix = "jr_";
-  let category = prefix + req.params.category;
-  getCategories().then(categories => {
-    category = categories[category];
+  let categoryName = prefix + req.params.category;
+  let categoriesObj;
 
-    if (category) {
-      api
-        .getFromDB(categoryModel, {}, "displayName nameInDoc -_id", {
-          lean: true
-        })
-        .then(categoriesDB => {
-          res.render("admin/index", {
-            nameInDoc: req.params.category,
-            title: category.displayName,
-            partial: "newDocument",
-            category: category,
-            categories: categoriesDB,
-            fields: category.collections
-          });
-        })
-        .catch(err => console.log(err));
-    } else {
-      next();
-    }
-  });
+  initCatModels()
+    // Get model from category matching req.params.category
+    .then(() => {
+      return api.getFromDB(categoryModel, {}, "-_id", {
+        lean: true
+      });
+    })
+    .then(categories => {
+      categoriesObj = categories;
+      return categoryModel.findOne({ nameInDoc: categoryName }, "-_id", {
+        lean: true
+      });
+    })
+    .then(category => {
+      console.log(category);
+
+      res.render("admin/index", {
+        nameInDoc: category.nameInDoc,
+        title: category.nameInDoc,
+        partial: "newDocument",
+        category: category,
+        categories: categoriesObj,
+        fields: category.collections
+      });
+    })
+    .catch(err => next(err));
 });
 
 module.exports = router;

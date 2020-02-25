@@ -6,37 +6,32 @@ module.exports.addToDB = (req, res, schema, callback) => {
     _id: new mongoose.Types.ObjectId(),
     ...req.body
   });
-  console.log(req.body);
-  console.log(newDocument);
-  newDocument
-    .save()
-    .then(result => {
-      // console.log('result');
-      res.status("201").json({
-        message: "Document created",
-        createdDocument: newDocument
-      });
-      if (callback) {
-        callback();
-      }
-    })
-    .catch(err => {
-      console.log(err);
-      res.status("500").json({
-        error: err
-      });
-    });
+  return newDocument.save().then(response => {
+    return {
+      message: "Document created",
+      createdDocument: newDocument
+    };
+  });
+
+  // .then(result => {
+  //   res.status("201").json({
+  //     message: "Document created",
+  //     createdDocument: newDocument
+  //   });
+  //   if (callback) {
+  //     callback();
+  //   }
+  // })
+  // .catch(err => {
+  //   console.log(err);
+  //   res.status("500").json({
+  //     error: err
+  //   });
+  // });
 };
 
-// Get all from db PROMISE
+// Get all from db
 module.exports.getFromDB = (model, target, properties, param) => {
-  return new Promise((resolve, reject) => {
-    // show all documents from collection
-    model
-      .find(target, properties, param, (err, documents) => {
-        if (err) reject(err);
-      })
-      .then(data => resolve(data))
-      .catch(err => reject(err));
-  });
+  // show all documents from collection
+  return model.find(target, properties, param).then(data => data);
 };
