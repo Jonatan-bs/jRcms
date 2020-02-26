@@ -50,15 +50,15 @@ controller = {
 
     // insert image data
     req.files.forEach(file => {
-      console.log(file);
-      req.body[file.fieldname] = {
+      if (!req.body[file.fieldname]) req.body[file.fieldname] = [];
+      req.body[file.fieldname].push({
         type: "image",
         originalname: file.originalname,
         mimetype: file.mimetype,
         destination: file.destination,
         filename: file.filename,
         size: file.size
-      };
+      });
     });
 
     initCatModels()
