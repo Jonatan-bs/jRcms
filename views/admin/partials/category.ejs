@@ -5,13 +5,23 @@
 <% for(let document of documents) {%>
 
     <% for(let key in document) {%>
+        
         <% if(rewrite[key]) {%>
             <%= rewrite[key] %>:
         <% } else { %>
             <%= key %>:
         <% } %> 
-        <%= document[key] %>
+        <% if(  document[key].length>0){ %>
+            
+        <% document[key].forEach(data => { %>
+            <% if(data.type === "image") {%>
+                <img src="/admin/uploads/<%= data.filename %>"/>
+                <% } else {  %>
+                    <%= data %>
+        <% }}) %>
+        
         <br>
-    <% } %> 
+    <% } else { %> 
+       <%= document[key] %>
     <br><br>
-<% } %> 
+<% }}} %> 

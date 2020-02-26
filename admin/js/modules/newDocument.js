@@ -3,8 +3,8 @@ import * as formHelper from "../helpers/form.js";
 // Events
 let events = [];
 
-// Add field
-const addFieldEvent = {
+// Add document
+const addDocEvent = {
   element: "#submitNewDocument",
   target: "#newDocumentForm",
 
@@ -12,19 +12,13 @@ const addFieldEvent = {
     e.preventDefault();
 
     const form = document.querySelector(this.target);
-    let formData = formHelper.JSONstring(form);
-    formData = JSON.parse(formData);
-    console.log(formData);
+    let formData = new FormData(form);
 
-    const category = formData.nameInDoc;
-    delete formData.nameInDoc;
+    const category = formData.get("nameInDoc");
 
     fetch("http://localhost:3000/admin/" + category + "/add", {
       method: "post",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(formData)
+      body: formData
     })
       .then(response => response.json())
       .then(response => {
@@ -36,6 +30,6 @@ const addFieldEvent = {
   }
 };
 
-events.push(addFieldEvent);
+events.push(addDocEvent);
 
 export { events };

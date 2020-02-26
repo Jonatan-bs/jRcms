@@ -165,6 +165,9 @@ let createElm = {
       if (args.id) {
         input.id = args.id;
       }
+      if (args.value) {
+        input.value = args.value;
+      }
       input.type = args.type;
       input.name = args.name;
       return input;
@@ -238,3 +241,169 @@ let createOptions = formObj => {
   });
 };
 export { createOptions };
+
+/*
+----------------------------------------------------------------------
+
+Create form field collection for new category
+
+----------------------------------------------------------------------
+*/
+export function addFormFieldsNEWCATEGORY() {
+  let div, input, select, label;
+
+  div = createElm.div({ class: "collection" });
+
+  label = createElm.label({
+    text: "Input type",
+    for: "Input type"
+  });
+  div.appendChild(label);
+
+  select = createElm.select({
+    name: "[inputType]",
+    options: [
+      { val: "text", text: "Text" },
+      { val: "textArea", text: "TextArea" },
+      { val: "number", text: "Number" },
+      { val: "select", text: "Select" },
+      { val: "checkbox", text: "Checkbox" },
+      { val: "radio", text: "Radio" },
+      { val: "imageFile", text: "Image" },
+      { val: "date", text: "Date" }
+    ]
+  });
+  div.appendChild(select);
+
+  label = createElm.label({
+    text: "Display Name",
+    for: "displayName"
+  });
+  div.appendChild(label);
+
+  let inputDisplayName = createElm.input({
+    name: "[displayName]",
+    type: "text"
+  });
+  div.appendChild(inputDisplayName);
+
+  label = createElm.label({
+    text: "Document name",
+    for: "nameInDoc"
+  });
+  div.appendChild(label);
+
+  let inputDocName = createElm.input({
+    name: "[nameInDoc]",
+    type: "text"
+  });
+  div.appendChild(inputDocName);
+
+  label = createElm.label({
+    text: "Required",
+    for: "required"
+  });
+  div.appendChild(label);
+
+  input = createElm.input({
+    name: "[required]",
+    type: "checkbox",
+    value: "true"
+  });
+  div.appendChild(input);
+
+  label = createElm.label({
+    text: "Unique",
+    for: "unique"
+  });
+  div.appendChild(label);
+
+  input = createElm.input({
+    name: "[unique]",
+    type: "checkbox",
+    value: "true"
+  });
+  div.appendChild(input);
+
+  let labelMultiple = createElm.label({
+    text: "Multiple Fields",
+    for: "multiple"
+  });
+  div.appendChild(labelMultiple);
+
+  let inputMultiple = createElm.input({
+    name: "[multiple]",
+    type: "checkbox",
+    value: "true"
+  });
+  div.appendChild(inputMultiple);
+
+  let optionsDiv = createElm.div({ class: "options" });
+  div.appendChild(optionsDiv);
+
+  //create dynamic document name
+  inputDisplayName.addEventListener("keyup", e => {
+    string2id(e.target, inputDocName);
+  });
+  inputDocName.addEventListener("input", e => {
+    string2id(e.target, e.target);
+  });
+
+  // add option fields
+  select.addEventListener("change", e => {
+    let elm = e.target;
+    let targetDiv = elm.parentNode.querySelector(".options");
+    targetDiv.innerHTML = "";
+    if (elm.value == "radio" || elm.value == "checkbox") {
+      inputMultiple.style.display = "none";
+      labelMultiple.style.display = "none";
+      inputMultiple.checked = false;
+    } else {
+      inputMultiple.style.display = "";
+      labelMultiple.style.display = "";
+    }
+
+    if (
+      elm.value == "select" ||
+      elm.value == "radio" ||
+      elm.value == "checkbox"
+    ) {
+      let button = createElm.button({
+        text: "Add option",
+        class: "addoption"
+      });
+      targetDiv.appendChild(button);
+
+      let input1 = createElm.input({
+        name: "[optionName]",
+        type: "text",
+        class: "option"
+      });
+      let input2 = createElm.input({
+        name: "[optionVal]",
+        type: "text",
+        class: "option"
+      });
+      targetDiv.appendChild(input1);
+      targetDiv.appendChild(input2);
+
+      button.addEventListener("click", e => {
+        e.preventDefault();
+
+        input1 = createElm.input({
+          name: "[optionName]",
+          type: "text",
+          class: "option"
+        });
+        input2 = createElm.input({
+          name: "[optionVal]",
+          type: "text",
+          class: "option"
+        });
+        targetDiv.appendChild(input1);
+        targetDiv.appendChild(input2);
+      });
+    }
+  });
+  return div;
+}

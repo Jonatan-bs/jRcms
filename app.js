@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const express = require("express"); // Håndtering af server
 const logger = require("morgan"); // module for logging
 const adminRouter = require("./routes/adminRouter"); // Routing
+const bodyParser = require("body-parser");
 
 var app = express();
 
@@ -14,7 +15,7 @@ app.set("view engine", "ejs");
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Set routing for static files

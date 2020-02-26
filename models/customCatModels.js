@@ -31,7 +31,36 @@ function setModels(categories) {
     if (!mongoose.connection.models[category.nameInDoc]) {
       let schemaObj = { _id: mongoose.Schema.Types.ObjectId };
       category.collections.forEach(collection => {
-        if (collection.multiple) {
+        if (collection.fileType === "image") {
+          schemaObj[collection.nameInDoc] = [
+            {
+              type: {
+                type: String,
+                required: true
+              },
+              originalname: {
+                type: String,
+                required: true
+              },
+              mimetype: {
+                type: String,
+                required: true
+              },
+              destination: {
+                type: String,
+                required: true
+              },
+              filename: {
+                type: String,
+                required: true
+              },
+              size: {
+                type: String,
+                required: true
+              }
+            }
+          ];
+        } else {
           schemaObj[collection.nameInDoc] = [
             {
               type: String,
@@ -39,14 +68,9 @@ function setModels(categories) {
               unique: collection.unique
             }
           ];
-        } else {
-          schemaObj[collection.nameInDoc] = {
-            type: collection.dataType,
-            required: collection.required,
-            unique: collection.unique
-          };
         }
       });
+
       mongoose.model(
         category.nameInDoc,
         mongoose.Schema(schemaObj, {

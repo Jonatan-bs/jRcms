@@ -13,6 +13,7 @@ const optionsSchema = new mongoose.Schema(
 const collectionsSchema = new mongoose.Schema(
   {
     inputType: { type: String, required: true },
+    fileType: { type: String, required: false },
     displayName: { type: String, required: true },
     nameInDoc: { type: String, required: true },
     dataType: { type: String, required: true },
@@ -49,7 +50,7 @@ categorySchema.pre("save", function(next) {
       collection.inputType === "checkbox" ||
       collection.inputType === "radio"
     ) {
-      if (collection.options < 1) {
+      if (collection.options.length < 1) {
         let err = {
           message: "Empty option fields"
         };

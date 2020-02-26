@@ -24,4 +24,21 @@ document.addEventListener("click", function(e) {
       event.function(e);
     }
   });
+
+  // add field in create document
+  if (e.target.matches(".addField")) {
+    e.preventDefault();
+
+    let collection = e.target.parentNode;
+    let field = collection.querySelector(".field.first");
+
+    let fieldClone = field.cloneNode(true);
+    fieldClone.classList.remove("first");
+    let input = fieldClone.querySelector("input");
+    if (input) {
+      input.value = "";
+    }
+
+    collection.appendChild(fieldClone);
+  }
 });

@@ -48,6 +48,19 @@ controller = {
   addDocument: (req, res, next) => {
     let category = req.params.category;
 
+    // insert image data
+    req.files.forEach(file => {
+      console.log(file);
+      req.body[file.fieldname] = {
+        type: "image",
+        originalname: file.originalname,
+        mimetype: file.mimetype,
+        destination: file.destination,
+        filename: file.filename,
+        size: file.size
+      };
+    });
+
     initCatModels()
       .then(() => {
         model = mongoose.models[category];

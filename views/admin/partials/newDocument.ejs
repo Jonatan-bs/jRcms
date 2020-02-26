@@ -1,11 +1,17 @@
 
 <p><%= title %></p>
 <form id="newDocumentForm">
-    <% console.log(fields) %>
-<% fields.forEach(field => { %> 
+<% for (let i = 0; i < fields.length; i++) { %>
+<% const  field = fields[i] %>
 
-    
-   <p><%= field.displayName %> </p> 
+
+
+    <div class="collection">
+        <% if (field.multiple) {%>
+            <button class="addField">Add field</button>
+            <%}%>
+            <p><%= field.displayName %> </p> 
+        <div class="field first">
 <% if(field.inputType==="text" || field.inputType==="number" || field.inputType==="date" || field.inputType==="file" ) { %>
      <input name ="<%= field.nameInDoc %>" type="<%= field.inputType %>" <% if(field.required){%>required<%}%>/>
    
@@ -28,8 +34,10 @@
         <% } else if (field.inputType==="textArea" ){%>
     <textarea name ="<%= field.nameInDoc %>" > </textarea>
     <% } %> 
+        </div>
 
-    <% });%>
+    </div>
+    <% };%>
     <input type="hidden" name="nameInDoc" value="<%= nameInDoc %>"/>
     <button id="submitNewDocument" >submit</button>
 </form>
