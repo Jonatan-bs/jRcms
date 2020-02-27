@@ -12,71 +12,89 @@ let initCatModels = reInitialise => {
     });
   }
 
-  return category.find({}, "-__v", { lean: true }).then(categories => {
-    setModels(categories);
+  return category
+    .find({}, "-__v", { lean: true })
+    .then(categories => {
+      setModels(categories);
 
-    return new Promise((resolve, reject) => {
-      Initialised = true;
-      resolve("Category objects initialised");
-    });
-  });
+      return new Promise((resolve, reject) => {
+        Initialised = true;
+        resolve("Category objects initialised");
+      });
+    })
+    .catch(err => console.log(err));
 };
 
 module.exports = initCatModels;
 initCatModels();
 // setModelsForEachCategory
 
-function setModels(categories) {
-  categories.forEach(category => {
-    if (!mongoose.connection.models[category.nameInDoc]) {
-      let schemaObj = { _id: mongoose.Schema.Types.ObjectId };
-      category.collections.forEach(collection => {
-        if (collection.fileType === "image") {
-          schemaObj[collection.nameInDoc] = [
-            {
-              type: {
-                type: String,
-                required: true
-              },
-              originalname: {
-                type: String,
-                required: true
-              },
-              mimetype: {
-                type: String,
-                required: true
-              },
-              destination: {
-                type: String,
-                required: true
-              },
-              filename: {
-                type: String,
-                required: true
-              },
-              size: {
-                type: String,
-                required: true
-              }
-            }
-          ];
-        } else {
-          schemaObj[collection.nameInDoc] = [
-            {
-              type: String,
-              required: collection.required,
-              unique: collection.unique
-            }
-          ];
-        }
-      });
+function setModels(objs) {
+  objs.forEach(obj => {
+    if (mongoose.connection.models[obj.nameInDoc]) return;
+    let schemaObj = { _id: mongoose.Schema.Types.ObjectId };
+    createSchemaObj(obj, schemaObj);
 
-      mongoose.model(
-        category.nameInDoc,
-        mongoose.Schema(schemaObj, {
-          collection: category.nameInDoc
-        })
-      );
+    mongoose.model(
+      obj.nameInDoc,
+      mongoose.Schema(schemaObj, {
+        collection: obj.nameInDoc
+      })
+    );
+  });
+}
+
+function createSchemaObj(obj, schemaObj, parent) {
+  if (!obj.groups) return;
+
+  obj.groups.forEach(group => {
+    let groupName = group.groupName;
+    let path;
+    if (parent) {
+      path = schemaObj[parent][groupName] = [];
+    } else {
+      path = schemaObj[groupName] = [];
     }
+
+    group.fields.forEach(field => {
+      if (field.inputType === "image") {
+        path[field.nameInDoc] = [
+          {
+            type: {
+              type: String,
+              required: true
+            },
+            originalname: {
+              type: String,
+              required: true
+            },
+            mimetype: {
+              type: String,
+              required: true
+            },
+            destination: {
+              type: String,
+              required: true
+            },
+            filename: {
+              type: String,
+              required: true
+            },
+            size: {
+              type: String,
+              required: true
+            }
+          }
+        ];
+      } else {
+        path[field.nameInDoc] = {
+          type: field.dataType,
+          required: field.required,
+          unique: field.unique
+        };
+      }
+    });
+
+    createSchemaObj(group, schemaObj, groupName);
   });
 }

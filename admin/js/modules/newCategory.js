@@ -35,18 +35,58 @@ const submitCatEvent = {
   target: "#newCategoryForm",
   function(e) {
     e.preventDefault();
-    const form = document.querySelector(this.target);
+
+    let form = document.querySelector(this.target);
+
+    // Set select values
+    form.querySelectorAll("select").forEach(select => {
+      select.querySelectorAll("option").forEach(option => {
+        if (option.value === select.value) {
+          option.setAttribute("selected", "selected");
+        }
+      });
+    });
+
+    let formClone = form.cloneNode(true);
 
     // Set field names
-    let collections = form.querySelectorAll(".collection");
-    for (let i = 0; i < collections.length; i++) {
-      const collection = collections[i];
-      collection.querySelectorAll("input, select").forEach(field => {
-        field.name = "collections[" + i + "]" + field.name;
-      });
-    }
+    function setFieldNames(group, preString, nested) {
+      let groups = group.querySelectorAll(":scope > .group");
 
-    let formData = new FormData(form);
+      if (groups.length < 1) return;
+
+      for (let i = 0; i < groups.length; i++) {
+        const group = groups[i];
+        let newPreString;
+        if (nested) {
+          newPreString = "[groups][" + i + "]";
+        } else {
+          newPreString = "groups[" + i + "]";
+        }
+
+        let fieldGroups = group.querySelectorAll(":scope > .fields");
+        for (let a = 0; a < fieldGroups.length; a++) {
+          const fieldGroup = fieldGroups[a];
+
+          fieldGroup
+            .querySelectorAll(":scope > input, :scope > select")
+            .forEach(field => {
+              field.name =
+                preString + newPreString + "[fields][" + a + "]" + field.name;
+            });
+        }
+
+        group
+          .querySelectorAll(":scope > input, :scope > select")
+          .forEach(field => {
+            field.name = preString + newPreString + field.name;
+            setFieldNames(group, preString + newPreString, true);
+          });
+      }
+    }
+    setFieldNames(formClone, "");
+
+    let formData = new FormData(formClone);
 
     fetch("http://localhost:3000/admin/category", {
       method: "post",

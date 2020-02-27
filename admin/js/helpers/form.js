@@ -269,7 +269,7 @@ export function addFormFieldsNEWCATEGORY() {
       { val: "select", text: "Select" },
       { val: "checkbox", text: "Checkbox" },
       { val: "radio", text: "Radio" },
-      { val: "imageFile", text: "Image" },
+      { val: "image", text: "Image" },
       { val: "date", text: "Date" }
     ]
   });

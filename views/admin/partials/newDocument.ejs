@@ -1,43 +1,27 @@
 
 <p><%= title %></p>
 <form id="newDocumentForm">
-<% for (let i = 0; i < fields.length; i++) { %>
-<% const  field = fields[i] %>
+
+    <% (function recursive(obj, nested) { %>
+        <% if(!obj.groups) return%>
+        <% obj.groups.forEach(group => { %>
+            <% if (nested) { %>
+                <div class="group <%= group.groupName %>">
+                    <div class="group <%= obj.groupName %>">
+
+                    </div>
+                </div>
+            <% return; } %>
+            <% if (!group.groups) { %>
+           <div class="group <%= group.groupName %>"></div>
+            <% } else { %>
+            <% recursive(group, true) %>
+          <% } %>
+        <% }) %>
+      <% })(category) %>
 
 
+<input type="hidden" name="nameInDoc" value="<%= nameInDoc %>"/>
+<button id="submitNewDocument" >submit</button>
 
-    <div class="collection">
-        <% if (field.multiple) {%>
-            <button class="addField">Add field</button>
-            <%}%>
-            <p><%= field.displayName %> </p> 
-        <div class="field first">
-<% if(field.inputType==="text" || field.inputType==="number" || field.inputType==="date" || field.inputType==="file" ) { %>
-     <input name ="<%= field.nameInDoc %>" type="<%= field.inputType %>" <% if(field.required){%>required<%}%>/>
-   
-     <% } else if (field.inputType ==="select"){%>
-
-    <select name ="<%= field.nameInDoc %>" type="number" <% if(field.required){%>required<%}%>>
-        <% field.options.forEach(option =>{ %>
-            <option value="<%= option.name %>" name="<%= field.nameInDoc %>"><%= option.value %></option>
-        <%})%>
-    </select>
-
-    <% } else if (field.inputType ==="radio" || field.inputType ==="checkbox" ){%>
-            <% field.options.forEach(option =>{ %>
-                <input name="<%= field.nameInDoc %>" value="<%= option.value %>" type="<%= field.inputType %>" <% if(field.required){%>required<%}%>/>
-                <label for="<%= option.value %>"><%= option.name %></label><br>
-
-                <%})%>
-        
-        
-        <% } else if (field.inputType==="textArea" ){%>
-    <textarea name ="<%= field.nameInDoc %>" > </textarea>
-    <% } %> 
-        </div>
-
-    </div>
-    <% };%>
-    <input type="hidden" name="nameInDoc" value="<%= nameInDoc %>"/>
-    <button id="submitNewDocument" >submit</button>
 </form>

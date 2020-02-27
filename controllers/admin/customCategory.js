@@ -2,6 +2,7 @@ const categoryModel = require("../../models/categoryModel");
 const User = require("../../models/userModel");
 const mongoose = require("mongoose");
 const initCatModels = require("../../models/customCatModels");
+const formData = require("./modules/formData");
 
 controller = {
   getPage(req, res, next) {
@@ -104,8 +105,7 @@ controller = {
           title: category.nameInDoc,
           partial: "newDocument",
           category: category,
-          categories: categoriesObj,
-          fields: category.collections
+          categories: categoriesObj
         });
       })
       .catch(next);

@@ -10,7 +10,7 @@ const optionsSchema = new mongoose.Schema(
 );
 
 // Create schema for collections
-const collectionsSchema = new mongoose.Schema(
+const fieldSchema = new mongoose.Schema(
   {
     inputType: { type: String, required: true },
     fileType: { type: String, required: false },
@@ -19,8 +19,26 @@ const collectionsSchema = new mongoose.Schema(
     dataType: { type: String, required: true },
     required: { type: Boolean, required: true },
     unique: { type: Boolean, required: true },
-    options: [optionsSchema],
+    options: { type: [optionsSchema], default: undefined },
     multiple: { type: Boolean, required: true }
+  },
+  { _id: false }
+);
+
+// Create schema for group
+const groupSchema = new mongoose.Schema(
+  {
+    groupName: { type: String, required: true },
+    fields: [fieldSchema],
+    groups: {
+      type: [
+        {
+          groupName: { type: String, required: true },
+          fields: [fieldSchema]
+        }
+      ],
+      default: undefined
+    }
   },
   { _id: false }
 );
@@ -31,50 +49,52 @@ const categorySchema = new mongoose.Schema(
     _id: mongoose.Schema.Types.ObjectId,
     nameInDoc: { type: String, required: true, unique: true },
     displayName: { type: String, required: true, unique: true },
-    collections: [collectionsSchema],
+    groups: { type: [groupSchema], default: undefined, required: true },
     rewriteObj: { type: Object, required: true }
   },
   { collection: "jr_category" }
 );
 
-categorySchema.pre("save", function(next) {
-  //Check if collecions is empty array befor passing it to schema
-  if (this.collections.length < 1) {
-    let err = { message: "No fields were selected" };
-    return next(err);
-  }
-  //Check if option any option fields were created
-  this.collections.forEach(collection => {
-    if (
-      collection.inputType === "select" ||
-      collection.inputType === "checkbox" ||
-      collection.inputType === "radio"
-    ) {
-      if (collection.options.length < 1) {
-        let err = {
-          message: "Empty option fields"
-        };
-        return next(err);
-      }
-    }
-  });
+// Extra validation
 
-  //Check if there's duplicate nameInDoc's
-  let nameInDocs = [this.nameInDoc];
+// categorySchema.pre("save", function(next) {
+//   //Check if collecions is empty array befor passing it to schema
+//   if (this.collections.length < 1) {
+//     let err = { message: "No fields were selected" };
+//     return next(err);
+//   }
+//   //Check if option any option fields were created
+//   this.collections.forEach(collection => {
+//     if (
+//       collection.inputType === "select" ||
+//       collection.inputType === "checkbox" ||
+//       collection.inputType === "radio"
+//     ) {
+//       if (collection.options.length < 1) {
+//         let err = {
+//           message: "Empty option fields"
+//         };
+//         return next(err);
+//       }
+//     }
+//   });
 
-  this.collections.forEach(collection => {
-    if (nameInDocs.includes(collection.nameInDoc)) {
-      let err = {
-        message:
-          "Document name has to be unique. Multiple fields with document name: " +
-          collection.nameInDoc
-      };
-      return next(err);
-    }
-    nameInDocs.push(collection.nameInDoc);
-  });
+//   //Check if there's duplicate nameInDoc's
+//   let nameInDocs = [this.nameInDoc];
 
-  next();
-});
+//   this.collections.forEach(collection => {
+//     if (nameInDocs.includes(collection.nameInDoc)) {
+//       let err = {
+//         message:
+//           "Document name has to be unique. Multiple fields with document name: " +
+//           collection.nameInDoc
+//       };
+//       return next(err);
+//     }
+//     nameInDocs.push(collection.nameInDoc);
+//   });
+
+//   next();
+// });
 
 module.exports = mongoose.model("jr_category", categorySchema);
