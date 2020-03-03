@@ -49,6 +49,6 @@ mongoose
     useCreateIndex: true
   })
   .then(res => console.log("connected to database"))
-  .catch(error => handleError(error));
+  .catch(error => handleError("error connecting to database"));
 
 module.exports = app;

@@ -1,11 +1,11 @@
-<button id="newCategoryField">add field</button>
+<button class="addGroup">add group</button>
 <button id="submitNewCategory" >submit</button>
   <form id="newCategoryForm"> 
-    <label>Display name</label>
+    <!-- <label>Display name</label>
     <input type="text" name="displayName" id="displayName" required/>
     <label>Document name</label>
     <input type="text" name="nameInDoc" id="nameInDoc" requred/>
-    <div class="group">
+    <div class="group" id="aa">
     <label>Group Name</label>
         <input type="text" name="[groupName]" value="postData">
     <div class="fields">
@@ -63,7 +63,7 @@
     </div>
   </div>
 
-  <div class="group">
+  <div class="group" id="bb">
     <label>Group Name</label>
         <input type="text" name="[groupName]" value="image">
     <div class="fields">
@@ -95,7 +95,7 @@
     
 
 
-    <div class="group">
+    <div class="group" id="aaaaaaa" draggable="true">
       <label>Group Name</label>
           <input type="text" name="[groupName]" value="imageData">
       <div class="fields">
@@ -153,6 +153,55 @@
       </div>
     </div>
   </div>
-  </div>
+  </div> -->
   
   </form>
+
+  <script>
+//     let box;
+//     let containers = [];
+//     document.querySelectorAll('.group').forEach(group => {
+//     if(group.parentNode.classList.contains("group")){
+//       box = group
+//     } else {
+//       containers.push(group) 
+//     }
+//     });
+//     box.addEventListener("dragstart", drag)
+    
+//     for(const container of containers) {
+//       container.addEventListener("dragover", allowDrop)
+//       container.addEventListener("drop", drop)
+//     }
+
+// function allowDrop(allowdropevent) {
+// // allowdropevent.target.style.color = 'blue';
+// allowdropevent.preventDefault();
+// }
+
+// function drag(dragevent) {
+
+//     dragevent.dataTransfer.setData("text", dragevent.target.id);
+//     // dragevent.target.style.color = 'green';
+// }
+
+// function drop(dropevent) {
+//     dropevent.preventDefault();
+//     var data = dropevent.dataTransfer.getData("text");
+    
+//     let target;
+//     if(dropevent.target.classList.contains('group')){
+//       target = dropevent.target
+//     } else if (dropevent.target.parentNode.classList.contains('group')) {
+//       target = dropevent.target.parentNode
+//     }  else if (dropevent.target.parentNode.parentNode.classList.contains('group')) {
+//       target = dropevent.target.parentNode.parentNode
+//     } else {
+//       return console.log('error')
+//     }
+//     target.appendChild(document.getElementById(data));
+//     // document.getElementById("drag").style.color = 'black';
+// }
+
+
+  </script>

@@ -245,14 +245,14 @@ export { createOptions };
 /*
 ----------------------------------------------------------------------
 
-Create form field collection for new category
+Create form field group for new category
 
 ----------------------------------------------------------------------
 */
 export function addFormFieldsNEWCATEGORY() {
   let div, input, select, label;
 
-  div = createElm.div({ class: "collection" });
+  div = createElm.div({ class: "fields" });
 
   label = createElm.label({
     text: "Input type",
@@ -405,5 +405,45 @@ export function addFormFieldsNEWCATEGORY() {
       });
     }
   });
+  return div;
+}
+
+/*
+----------------------------------------------------------------------
+
+Create category field for new category
+
+----------------------------------------------------------------------
+*/
+export function addGroupNEWCATEGORY(nested) {
+  let div, label;
+
+  div = createElm.div({ class: "group" });
+
+  label = createElm.label({
+    text: "Group Name",
+    for: "[groupName]"
+  });
+  div.appendChild(label);
+
+  let inputDisplayName = createElm.input({
+    name: "[groupName]",
+    type: "text"
+  });
+  div.appendChild(inputDisplayName);
+  let button;
+  if (!nested) {
+    button = createElm.button({
+      text: "Add group",
+      class: "addGroup"
+    });
+    div.appendChild(button);
+  }
+  button = createElm.button({
+    text: "Add field",
+    class: "addField"
+  });
+  div.appendChild(button);
+
   return div;
 }

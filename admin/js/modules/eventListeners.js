@@ -26,19 +26,37 @@ document.addEventListener("click", function(e) {
   });
 
   // add field in create document
-  if (e.target.matches(".addField")) {
-    e.preventDefault();
+  // if (e.target.matches(".addField")) {
+  //   e.preventDefault();
 
-    let collection = e.target.parentNode;
-    let field = collection.querySelector(".field.first");
+  //   let group = e.target.parentNode;
 
-    let fieldClone = field.cloneNode(true);
-    fieldClone.classList.remove("first");
-    let input = fieldClone.querySelector("input");
-    if (input) {
-      input.value = "";
-    }
+  //   let field = collection.querySelector(".field.first");
 
-    collection.appendChild(fieldClone);
-  }
+  //   let fieldClone = field.cloneNode(true);
+  //   fieldClone.classList.remove("first");
+  //   let input = fieldClone.querySelector("input");
+  //   if (input) {
+  //     input.value = "";
+  //   }
+
+  //   group.appendChild(fieldClone);
+  // }
+
+  // add group in create document
+  //   if (e.target.matches(".addGroup")) {
+  //     e.preventDefault();
+
+  //     let collection = e.target.parentNode;
+  //     let field = collection.querySelector(".field.first");
+
+  //     let fieldClone = field.cloneNode(true);
+  //     fieldClone.classList.remove("first");
+  //     let input = fieldClone.querySelector("input");
+  //     if (input) {
+  //       input.value = "";
+  //     }
+
+  //     collection.appendChild(fieldClone);
+  //   }
 });

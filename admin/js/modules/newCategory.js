@@ -19,15 +19,42 @@ let events = [];
 
 // Add field
 const addFieldEvent = {
-  element: "#newCategoryField",
+  element: ".addField",
 
-  function() {
-    const form = document.querySelector("#newCategoryForm");
-    form.append(formHelper.addFormFieldsNEWCATEGORY());
+  function(e) {
+    e.preventDefault();
+    const group = e.target.parentNode;
+    group.append(formHelper.addFormFieldsNEWCATEGORY());
   }
 };
 
 events.push(addFieldEvent);
+
+// Add group
+const addGroupEvent = {
+  element: ".addGroup",
+
+  function(e) {
+    e.preventDefault();
+
+    let parentNode = e.target.parentNode;
+    let group;
+    let target;
+    if (parentNode.classList.contains("group")) {
+      target = parentNode;
+      group = formHelper.addGroupNEWCATEGORY(true);
+    } else {
+      target = document.querySelector("#newCategoryForm");
+      group = formHelper.addGroupNEWCATEGORY();
+    }
+
+    const field = formHelper.addFormFieldsNEWCATEGORY();
+    group.append(field);
+    target.append(group);
+  }
+};
+
+events.push(addGroupEvent);
 
 // Submit category
 const submitCatEvent = {
