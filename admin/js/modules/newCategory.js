@@ -11,25 +11,25 @@ const contentTypes = {
     dataType: "string",
     name: "String",
     description: "",
-    inputType: ["text"]
+    inputType: "text"
   },
   text: {
     dataType: "string",
     name: "Text",
     description: "",
-    inputType: ["text"]
+    inputType: "text"
   },
   number: {
     dataType: "number",
     name: "Number",
     description: "",
-    inputType: ["number"]
+    inputType: "number"
   },
   boolean: {
     dataType: "boolean",
     name: "Boolean",
     description: "",
-    inputType: ["checkbox"]
+    inputType: "checkbox"
   },
   options: {
     dataType: "string",
@@ -41,7 +41,7 @@ const contentTypes = {
     dataType: "string",
     name: "Image",
     description: "",
-    inputType: ["file"]
+    inputType: "file"
   }
 };
 
@@ -114,17 +114,6 @@ const addFieldEvent = {
         popupCont.appendChild(field);
         fields.push(field);
 
-        label = document.createElement("label");
-        label.textContent = "Multiple";
-        label.for = "multiple";
-        popupCont.appendChild(label);
-
-        field = document.createElement("input");
-        field.type = "checkbox";
-        field.name = "multiple";
-        popupCont.appendChild(field);
-        fields.push(field);
-
         let button = document.createElement("button");
         button.textContent = "Save field";
         button.classList.add("saveField");
@@ -134,6 +123,7 @@ const addFieldEvent = {
           let tempField = {};
           tempField.dataType = contentType.dataType;
           tempField.contentType = key;
+          tempField.inputType = contentType.inputType;
 
           fields.forEach(field => {
             if (field.type === "text") {
@@ -142,7 +132,6 @@ const addFieldEvent = {
               tempField[field.name] = field.checked;
             }
           });
-
           tempCategory.fields.push(tempField);
           popupCont.innerHTML = "";
           popup.style.display = "none";
@@ -156,8 +145,6 @@ const addFieldEvent = {
 events.push(addFieldEvent);
 
 function updateFields(fields) {
-  console.log(fields);
-
   let fieldsWrap = document.querySelector("#fields");
   fieldsWrap.innerHTML = "";
   for (let i = 0; i < fields.length; i++) {
@@ -289,38 +276,3 @@ document.querySelector("#saveCategory").addEventListener("click", () => {
       console.log("Post request error");
     });
 });
-
-// let categories = [
-//   {
-//     id: "123",
-//     name: "Posts",
-//     nameID: "posts",
-//     description: "Main posts",
-//     fields: [
-//       {
-//         dataType: "text",
-//         required: true,
-//         unique: true,
-//         multiple: false,
-//         name: "Name",
-//         nameID: "name",
-//         field: { type: "text" }
-//       },
-//       {
-//         dataType: "text",
-//         required: true,
-//         unique: true,
-//         multiple: true,
-//         name: "Name",
-//         nameID: "name",
-//         field: {
-//           type: "select",
-//           options: [
-//             { name: "first", value: "first" },
-//             { name: "second", value: "second" }
-//           ]
-//         }
-//       }
-//     ]
-//   }
-// ];

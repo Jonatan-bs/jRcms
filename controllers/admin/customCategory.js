@@ -7,6 +7,7 @@ const formData = require("./modules/formData");
 controller = {
   getPage(req, res, next) {
     prefix = "jr_";
+    prefix = "";
     let category = prefix + req.params.category;
     let categories;
     let documents;
@@ -23,21 +24,22 @@ controller = {
       })
       .then(response => {
         documents = response;
-        return categoryModel.find({}, "displayName nameInDoc -_id", {
+
+        return categoryModel.find({}, "name nameID -_id", {
           lean: true
         });
       })
       .then(response => {
         categories = response;
         return categoryModel.findOne(
-          { nameInDoc: category },
-          "displayName rewriteObj -_id"
+          { nameID: category },
+          "name rewriteObj -_id"
         );
       })
       .then(category => {
         res.render("admin/index", {
           nameInDoc: req.params.category,
-          title: category.displayName,
+          title: category.name,
           partial: "category",
           documents: documents,
           rewrite: category.rewriteObj,
@@ -83,10 +85,11 @@ controller = {
   },
   addDocumentPage: (req, res, next) => {
     prefix = "jr_";
+    prefix = "";
     let categoryName = prefix + req.params.category;
     let categoriesObj;
 
-    initCatModels(req, res, next)
+    initCatModels()
       // Get model from category matching req.params.category
       .then(() => {
         return categoryModel.find({}, "-_id", {
@@ -95,14 +98,14 @@ controller = {
       })
       .then(categories => {
         categoriesObj = categories;
-        return categoryModel.findOne({ nameInDoc: categoryName }, "-_id", {
+        return categoryModel.findOne({ nameID: categoryName }, "-_id", {
           lean: true
         });
       })
       .then(category => {
         res.render("admin/index", {
-          nameInDoc: category.nameInDoc,
-          title: category.nameInDoc,
+          nameInDoc: category.nameID,
+          title: category.name,
           partial: "newDocument",
           category: category,
           categories: categoriesObj

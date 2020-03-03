@@ -1,11 +1,12 @@
 const categoryModel = require("../../models/categoryModel");
 const mongoose = require("mongoose");
 const formData = require("./modules/formData");
+const initCatModels = require("../../models/customCatModels");
 
 controller = {
   newCategoryPage: (req, res, next) => {
     categoryModel
-      .find({}, "displayName nameInDoc -_id", {
+      .find({}, "name nameID -_id", {
         lean: true
       })
       .then(categoriesDB => {
@@ -24,7 +25,6 @@ controller = {
     req.body.fields.forEach(field => {
       req.body.rewriteObj[field.nameID] = field.name;
     });
-
     const newDocument = new categoryModel({
       _id: new mongoose.Types.ObjectId(),
       ...req.body
@@ -32,6 +32,7 @@ controller = {
     newDocument
       .save()
       .then(() => {
+        initCatModels(true);
         res.status("201").json({
           message: "Document created",
           createdDocument: newDocument

@@ -4,11 +4,12 @@ const mongoose = require("mongoose");
 const fieldsSchema = new mongoose.Schema(
   {
     dataType: { type: String, required: true },
+    contentType: { type: String, required: true },
     name: { type: String, required: true, unique: true },
     nameID: { type: String, required: true, unique: true },
     unique: { type: Boolean, required: true },
     required: { type: Boolean, required: true },
-    multiple: { type: Boolean, required: true }
+    inputType: { type: String, required: true }
   },
   { _id: false }
 );

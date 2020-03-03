@@ -6,9 +6,9 @@ const mongoose = require("mongoose");
 let Initialised = false;
 
 let initCatModels = reInitialise => {
-  if (Initialised && reInitialise) {
+  if (Initialised && !reInitialise) {
     return new Promise((resolve, reject) => {
-      resolve("Category objects reInitialised");
+      resolve("Category already Initialised");
     });
   }
 
@@ -31,70 +31,62 @@ initCatModels();
 
 function setModels(objs) {
   objs.forEach(obj => {
-    if (mongoose.connection.models[obj.nameInDoc]) return;
-    let schemaObj = { _id: mongoose.Schema.Types.ObjectId };
-    createSchemaObj(obj, schemaObj);
+    if (mongoose.connection.models[obj.nameID]) return;
+    let schemaObj = {
+      _id: mongoose.Schema.Types.ObjectId,
+      name: { type: String, required: true, unique: true },
+      nameID: { type: String, required: true, unique: true },
+      fields: { type: [], required: true, unique: true }
+    };
 
     mongoose.model(
-      obj.nameInDoc,
+      obj.nameID,
       mongoose.Schema(schemaObj, {
-        collection: obj.nameInDoc
+        collection: obj.nameID
       })
     );
   });
 }
 
-function createSchemaObj(obj, schemaObj, parent) {
-  if (!obj.groups) return;
-
-  obj.groups.forEach(group => {
-    let groupName = group.groupName;
-    let path;
-    if (parent) {
-      path = schemaObj[parent][groupName] = [];
-    } else {
-      path = schemaObj[groupName] = [];
-    }
-
-    group.fields.forEach(field => {
-      if (field.inputType === "image") {
-        path[field.nameInDoc] = [
-          {
-            type: {
-              type: String,
-              required: true
-            },
-            originalname: {
-              type: String,
-              required: true
-            },
-            mimetype: {
-              type: String,
-              required: true
-            },
-            destination: {
-              type: String,
-              required: true
-            },
-            filename: {
-              type: String,
-              required: true
-            },
-            size: {
-              type: String,
-              required: true
-            }
-          }
-        ];
-      } else {
-        path[field.nameInDoc] = {
-          type: field.dataType,
-          required: field.required,
-          unique: field.unique
-        };
-      }
-    });
-
-    createSchemaObj(group, schemaObj, groupName);
-  });
-}
+// function createSchemaObj(objs, schemaObj, parent) {
+//   objs.forEach(group => {
+//     group.fields.forEach(field => {
+//       if (field.inputType === "image") {
+//         path[field.nameInDoc] = [
+//           {
+//             type: {
+//               type: String,
+//               required: true
+//             },
+//             originalname: {
+//               type: String,
+//               required: true
+//             },
+//             mimetype: {
+//               type: String,
+//               required: true
+//             },
+//             destination: {
+//               type: String,
+//               required: true
+//             },
+//             filename: {
+//               type: String,
+//               required: true
+//             },
+//             size: {
+//               type: String,
+//               required: true
+//             }
+//           }
+//         ];
+//       } else {
+//         path[field.nameInDoc] = {
+//           type: field.dataType,
+//           required: field.required,
+//           unique: field.unique
+//         };
+//       }
+//     });
+//   });
+// }

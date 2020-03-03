@@ -20,7 +20,7 @@ controller = {
   },
   signupPage: (req, res, next) => {
     categoryModel
-      .find({}, "displayName nameInDoc -_id", {
+      .find({}, "name nameID -_id", {
         lean: true
       })
       .then(categoriesDB => {

@@ -2,23 +2,10 @@
 <p><%= title %></p>
 <form id="newDocumentForm">
 
-    <% (function recursive(obj, nested) { %>
-        <% if(!obj.groups) return%>
-        <% obj.groups.forEach(group => { %>
-            <% if (nested) { %>
-                <div class="group <%= group.groupName %>">
-                    <div class="group <%= obj.groupName %>">
-
-                    </div>
-                </div>
-            <% return; } %>
-            <% if (!group.groups) { %>
-           <div class="group <%= group.groupName %>"></div>
-            <% } else { %>
-            <% recursive(group, true) %>
-          <% } %>
-        <% }) %>
-      <% })(category) %>
+    <% category.fields.forEach(field => { %>
+        <label for="<%= field.nameID %>"><%= field.name %></label>
+        <input type="<%= field.inputType %>" name="<%= field.nameID %>">
+    <% })%>
 
 
 <input type="hidden" name="nameInDoc" value="<%= nameInDoc %>"/>

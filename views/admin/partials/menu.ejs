@@ -4,9 +4,9 @@
 <a href="http://localhost:3000/admin/categories">Categories</a>
 
 <% categories.forEach((category => { %>
-    <% let urlName = category.nameInDoc 
-    urlName = urlName.substring(3)
+    <% //let nameID = category.nameID 
+   // urlName = urlName.substring(3)
     
     %>
-    <a href="http://localhost:3000/admin/<%= urlName %>"><%= category.displayName %> </a>
+    <a href="http://localhost:3000/admin/<%= category.nameID  %>"><%= category.name %> </a>
 <% })) %>
