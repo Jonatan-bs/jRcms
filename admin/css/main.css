@@ -1,7 +1,7 @@
 body {
   font-family: sans-serif;
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
 }
 
 .menu {
@@ -24,24 +24,60 @@ body {
 }
 
 .content {
-    box-sizing: border-box;
-    padding: 20px 20px 20px 250px;
+  box-sizing: border-box;
+  padding: 0px 0px 0px 220px;
+}
+.innerContent {
+  box-sizing: border-box;
+  padding: 0px 0px 0px 440px;
 }
 
 .menu .logo {
-    width: 140px;
-    margin: 0 auto;
-    display: block;
-    padding: 20px 0;
+  width: 140px;
+  margin: 0 auto;
+  display: block;
+  padding: 20px 0;
 }
 
 .group {
-    border: 1px solid;
-    padding: 10px;
+  border: 1px solid;
+  padding: 10px;
 }
 
 .fields {
-    background: #e7e7e7;
-    padding: 10px;
-    margin: 10px 0px;
-} 
+  background: #e7e7e7;
+  padding: 10px;
+  margin: 10px 0px;
+}
+
+.innerMenu {
+  position: fixed;
+  left: 220px;
+  background: #333;
+  width: 220px;
+  height: 100%;
+  color: #fff;
+  top: 0;
+}
+
+#popup {
+  position: fixed;
+  justify-content: center;
+  left: 0;
+  align-items: center;
+  flex-direction: column;
+  right: 0;
+  top: 0;
+  display: flex;
+  bottom: 0;
+  background: #00000092;
+  z-index: 100;
+  display: none;
+}
+#popup .content {
+  padding: 20px;
+  background: #fff;
+  justify-content: center;
+  min-width: 580px;
+  min-height: 360px;
+}

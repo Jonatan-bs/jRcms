@@ -1,44 +1,14 @@
 const mongoose = require("mongoose");
 
-// Create schema for options
-const optionsSchema = new mongoose.Schema(
-  {
-    name: { type: String, required: true },
-    value: { type: String, required: true }
-  },
-  { _id: false }
-);
-
-// Create schema for collections
-const fieldSchema = new mongoose.Schema(
-  {
-    inputType: { type: String, required: true },
-    fileType: { type: String, required: false },
-    displayName: { type: String, required: true },
-    nameInDoc: { type: String, required: true },
-    dataType: { type: String, required: true },
-    required: { type: Boolean, required: true },
-    unique: { type: Boolean, required: true },
-    options: { type: [optionsSchema], default: undefined },
-    multiple: { type: Boolean, required: true }
-  },
-  { _id: false }
-);
-
 // Create schema for group
-const groupSchema = new mongoose.Schema(
+const fieldsSchema = new mongoose.Schema(
   {
-    groupName: { type: String, required: true },
-    fields: [fieldSchema],
-    groups: {
-      type: [
-        {
-          groupName: { type: String, required: true },
-          fields: [fieldSchema]
-        }
-      ],
-      default: undefined
-    }
+    dataType: { type: String, required: true },
+    name: { type: String, required: true, unique: true },
+    nameID: { type: String, required: true, unique: true },
+    unique: { type: Boolean, required: true },
+    required: { type: Boolean, required: true },
+    multiple: { type: Boolean, required: true }
   },
   { _id: false }
 );
@@ -47,10 +17,11 @@ const groupSchema = new mongoose.Schema(
 const categorySchema = new mongoose.Schema(
   {
     _id: mongoose.Schema.Types.ObjectId,
-    nameInDoc: { type: String, required: true, unique: true },
-    displayName: { type: String, required: true, unique: true },
-    groups: { type: [groupSchema], default: undefined, required: true },
-    rewriteObj: { type: Object, required: true }
+    nameID: { type: String, required: true, unique: true },
+    name: { type: String, required: true, unique: true },
+    description: { type: String, required: true },
+    fields: { type: [fieldsSchema], required: true },
+    rewriteObj: { type: Array }
   },
   { collection: "jr_category" }
 );
