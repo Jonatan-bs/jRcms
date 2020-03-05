@@ -1,6 +1,7 @@
-<a href="<%= nameInDoc %>/add">add new item</a>
+<a href="<%= nameID %>/add">add new item</a>
 
 <p>All from <%= title %></p>
+
 
 <% for(let document of documents) {%>
     <% for(let key in document) {%>
@@ -10,17 +11,14 @@
         <% } else { %>
             <%= key %>:
         <% } %> 
-        <% if(  document[key].length>0){ %>
-            
-        <% document[key].forEach(data => { %>
-            <% if(data.type === "image") {%>
-                <img src="/admin/uploads/<%= data.filename %>"/>
-                <% } else {  %>
-                    <%= data %>
-        <% }}) %>
-        
+        <%if(document[key].type === "image"){%>
+            <img src="<%= "uploads/" + document[key].filename  %>"/>
+        <%} else {%> 
+            <!-- admin/uploads/ -->
+         
+            <%= document[key] %>
+        <%}%> 
         <br>
-    <% } else { %> 
-       <%= document[key] %>
+    <% } %> 
     <br><br>
-<% }}} %> 
+<% } %> 

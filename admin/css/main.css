@@ -53,11 +53,18 @@ body {
 .innerMenu {
   position: fixed;
   left: 220px;
-  background: #333;
+  background: #d0d0d0;
   width: 220px;
   height: 100%;
-  color: #fff;
   top: 0;
+}
+
+.innerMenu a {
+  color: #000;
+  text-decoration: none;
+  padding: 5px;
+  margin: 0;
+  display: block;
 }
 
 #popup {
@@ -80,4 +87,35 @@ body {
   justify-content: center;
   min-width: 580px;
   min-height: 360px;
+}
+button.save {
+  padding: 10px;
+  min-width: 160px;
+  font-size: 17px;
+  background: #3750d4;
+  border: 2px solid #202e76;
+  color: #fff;
+  border-radius: 5px;
+}
+
+input[type="text"] {
+  padding: 10px 0;
+}
+
+#fields .field {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  font-size: 20px;
+  background: #e7eafa;
+  border: 1px solid #8d97cb;
+  padding: 10px;
+  margin: 5px 10px;
+}
+
+.actions i {
+  margin-right: 10px;
+}
+#fields .field p {
+  margin: 0;
 }

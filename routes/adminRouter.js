@@ -36,10 +36,13 @@ router.get("/", indexCtrl.getMainPage);
 /////////////////
 
 // Categories page
-router.get("/categories", categoryCtrl.newCategoryPage);
+router.get("/categories", categoryCtrl.categoriesPage);
+
+// Add Category page
+router.get("/categories/add", categoryCtrl.addCategoryPage);
 
 // Add category
-router.post("/categories", categoryCtrl.addCategory);
+router.post("/categories/add", categoryCtrl.addCategory);
 
 /////////////////
 //// USERS

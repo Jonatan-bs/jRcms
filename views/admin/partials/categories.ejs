@@ -1,0 +1,13 @@
+<div class="flex">
+  <div class="innerMenu">
+    <% categories.forEach((category => { %>
+      <a href="http://localhost:3000/admin/categories/<%= category.nameID  %>"><%= category.name %> </a>
+  <% })) %>
+  </div>
+  <div class="content">
+
+    <a href="http://localhost:3000/admin/categories/add">Add category</a>
+    
+  </div>
+</div>
+

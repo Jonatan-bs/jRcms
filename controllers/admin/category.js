@@ -4,7 +4,7 @@ const formData = require("./modules/formData");
 const initCatModels = require("../../models/customCatModels");
 
 controller = {
-  newCategoryPage: (req, res, next) => {
+  addCategoryPage: (req, res, next) => {
     categoryModel
       .find({}, "name nameID -_id", {
         lean: true
@@ -13,6 +13,20 @@ controller = {
         res.render("admin/index", {
           title: "new category",
           partial: "newCategory",
+          categories: categoriesDB
+        });
+      })
+      .catch(next);
+  },
+  categoriesPage: (req, res, next) => {
+    categoryModel
+      .find({}, "name nameID -_id", {
+        lean: true
+      })
+      .then(categoriesDB => {
+        res.render("admin/index", {
+          title: "categories",
+          partial: "categories",
           categories: categoriesDB
         });
       })

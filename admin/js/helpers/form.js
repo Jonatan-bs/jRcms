@@ -1,69 +1,62 @@
-////////////////////
-/// Get form inputs and return JSON string
-/// containing 'name' and 'value'
-////////////////////
-
-export function JSONstring(form) {
-  let obj = {};
-  const elements = form.querySelectorAll("input, select, textarea");
-  for (let i = 0; i < elements.length; ++i) {
-    const element = elements[i];
-    const name = element.name;
-    const value = element.value;
-    if (obj[name]) {
-      obj[name] = [obj[name], value];
-    } else if (name) {
-      obj[name] = value;
-    }
+export const contentTypes = {
+  string: {
+    dataType: "string",
+    name: "String",
+    description: "",
+    inputType: "text"
+  },
+  text: {
+    dataType: "string",
+    name: "Text",
+    description: "",
+    inputType: "text"
+  },
+  number: {
+    dataType: "number",
+    name: "Number",
+    description: "",
+    inputType: "number"
+  },
+  boolean: {
+    dataType: "boolean",
+    name: "Boolean",
+    description: "",
+    inputType: "checkbox"
+  },
+  options: {
+    dataType: "string",
+    name: "Options",
+    description: "",
+    inputType: ["radio", "select", "checkbox"]
+  },
+  image: {
+    dataType: "string",
+    name: "Image",
+    description: "",
+    inputType: "file"
   }
-
-  return JSON.stringify(obj);
-}
-
-export function JSONstringCollections(form) {
-  let arr = [];
-  let collections = form.querySelectorAll(".collection");
-  for (let i = 0; i < collections.length; i++) {
-    let obj = {};
-    const collection = collections[i];
-    const elements = collection.querySelectorAll(
-      "input, select, textarea, checkbox"
-    );
-    for (let i = 0; i < elements.length; ++i) {
-      const element = elements[i];
-      let value;
-      if (element.type === "checkbox") {
-        value = element.checked;
-      } else {
-        value = element.value;
-      }
-      const name = element.name;
-
-      if (obj[name]) {
-        if (typeof obj[name] === "string") {
-          obj[name] = obj[name].split();
-        }
-        obj[name].push(value);
-      } else if (name) {
-        obj[name] = value;
-      }
-    }
-    arr.push(obj);
-  }
-
-  return arr;
-}
+};
 
 //// convert string to Id
 export function string2id(input, output) {
   let prefix = "jr_";
+  input.addEventListener("input", () => {
+    output.value = input.value.replace(/\W/g, "_").toLowerCase();
+    if (input === output && output.value.length < prefix.length) {
+      output.value = prefix;
+    } else if (output.value.substring(0, prefix.length) != prefix) {
+      output.value = prefix + input.value.replace(/\W/g, "_").toLowerCase();
+    }
+  });
 
-  output.value = input.value.replace(/\W/g, "_").toLowerCase();
-  if (input === output && output.value.length < prefix.length) {
-    output.value = prefix;
-  } else if (output.value.substring(0, prefix.length) != prefix) {
-    output.value = prefix + input.value.replace(/\W/g, "_").toLowerCase();
-  }
+  output.addEventListener("input", () => {
+    output.value = output.value.replace(/\W/g, "_").toLowerCase();
+    if (output.value.length < prefix.length) {
+      output.value = prefix;
+    } else if (output.value.substring(0, prefix.length) != prefix) {
+      output.value = prefix + input.value.replace(/\W/g, "_").toLowerCase();
+    }
+  });
 }
 
 // field types
@@ -134,7 +127,7 @@ let createElm = {
 
     let label = document.createElement("label");
     label.textContent = args.text;
-    label.for = args.for;
+    label.htmlFor = args.for;
 
     return label;
   },
@@ -167,6 +160,9 @@ let createElm = {
       }
       if (args.value) {
         input.value = args.value;
+      }
+      if (args.checked) {
+        input.checked = args.checked;
       }
       input.type = args.type;
       input.name = args.name;
@@ -203,247 +199,3 @@ let createElm = {
   }
 };
 export { createElm };
-
-// Input type to data type
-let input2data = {
-  number: "number",
-  radio: "string",
-  date: "string",
-  select: "string",
-  text: "string",
-  textArea: "string",
-  file: "string",
-  checkbox: "array"
-};
-
-export { input2data };
-
-// Create options object
-let createOptions = formObj => {
-  formObj.collections.forEach(collection => {
-    if (collection.optionName) {
-      let optionNames = collection.optionName;
-      let optionVals = collection.optionVal;
-      if (typeof optionNames === "string") {
-        optionNames = optionNames.split();
-        optionVals = optionVals.split();
-      }
-
-      let optionsArr = [];
-
-      for (let i = 0; i < optionNames.length; i++) {
-        const name = optionNames[i];
-        const val = optionVals[i];
-        optionsArr.push({ name: name, value: val });
-      }
-      collection.options = optionsArr;
-    }
-  });
-};
-export { createOptions };
-
-/*
-----------------------------------------------------------------------
-
-Create form field group for new category
-
-----------------------------------------------------------------------
-*/
-export function addFormFieldsNEWCATEGORY() {
-  let div, input, select, label;
-
-  div = createElm.div({ class: "fields" });
-
-  label = createElm.label({
-    text: "Input type",
-    for: "Input type"
-  });
-  div.appendChild(label);
-
-  select = createElm.select({
-    name: "[inputType]",
-    options: [
-      { val: "text", text: "Text" },
-      { val: "textArea", text: "TextArea" },
-      { val: "number", text: "Number" },
-      { val: "select", text: "Select" },
-      { val: "checkbox", text: "Checkbox" },
-      { val: "radio", text: "Radio" },
-      { val: "image", text: "Image" },
-      { val: "date", text: "Date" }
-    ]
-  });
-  div.appendChild(select);
-
-  label = createElm.label({
-    text: "Display Name",
-    for: "displayName"
-  });
-  div.appendChild(label);
-
-  let inputDisplayName = createElm.input({
-    name: "[displayName]",
-    type: "text"
-  });
-  div.appendChild(inputDisplayName);
-
-  label = createElm.label({
-    text: "Document name",
-    for: "nameInDoc"
-  });
-  div.appendChild(label);
-
-  let inputDocName = createElm.input({
-    name: "[nameInDoc]",
-    type: "text"
-  });
-  div.appendChild(inputDocName);
-
-  label = createElm.label({
-    text: "Required",
-    for: "required"
-  });
-  div.appendChild(label);
-
-  input = createElm.input({
-    name: "[required]",
-    type: "checkbox",
-    value: "true"
-  });
-  div.appendChild(input);
-
-  label = createElm.label({
-    text: "Unique",
-    for: "unique"
-  });
-  div.appendChild(label);
-
-  input = createElm.input({
-    name: "[unique]",
-    type: "checkbox",
-    value: "true"
-  });
-  div.appendChild(input);
-
-  let labelMultiple = createElm.label({
-    text: "Multiple Fields",
-    for: "multiple"
-  });
-  div.appendChild(labelMultiple);
-
-  let inputMultiple = createElm.input({
-    name: "[multiple]",
-    type: "checkbox",
-    value: "true"
-  });
-  div.appendChild(inputMultiple);
-
-  let optionsDiv = createElm.div({ class: "options" });
-  div.appendChild(optionsDiv);
-
-  //create dynamic document name
-  inputDisplayName.addEventListener("keyup", e => {
-    string2id(e.target, inputDocName);
-  });
-  inputDocName.addEventListener("input", e => {
-    string2id(e.target, e.target);
-  });
-
-  // add option fields
-  select.addEventListener("change", e => {
-    let elm = e.target;
-    let targetDiv = elm.parentNode.querySelector(".options");
-    targetDiv.innerHTML = "";
-    if (elm.value == "radio" || elm.value == "checkbox") {
-      inputMultiple.style.display = "none";
-      labelMultiple.style.display = "none";
-      inputMultiple.checked = false;
-    } else {
-      inputMultiple.style.display = "";
-      labelMultiple.style.display = "";
-    }
-
-    if (
-      elm.value == "select" ||
-      elm.value == "radio" ||
-      elm.value == "checkbox"
-    ) {
-      let button = createElm.button({
-        text: "Add option",
-        class: "addoption"
-      });
-      targetDiv.appendChild(button);
-
-      let input1 = createElm.input({
-        name: "[optionName]",
-        type: "text",
-        class: "option"
-      });
-      let input2 = createElm.input({
-        name: "[optionVal]",
-        type: "text",
-        class: "option"
-      });
-      targetDiv.appendChild(input1);
-      targetDiv.appendChild(input2);
-
-      button.addEventListener("click", e => {
-        e.preventDefault();
-
-        input1 = createElm.input({
-          name: "[optionName]",
-          type: "text",
-          class: "option"
-        });
-        input2 = createElm.input({
-          name: "[optionVal]",
-          type: "text",
-          class: "option"
-        });
-        targetDiv.appendChild(input1);
-        targetDiv.appendChild(input2);
-      });
-    }
-  });
-  return div;
-}
-
-/*
-----------------------------------------------------------------------
-
-Create category field for new category
-
-----------------------------------------------------------------------
-*/
-export function addGroupNEWCATEGORY(nested) {
-  let div, label;
-
-  div = createElm.div({ class: "group" });
-
-  label = createElm.label({
-    text: "Group Name",
-    for: "[groupName]"
-  });
-  div.appendChild(label);
-
-  let inputDisplayName = createElm.input({
-    name: "[groupName]",
-    type: "text"
-  });
-  div.appendChild(inputDisplayName);
-  let button;
-  if (!nested) {
-    button = createElm.button({
-      text: "Add group",
-      class: "addGroup"
-    });
-    div.appendChild(button);
-  }
-  button = createElm.button({
-    text: "Add field",
-    class: "addField"
-  });
-  div.appendChild(button);
-
-  return div;
-}

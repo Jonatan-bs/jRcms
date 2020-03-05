@@ -14,7 +14,7 @@ const addDocEvent = {
     const form = document.querySelector(this.target);
     let formData = new FormData(form);
 
-    const category = formData.get("nameInDoc");
+    const category = formData.get("nameID");
 
     fetch("http://localhost:3000/admin/" + category + "/add", {
       method: "post",

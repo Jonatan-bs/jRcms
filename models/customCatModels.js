@@ -33,18 +33,35 @@ function setModels(objs) {
   objs.forEach(obj => {
     if (mongoose.connection.models[obj.nameID]) return;
     let schemaObj = {
-      _id: mongoose.Schema.Types.ObjectId,
-      name: { type: String, required: true, unique: true },
-      nameID: { type: String, required: true, unique: true },
-      fields: { type: [], required: true, unique: true }
+      _id: mongoose.Schema.Types.ObjectId
     };
-
-    mongoose.model(
+    obj.fields.forEach(field => {
+      if (field.contentType === "image") {
+        schemaObj[field.nameID] = {
+          type: { type: String, required: true, default: "image" },
+          originalname: { type: String, required: true },
+          mimetype: { type: String, required: true },
+          destination: { type: String, required: true },
+          filename: { type: String, required: true },
+          size: { type: Number, required: true }
+        };
+      } else {
+        schemaObj[field.nameID] = {
+          type: field.dataType,
+          required: field.required,
+          unique: field.unique
+        };
+      }
+    });
+    let model = mongoose.model(
       obj.nameID,
       mongoose.Schema(schemaObj, {
         collection: obj.nameID
       })
     );
+    //.categoryObj
+    mongoose.models[obj.nameID].categoryObj = obj;
+    console.log(model);
   });
 }
 

@@ -3,7 +3,7 @@ const categoryModel = require("../../models/categoryModel");
 controller = {
   getMainPage: (req, res, next) => {
     return categoryModel
-      .find({}, "displayName nameInDoc -_id", {
+      .find({}, "name nameID -_id", {
         lean: true
       })
       .then(categoriesDB => {

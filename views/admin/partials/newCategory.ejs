@@ -1,19 +1,15 @@
 <div class="flex">
   <div class="innerMenu">
-    <ul>
-      <li>
-        Posts
-      </li>
-      <li>
-        Posts
-      </li>
-      <li>
-        <button id="addCategory">Add category</button>
-      </li>
-    </ul>
+    <div class="innerMenu">
+      <% categories.forEach((category => { %>
+        <a href="http://localhost:3000/admin/categories/<%= category.nameID  %>"><%= category.name %> </a>
+    <% })) %>
+    </div>
   </div>
   <div class="content">
-    <button id="saveCategory">Save category</button>
+
+    
+    <button id="saveCategory" class="save">Save</button>
 
 
     <div id="createCategory">

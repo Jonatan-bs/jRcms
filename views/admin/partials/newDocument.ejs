@@ -3,12 +3,29 @@
 <form id="newDocumentForm">
 
     <% category.fields.forEach(field => { %>
+       <% if(field.inputType === "select"){%>
+            <label for="<%= field.nameID %>"><%= field.name %></label>
+            <select name="<%= field.nameID %>">
+                <% field.options.forEach(option => { %>
+                    <option value="<%= option.value %>"><%= option.name %></option>
+                <% }) %>
+            </select>
+
+        <% } else if  (field.inputType === "radio"){%>
+            <label ><%= field.name %> </label>
+                <% field.options.forEach(option => { %>
+                    <label for="<%= option.name %>"> <%= option.name %> </label>
+                     <input type="radio" name="<%= field.name %>" value="<%= option.value %>">
+                <% }) %>
+
+        <% } else { %>
         <label for="<%= field.nameID %>"><%= field.name %></label>
         <input type="<%= field.inputType %>" name="<%= field.nameID %>">
+        <% } %>
     <% })%>
 
 
-<input type="hidden" name="nameInDoc" value="<%= nameInDoc %>"/>
+<input type="hidden" name="nameID" value="<%= nameID %>"/>
 <button id="submitNewDocument" >submit</button>
 
 </form>

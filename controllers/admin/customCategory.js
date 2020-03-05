@@ -38,7 +38,7 @@ controller = {
       })
       .then(category => {
         res.render("admin/index", {
-          nameInDoc: req.params.category,
+          nameID: req.params.category,
           title: category.name,
           partial: "category",
           documents: documents,
@@ -53,17 +53,17 @@ controller = {
 
     // insert image data
     req.files.forEach(file => {
-      if (!req.body[file.fieldname]) req.body[file.fieldname] = [];
-      req.body[file.fieldname].push({
-        type: "image",
-        originalname: file.originalname,
-        mimetype: file.mimetype,
-        destination: file.destination,
-        filename: file.filename,
-        size: file.size
-      });
+      if (!req.body[file.fieldname]) {
+        console.log(mongoose.models[category].categoryObj);
+        req.body[file.fieldname] = {
+          originalname: file.originalname,
+          mimetype: file.mimetype,
+          destination: file.destination,
+          filename: file.filename,
+          size: file.size
+        };
+      }
     });
-
     initCatModels()
       .then(() => {
         model = mongoose.models[category];
@@ -104,7 +104,7 @@ controller = {
       })
       .then(category => {
         res.render("admin/index", {
-          nameInDoc: category.nameID,
+          nameID: category.nameID,
           title: category.name,
           partial: "newDocument",
           category: category,

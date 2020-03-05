@@ -26,37 +26,25 @@ document.addEventListener("click", function(e) {
   });
 
   // add field in create document
-  // if (e.target.matches(".addField")) {
-  //   e.preventDefault();
+  if (e.target.matches(".extraField")) {
+    const groupWrap = e.target.parentNode;
+    const group = groupWrap.querySelector(".group");
 
-  //   let group = e.target.parentNode;
+    const groupClone = group.cloneNode(true);
 
-  //   let field = collection.querySelector(".field.first");
+    let fields = groupClone.querySelectorAll("input");
+    fields.forEach(field => {
+      field.value = "";
+    });
+    groupWrap.append(groupClone);
+  }
+});
 
-  //   let fieldClone = field.cloneNode(true);
-  //   fieldClone.classList.remove("first");
-  //   let input = fieldClone.querySelector("input");
-  //   if (input) {
-  //     input.value = "";
-  //   }
-
-  //   group.appendChild(fieldClone);
-  // }
-
-  // add group in create document
-  //   if (e.target.matches(".addGroup")) {
-  //     e.preventDefault();
-
-  //     let collection = e.target.parentNode;
-  //     let field = collection.querySelector(".field.first");
-
-  //     let fieldClone = field.cloneNode(true);
-  //     fieldClone.classList.remove("first");
-  //     let input = fieldClone.querySelector("input");
-  //     if (input) {
-  //       input.value = "";
-  //     }
-
-  //     collection.appendChild(fieldClone);
-  //   }
+document.body.addEventListener("keydown", function(e) {
+  if (e.keyCode == (window.event ? 27 : e.DOM_VK_ESCAPE)) {
+    const popup = document.querySelector("#popup");
+    const popupCont = popup.querySelector(".content");
+    popup.style.display = "none";
+    popupCont.innerHTML = "";
+  }
 });

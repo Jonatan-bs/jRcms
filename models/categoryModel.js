@@ -9,7 +9,13 @@ const fieldsSchema = new mongoose.Schema(
     nameID: { type: String, required: true, unique: true },
     unique: { type: Boolean, required: true },
     required: { type: Boolean, required: true },
-    inputType: { type: String, required: true }
+    inputType: { type: String, required: true },
+    options: [
+      {
+        name: { type: String, required: true },
+        value: { type: String, required: true }
+      }
+    ]
   },
   { _id: false }
 );
@@ -20,11 +26,11 @@ const categorySchema = new mongoose.Schema(
     _id: mongoose.Schema.Types.ObjectId,
     nameID: { type: String, required: true, unique: true },
     name: { type: String, required: true, unique: true },
-    description: { type: String, required: true },
+    description: { type: String },
     fields: { type: [fieldsSchema], required: true },
     rewriteObj: { type: Array }
   },
-  { collection: "jr_category" }
+  { collection: "jr_category", timestamps: true }
 );
 
 // Extra validation
