@@ -5,11 +5,13 @@
 
         
         
-
+<div class="post">
 <% for(let document of documents) {%>
+    
   <a href="http://localhost:3000/admin/posts/<%= document._id %>">  
     <% document = document.toObject()%>
     <% for(let key in document) {%>
+        <% if (key === "_id") continue; %>
         <% if (key=== "rewriteObj" || key==="contentType" ) continue;%>
         <% let field = document[key]; %>
         <% let contentType = document.contentType[key]; %>
@@ -35,4 +37,4 @@
     <br><br>
 </a>
 <% } %> 
-
+</div>
