@@ -1,4 +1,4 @@
-const categoryModel = require("../../models/categoryModel");
+const customCollectionDataModel = require("../../models/customCollectionDataModels");
 const User = require("../../models/userModel");
 const mongoose = require("mongoose");
 
@@ -19,15 +19,15 @@ controller = {
       .catch(next);
   },
   signupPage: (req, res, next) => {
-    categoryModel
+    customCollectionDataModel
       .find({}, "name nameID -_id", {
         lean: true
       })
-      .then(categoriesDB => {
+      .then(collectionsDB => {
         res.render("admin/index", {
           title: "Sign up",
           partial: "signup",
-          categories: categoriesDB
+          collections: collectionsDB
         });
       })
       .catch(next);

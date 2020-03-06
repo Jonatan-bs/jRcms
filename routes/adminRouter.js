@@ -3,8 +3,8 @@ const router = express.Router();
 const multer = require("multer"); // Handle file uploads
 const indexCtrl = require("../controllers/admin/index");
 const userCtrl = require("../controllers/admin/user");
-const categoryCtrl = require("../controllers/admin/category");
-const customCategoryCtrl = require("../controllers/admin/customCategory");
+const collectionCtrl = require("../controllers/admin/collections");
+const customCollectionCtrl = require("../controllers/admin/customCollection");
 
 const storage = multer.diskStorage({
   destination(req, file, callback) {
@@ -32,17 +32,17 @@ const upload = multer({ storage: storage, fileFilter: fileFilter }); // Handle f
 router.get("/", indexCtrl.getMainPage);
 
 /////////////////
-//// CATEGORY
+//// COLLECTION
 /////////////////
 
-// Categories page
-router.get("/categories", categoryCtrl.categoriesPage);
+// collections page
+router.get("/collections", collectionCtrl.collectionsPage);
 
-// Add Category page
-router.get("/categories/add", categoryCtrl.addCategoryPage);
+// Add Collection page
+router.get("/collections/add", collectionCtrl.addCollectionPage);
 
-// Add category
-router.post("/categories/add", categoryCtrl.addCategory);
+// Add collection
+router.post("/collections/add", collectionCtrl.addCollection);
 
 /////////////////
 //// USERS
@@ -57,14 +57,14 @@ router.post("/signup", userCtrl.addUser);
 module.exports = router;
 
 /////////////////
-//// CUSTOM CATEGORIES
+//// CUSTOM collections
 /////////////////
 
-// Custom category page
-router.get("/:category", customCategoryCtrl.getPage);
+// Custom collection page
+router.get("/:collection", customCollectionCtrl.getPage);
 
-// Add custom category document page
-router.get("/:category/add", customCategoryCtrl.addDocumentPage);
+// Add custom collection document page
+router.get("/:collection/add", customCollectionCtrl.addDocumentPage);
 
-// Add custom category document
-router.post("/:category/add", upload.any(), customCategoryCtrl.addDocument);
+// Add custom collection document
+router.post("/:collection/add", upload.any(), customCollectionCtrl.addDocument);

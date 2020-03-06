@@ -21,7 +21,7 @@ const fieldsSchema = new mongoose.Schema(
 );
 
 // Create main Schema
-const categorySchema = new mongoose.Schema(
+const collectionSchema = new mongoose.Schema(
   {
     _id: mongoose.Schema.Types.ObjectId,
     nameID: { type: String, required: true, unique: true },
@@ -31,12 +31,12 @@ const categorySchema = new mongoose.Schema(
     rewriteObj: { type: Object },
     contentType: { type: Object }
   },
-  { collection: "jr_category", timestamps: true }
+  { collection: "jr_customCollectionData", timestamps: true }
 );
 
 // Extra validation
 
-// categorySchema.pre("save", function(next) {
+// collectionSchema.pre("save", function(next) {
 //   //Check if collecions is empty array befor passing it to schema
 //   if (this.collections.length < 1) {
 //     let err = { message: "No fields were selected" };
@@ -76,4 +76,4 @@ const categorySchema = new mongoose.Schema(
 //   next();
 // });
 
-module.exports = mongoose.model("jr_category", categorySchema);
+module.exports = mongoose.model("jr_customCollectionData", collectionSchema);

@@ -1,25 +1,25 @@
-const category = require("./categoryModel.js");
+const collection = require("./customCollectionDataModels");
 const mongoose = require("mongoose");
 
-// Get all categories from database and create models
+// Get all collections from database and create models
 
 let Initialised = false;
 
 let initCatModels = reInitialise => {
   if (Initialised && !reInitialise) {
     return new Promise((resolve, reject) => {
-      resolve("Category already Initialised");
+      resolve("Collection already Initialised");
     });
   }
 
-  return category
+  return collection
     .find({}, "-__v", { lean: true })
-    .then(categories => {
-      setModels(categories);
+    .then(collections => {
+      setModels(collections);
 
       return new Promise((resolve, reject) => {
         Initialised = true;
-        resolve("Category objects initialised");
+        resolve("Collection objects initialised");
       });
     })
     .catch(err => console.log(err));
@@ -27,7 +27,7 @@ let initCatModels = reInitialise => {
 
 module.exports = initCatModels;
 initCatModels();
-// setModelsForEachCategory
+// setModelsForEachCollection
 
 function setModels(objs) {
   objs.forEach(obj => {

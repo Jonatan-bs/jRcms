@@ -1,18 +1,18 @@
 <div class="flex">
   <div class="innerMenu">
     <div class="innerMenu">
-      <% categories.forEach((category => { %>
-        <a href="http://localhost:3000/admin/categories/<%= category.nameID  %>"><%= category.name %> </a>
+      <% collections.forEach((collection => { %>
+        <a href="http://localhost:3000/admin/collections/<%= collection.nameID  %>"><%= collection.name %> </a>
     <% })) %>
     </div>
   </div>
   <div class="content">
 
     
-    <button id="saveCategory" class="save">Save</button>
+    <button id="saveCollection" class="save">Save</button>
 
 
-    <div id="createCategory">
+    <div id="createCollection">
       <label for="name">Name</label>
       <input type="text" id="catName" />
 

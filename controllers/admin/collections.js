@@ -1,38 +1,38 @@
-const categoryModel = require("../../models/categoryModel");
+const customCollectionDataModel = require("../../models/customCollectionDataModels");
 const mongoose = require("mongoose");
 const formData = require("./modules/formData");
-const initCatModels = require("../../models/customCatModels");
+const initCatModels = require("../../models/customCollectionModels");
 
 controller = {
-  addCategoryPage: (req, res, next) => {
-    categoryModel
+  addCollectionPage: (req, res, next) => {
+    customCollectionDataModel
       .find({}, "name nameID -_id", {
         lean: true
       })
-      .then(categoriesDB => {
+      .then(collectionsDB => {
         res.render("admin/index", {
-          title: "new category",
-          partial: "newCategory",
-          categories: categoriesDB
+          title: "new collection",
+          partial: "newCollection",
+          collections: collectionsDB
         });
       })
       .catch(next);
   },
-  categoriesPage: (req, res, next) => {
-    categoryModel
+  collectionsPage: (req, res, next) => {
+    customCollectionDataModel
       .find({}, "name nameID -_id", {
         lean: true
       })
-      .then(categoriesDB => {
+      .then(collectionsDB => {
         res.render("admin/index", {
-          title: "categories",
-          partial: "categories",
-          categories: categoriesDB
+          title: "collections",
+          partial: "collections",
+          collections: collectionsDB
         });
       })
       .catch(next);
   },
-  addCategory: (req, res, next) => {
+  addCollection: (req, res, next) => {
     req.body.rewriteObj = {};
 
     req.body.rewriteObj[req.body.nameID] = req.body.name;
@@ -45,7 +45,7 @@ controller = {
       req.body.contentType[field.nameID] = field.contentType;
     });
 
-    const newDocument = new categoryModel({
+    const newDocument = new customCollectionDataModel({
       _id: new mongoose.Types.ObjectId(),
       ...req.body
     });

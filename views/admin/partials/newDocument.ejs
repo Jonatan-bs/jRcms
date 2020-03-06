@@ -2,7 +2,7 @@
 <p><%= title %></p>
 <form id="newDocumentForm">
 
-    <% category.fields.forEach(field => { %>
+    <% collection.fields.forEach(field => { %>
        <% if(field.inputType === "select"){%>
         <br><br><label for="<%= field.nameID %>"><%= field.name %></label><br>
             <select name="<%= field.nameID %>">

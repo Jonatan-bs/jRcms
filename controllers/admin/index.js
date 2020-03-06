@@ -1,16 +1,16 @@
-const categoryModel = require("../../models/categoryModel");
+const customCollectionDataModel = require("../../models/customCollectionDataModels");
 
 controller = {
   getMainPage: (req, res, next) => {
-    return categoryModel
+    return customCollectionDataModel
       .find({}, "name nameID -_id", {
         lean: true
       })
-      .then(categoriesDB => {
+      .then(collectionsDB => {
         res.render("admin/index", {
           title: "index",
           partial: "index",
-          categories: categoriesDB
+          collections: collectionsDB
         });
       })
       .catch(next);

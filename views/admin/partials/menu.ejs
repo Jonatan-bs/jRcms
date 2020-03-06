@@ -1,12 +1,12 @@
 
 <a href="http://localhost:3000/admin/"><img class="logo" src="http://localhost:3000/admin/images/signature.png" alt="logo"></a>
 <a href="http://localhost:3000/admin/signup">Signup</a>
-<a href="http://localhost:3000/admin/categories">Categories</a>
+<a href="http://localhost:3000/admin/collections">Collections</a>
 
-<% categories.forEach((category => { %>
-    <% //let nameID = category.nameID 
+<% collections.forEach((collection => { %>
+    <% //let nameID = collection.nameID 
    // urlName = urlName.substring(3)
     
     %>
-    <a href="http://localhost:3000/admin/<%= category.nameID  %>"><%= category.name %> </a>
+    <a href="http://localhost:3000/admin/<%= collection.nameID  %>"><%= collection.name %> </a>
 <% })) %>

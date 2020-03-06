@@ -55,7 +55,7 @@ if (document.querySelector("#catName")) {
   let catNameID = document.querySelector("#catNameID");
   formHelper.string2id(catName, catNameID);
 }
-let tempCategory = {
+let tempCollection = {
   fields: []
 };
 
@@ -101,7 +101,7 @@ const contentTypes = {
 /*
 ----------------------------------------------------------------------
 
-Create form field group for new category
+Create form field group for new collection
 
 ----------------------------------------------------------------------
 */
@@ -230,12 +230,12 @@ function stepTwo(contentType, popup, popupCont, key) {
   popupCont.appendChild(button);
 
   button.addEventListener("click", e => {
-    saveField(fields, contentType, key, tempCategory, popupCont, popup);
+    saveField(fields, contentType, key, tempCollection, popupCont, popup);
   });
 }
 
 // SAVE FIELD
-function saveField(fields, contentType, key, tempCategory, popupCont, popup) {
+function saveField(fields, contentType, key, tempCollection, popupCont, popup) {
   let tempField = {};
   tempField.dataType = contentType.dataType;
   tempField.contentType = key;
@@ -270,11 +270,11 @@ function saveField(fields, contentType, key, tempCategory, popupCont, popup) {
     }
   });
 
-  tempCategory.fields.push(tempField);
+  tempCollection.fields.push(tempField);
   popupCont.innerHTML = "";
   popup.style.display = "none";
 
-  updateFields(tempCategory.fields);
+  updateFields(tempCollection.fields);
 }
 
 // UPDATE FIELDS
@@ -315,9 +315,9 @@ function updateFields(fields) {
 }
 
 function removeField(index) {
-  tempCategory.fields.splice(index, 1);
+  tempCollection.fields.splice(index, 1);
 
-  updateFields(tempCategory.fields, tempCategory);
+  updateFields(tempCollection.fields, tempCollection);
 }
 
 function editField(thisField, index) {
@@ -445,20 +445,20 @@ function editField(thisField, index) {
         (field.name === "optionName" && flag) ||
         (field.name === "optionValue" && flag)
       ) {
-        tempCategory.fields[index]["optionName"] = [];
-        tempCategory.fields[index]["optionValue"] = [];
+        tempCollection.fields[index]["optionName"] = [];
+        tempCollection.fields[index]["optionValue"] = [];
         flag = false;
       }
       if (field.name === "optionName" || field.name === "optionValue") {
-        tempCategory.fields[index][field.name].push(field.value);
+        tempCollection.fields[index][field.name].push(field.value);
       } else if (field.type === "text") {
-        tempCategory.fields[index][field.name] = field.value;
+        tempCollection.fields[index][field.name] = field.value;
       } else if (field.type === "checkbox") {
-        tempCategory.fields[index][field.name] = field.checked;
+        tempCollection.fields[index][field.name] = field.checked;
       }
       if (field.name === "inputType") {
         if (field.checked) {
-          tempCategory.fields[index][field.name] = field.value;
+          tempCollection.fields[index][field.name] = field.value;
         }
       }
     });
@@ -466,21 +466,21 @@ function editField(thisField, index) {
     popupCont.innerHTML = "";
     popup.style.display = "none";
 
-    updateFields(tempCategory.fields);
+    updateFields(tempCollection.fields);
   });
 }
 
-if (document.querySelector("#saveCategory")) {
-  document.querySelector("#saveCategory").addEventListener("click", () => {
+if (document.querySelector("#saveCollection")) {
+  document.querySelector("#saveCollection").addEventListener("click", () => {
     const name = document.querySelector("#catName").value;
     const nameID = document.querySelector("#catNameID").value;
     const description = document.querySelector("#catDescription").value;
 
-    tempCategory.name = name;
-    tempCategory.nameID = nameID;
-    tempCategory.description = description;
+    tempCollection.name = name;
+    tempCollection.nameID = nameID;
+    tempCollection.description = description;
 
-    tempCategory.fields.forEach(field => {
+    tempCollection.fields.forEach(field => {
       if (field.optionName) {
         field.options = [];
 
@@ -492,12 +492,12 @@ if (document.querySelector("#saveCategory")) {
         }
       }
     });
-    fetch("http://localhost:3000/admin/categories/add", {
+    fetch("http://localhost:3000/admin/collections/add", {
       method: "post",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(tempCategory)
+      body: JSON.stringify(tempCollection)
     })
       .then(response => response.json())
       .then(response => {
