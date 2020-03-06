@@ -1,41 +1,154 @@
-export const contentTypes = {
-  string: {
+export const contentTypes = [
+  {
     dataType: "string",
     name: "String",
     description: "",
-    inputType: "text"
+    fieldType: "string",
+    domElm() {
+      return domElm(this);
+    }
   },
-  text: {
+  {
     dataType: "string",
     name: "Text",
     description: "",
-    inputType: "text"
+    fieldType: "text",
+    domElm() {
+      return domElm(this);
+    }
   },
-  number: {
+  {
     dataType: "number",
     name: "Number",
     description: "",
-    inputType: "number"
+    fieldType: "number",
+    domElm() {
+      return domElm(this);
+    }
   },
-  boolean: {
+  {
     dataType: "boolean",
     name: "Boolean",
     description: "",
-    inputType: "checkbox"
+    fieldType: "checkbox",
+    domElm() {
+      return domElm(this);
+    }
   },
-  options: {
+  {
     dataType: "string",
     name: "Options",
     description: "",
-    inputType: ["radio", "select", "checkbox"]
+    fieldType: ["radio", "select", "checkbox"],
+    domElm() {
+      return domElm(this);
+    }
   },
-  image: {
+  {
     dataType: "string",
     name: "Image",
     description: "",
-    inputType: "file"
+    fieldType: "image",
+    domElm() {
+      return domElm(this);
+    }
   }
-};
+];
+
+// Create field dom element
+function domElm(contentType) {
+  let divWrap = createElm.div({ class: "field" });
+  let contentTypePar = createElm.par({
+    text: contentType.name
+  });
+  divWrap.appendChild(contentTypePar);
+  let dataType = createElm.input({
+    type: "hidden",
+    value: contentType.dataType,
+    name: "dataType"
+  });
+  divWrap.appendChild(dataType);
+  if (contentType.name !== "Options") {
+    let fieldType = createElm.input({
+      type: "hidden",
+      value: contentType.fieldType,
+      name: "fieldType"
+    });
+    divWrap.appendChild(fieldType);
+  }
+
+  let name = createElm.input({
+    type: "text",
+    name: "name",
+    class: "name",
+    placeholder: "name"
+  });
+  let nameID = createElm.input({
+    type: "text",
+    name: "nameID",
+    class: "nameID",
+    placeholder: "nameID"
+  });
+  divWrap.appendChild(name);
+  divWrap.appendChild(nameID);
+
+  // Autowrite nameID
+  string2id(name, nameID);
+
+  let divExtra = createElm.div({ class: "extra" });
+  let label = createElm.label({ text: "Required", for: "required" });
+  let required = createElm.input({ type: "checkbox", name: "required" });
+  let label2 = createElm.label({ text: "Unique", for: "unique" });
+  let unique = createElm.input({ type: "checkbox", name: "unique" });
+
+  divExtra.appendChild(label);
+  divExtra.appendChild(required);
+  divExtra.appendChild(label2);
+  divExtra.appendChild(unique);
+  divWrap.appendChild(divExtra);
+
+  //If options is chosen; create options
+  if (contentType.name === "Options") {
+    label = createElm.label({ text: "select", for: "fieldType" });
+    let radio = createElm.input({
+      type: "radio",
+      name: "fieldType",
+      value: "select",
+      checked: true
+    });
+    divExtra.appendChild(label);
+    divExtra.appendChild(radio);
+    label = createElm.label({ text: "radio", for: "fieldType" });
+    radio = createElm.input({
+      type: "radio",
+      name: "fieldType",
+      value: "radio"
+    });
+    divExtra.appendChild(label);
+    divExtra.appendChild(radio);
+
+    // add options groups
+    const groupWrapDiv = createElm.div({ class: "groupWrap" });
+    const groupDiv = createElm.div({ class: "group" });
+    const button = createElm.button({ text: "Add option", class: "addGroup" });
+    groupWrapDiv.appendChild(button);
+    groupWrapDiv.appendChild(groupDiv);
+
+    label = createElm.label({ text: "Name", for: "optionName" });
+    const optionName = createElm.input({ type: "text", name: "optionName" });
+    groupDiv.appendChild(label);
+    groupDiv.appendChild(optionName);
+
+    label = createElm.label({ text: "Value", for: "optionValue" });
+    const optionValue = createElm.input({ type: "text", name: "optionValue" });
+    groupDiv.appendChild(label);
+    groupDiv.appendChild(optionValue);
+
+    divExtra.appendChild(groupWrapDiv);
+  }
+
+  return divWrap;
+}
 
 //// convert string to Id
 export function string2id(input, output) {
@@ -150,7 +263,8 @@ let createElm = {
       args.type === "text" ||
       args.type === "textArea" ||
       args.type === "checkbox" ||
-      args.type === "radio"
+      args.type === "radio" ||
+      args.type === "hidden"
     ) {
       let input = document.createElement("input");
       if (args.class) {
@@ -164,6 +278,12 @@ let createElm = {
       }
       if (args.checked) {
         input.checked = args.checked;
+      }
+      if (args.placeholder) {
+        input.placeholder = args.placeholder;
+      }
+      if (args.disabled) {
+        input.disabled = true;
       }
       input.type = args.type;
       input.name = args.name;
@@ -197,6 +317,31 @@ let createElm = {
       select.appendChild(option);
     });
     return select;
+  },
+  link(args) {
+    if (!args) args = {};
+
+    let link = document.createElement("a");
+    if (args.class) {
+      link.className = args.class;
+    }
+    if (args.id) {
+      link.id = args.id;
+    }
+    link.href = args.href;
+    link.textContent = args.text;
+
+    link.name = args.name;
+
+    return link;
+  },
+  par(args) {
+    if (!args) args = {};
+
+    let par = document.createElement("p");
+
+    par.textContent = args.text;
+    return par;
   }
 };
 export { createElm };

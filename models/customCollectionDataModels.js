@@ -4,12 +4,12 @@ const mongoose = require("mongoose");
 const fieldsSchema = new mongoose.Schema(
   {
     dataType: { type: String, required: true },
-    contentType: { type: String, required: true },
+    fieldType: { type: String, required: true },
     name: { type: String, required: true, unique: true },
     nameID: { type: String, required: true, unique: true },
     unique: { type: Boolean, required: true },
     required: { type: Boolean, required: true },
-    inputType: { type: String, required: true },
+    //inputType: { type: String, required: true },
     options: [
       {
         name: { type: String, required: true },
@@ -27,9 +27,9 @@ const collectionSchema = new mongoose.Schema(
     nameID: { type: String, required: true, unique: true },
     name: { type: String, required: true, unique: true },
     description: { type: String },
-    fields: { type: [fieldsSchema], required: true },
-    rewriteObj: { type: Object },
-    contentType: { type: Object }
+    fields: { type: [fieldsSchema], required: true }
+    //rewriteObj: { type: Object },
+    //contentType: { type: Object }
   },
   { collection: "jr_customCollectionData", timestamps: true }
 );

@@ -33,17 +33,17 @@ controller = {
       .catch(next);
   },
   addCollection: (req, res, next) => {
-    req.body.rewriteObj = {};
+    // req.body.rewriteObj = {};
 
-    req.body.rewriteObj[req.body.nameID] = req.body.name;
-    req.body.fields.forEach(field => {
-      req.body.rewriteObj[field.nameID] = field.name;
-    });
+    // req.body.rewriteObj[req.body.nameID] = req.body.name;
+    // req.body.fields.forEach(field => {
+    //   req.body.rewriteObj[field.nameID] = field.name;
+    // });
 
-    req.body.contentType = {};
-    req.body.fields.forEach(field => {
-      req.body.contentType[field.nameID] = field.contentType;
-    });
+    // req.body.contentType = {};
+    // req.body.fields.forEach(field => {
+    //   req.body.contentType[field.nameID] = field.contentType;
+    // });
 
     const newDocument = new customCollectionDataModel({
       _id: new mongoose.Types.ObjectId(),

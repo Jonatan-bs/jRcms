@@ -1,24 +1,22 @@
 <div class="flex">
-  <div class="innerMenu">
+
     <div class="innerMenu">
-      <% collections.forEach((collection => { %>
-        <a href="http://localhost:3000/admin/collections/<%= collection.nameID  %>"><%= collection.name %> </a>
-    <% })) %>
+    <div id="contentTypes"></div>
     </div>
-  </div>
+
   <div class="content">
 
     
     <button id="saveCollection" class="save">Save</button>
 
-
     <div id="createCollection">
+      <div class="autoNameId">
       <label for="name">Name</label>
       <input type="text" id="catName" />
-
+     
       <label for="nameID">Name ID</label>
       <input type="text" id="catNameID" />
-
+    </div>
       <label for="description">Description</label>
       <input type="text" id="catDescription" />
     </div>

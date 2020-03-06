@@ -37,7 +37,7 @@ function setModels(objs) {
     };
 
     obj.fields.forEach(field => {
-      if (field.contentType === "image") {
+      if (field.fieldType === "image") {
         schemaObj[field.nameID] = {
           type: { type: String, required: true, default: "image" },
           originalname: { type: String, required: true },
@@ -58,12 +58,22 @@ function setModels(objs) {
       collection: obj.nameID,
       id: false
     });
-    schema.virtual("rewriteObj").get(function() {
-      return obj.rewriteObj;
+
+    //create rewrites
+    let nameID2name = {};
+
+    nameID2name[obj.nameID] = obj.name;
+    obj.fields.forEach(field => {
+      nameID2name[field.nameID] = field.name;
     });
-    schema.virtual("contentType").get(function() {
-      return obj.contentType;
+
+    let nameID2contentType = {};
+    obj.fields.forEach(field => {
+      nameID2contentType[field.nameID] = field.fieldType;
     });
+
+    schema.virtual("rewrite.nameID2name").get(() => nameID2name);
+    schema.virtual("rewrite.nameID2fieldType").get(() => nameID2contentType);
     // , versionKey=true
     schema.set("toObject", { getters: true });
 

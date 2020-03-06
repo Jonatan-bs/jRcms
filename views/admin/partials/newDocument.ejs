@@ -3,7 +3,8 @@
 <form id="newDocumentForm">
 
     <% collection.fields.forEach(field => { %>
-       <% if(field.inputType === "select"){%>
+
+       <% if(field.fieldType === "select"){%>
         <br><br><label for="<%= field.nameID %>"><%= field.name %></label><br>
             <select name="<%= field.nameID %>">
                 <% field.options.forEach(option => { %>
@@ -11,18 +12,21 @@
                 <% }) %>
             </select>
 
-        <% } else if  (field.inputType === "radio"){%>
+        <% } else if  (field.fieldType === "radio"){%>
             <br><br><label ><%= field.name %> </label> <br>
                 <% field.options.forEach(option => { %>
                     <label for="<%= option.name %>"> <%= option.name %> </label>
                      <input type="radio" name="<%= field.nameID %>" value="<%= option.value %>">
                 <% }) %>
-        <% } else if  (field.contentType === "text"){%>
+        <% } else if  (field.fieldType === "text"){%>
             <br><br> <label for="<%= field.nameID %>"><%= field.name %></label><br>
         <textArea class="tinyMce" type="<%= field.inputType %>" name="<%= field.nameID %>"></textArea>
-        <% } else { %>
+        <% } else if  (field.fieldType === "image"){ %>
             <br><br><label for="<%= field.nameID %>"><%= field.name %></label><br>
-        <input type="<%= field.inputType %>" name="<%= field.nameID %>">
+        <input type="file" name="<%= field.nameID %>">
+        <% } else if  (field.fieldType === "string"){ %>
+            <br><br><label for="<%= field.nameID %>"><%= field.name %></label><br>
+        <input type="<%= field.fieldType %>" name="<%= field.nameID %>">
         <% } %>
     <% })%>
 

@@ -20,7 +20,6 @@ controller = {
         return model.find({}, "-__v");
       })
       .then(response => {
-        console.log(response);
         documents = response;
         return customCollectionDataModel.find({}, "name nameID -_id", {
           lean: true
@@ -50,7 +49,6 @@ controller = {
     // insert image data
     req.files.forEach(file => {
       if (!req.body[file.fieldname]) {
-        console.log(mongoose.models[collection].collectionObj);
         req.body[file.fieldname] = {
           originalname: file.originalname,
           mimetype: file.mimetype,
