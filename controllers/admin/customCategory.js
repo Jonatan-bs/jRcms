@@ -22,6 +22,7 @@ controller = {
         return model.find({}, "-__v");
       })
       .then(response => {
+        console.log(response);
         documents = response;
         return categoryModel.find({}, "name nameID -_id", {
           lean: true

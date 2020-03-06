@@ -55,7 +55,8 @@ function setModels(objs) {
       }
     });
     let schema = mongoose.Schema(schemaObj, {
-      collection: obj.nameID
+      collection: obj.nameID,
+      id: false
     });
     schema.virtual("rewriteObj").get(function() {
       return obj.rewriteObj;

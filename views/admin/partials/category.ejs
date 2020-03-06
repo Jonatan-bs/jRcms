@@ -7,9 +7,8 @@
         
 
 <% for(let document of documents) {%>
-    
+  <a href="http://localhost:3000/admin/posts/<%= document._id %>">  
     <% document = document.toObject()%>
-<% console.log(document); %>
     <% for(let key in document) {%>
         <% if (key=== "rewriteObj" || key==="contentType" ) continue;%>
         <% let field = document[key]; %>
@@ -17,9 +16,9 @@
         <% let rewrite = document.rewriteObj[key] %>
        
         <% if(rewrite) {%>
-            <%= rewrite %>: <br>
+            <h3> <%= rewrite %>: </h3> 
         <% } else { %> 
-            <%= key %>: <br>
+            <h3><%= key %>:</h3> 
         <% } %> 
 
    
@@ -34,5 +33,6 @@
         <br>
     <% } %> 
     <br><br>
+</a>
 <% } %> 
 
