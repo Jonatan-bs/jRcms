@@ -4,7 +4,7 @@
 
     <% category.fields.forEach(field => { %>
        <% if(field.inputType === "select"){%>
-            <label for="<%= field.nameID %>"><%= field.name %></label>
+        <br><br><label for="<%= field.nameID %>"><%= field.name %></label><br>
             <select name="<%= field.nameID %>">
                 <% field.options.forEach(option => { %>
                     <option value="<%= option.value %>"><%= option.name %></option>
@@ -12,14 +12,16 @@
             </select>
 
         <% } else if  (field.inputType === "radio"){%>
-            <label ><%= field.name %> </label>
+            <br><br><label ><%= field.name %> </label> <br>
                 <% field.options.forEach(option => { %>
                     <label for="<%= option.name %>"> <%= option.name %> </label>
-                     <input type="radio" name="<%= field.name %>" value="<%= option.value %>">
+                     <input type="radio" name="<%= field.nameID %>" value="<%= option.value %>">
                 <% }) %>
-
+        <% } else if  (field.contentType === "text"){%>
+            <br><br> <label for="<%= field.nameID %>"><%= field.name %></label><br>
+        <textArea class="tinyMce" type="<%= field.inputType %>" name="<%= field.nameID %>"></textArea>
         <% } else { %>
-        <label for="<%= field.nameID %>"><%= field.name %></label>
+            <br><br><label for="<%= field.nameID %>"><%= field.name %></label><br>
         <input type="<%= field.inputType %>" name="<%= field.nameID %>">
         <% } %>
     <% })%>
@@ -29,3 +31,10 @@
 <button id="submitNewDocument" >submit</button>
 
 </form>
+
+<script>
+    tinymce.init({
+      selector: '.tinyMce'
+    });
+    
+</script>

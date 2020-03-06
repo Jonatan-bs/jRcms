@@ -40,6 +40,7 @@ export const contentTypes = {
 //// convert string to Id
 export function string2id(input, output) {
   let prefix = "jr_";
+  prefix = "";
   input.addEventListener("input", () => {
     output.value = input.value.replace(/\W/g, "_").toLowerCase();
     if (input === output && output.value.length < prefix.length) {

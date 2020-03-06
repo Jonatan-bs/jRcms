@@ -38,6 +38,13 @@ document.addEventListener("click", function(e) {
     });
     groupWrap.append(groupClone);
   }
+
+  if (e.target.matches("#popup")) {
+    const popup = document.querySelector("#popup");
+    const popupCont = popup.querySelector(".content");
+    popup.style.display = "none";
+    popupCont.innerHTML = "";
+  }
 });
 
 document.body.addEventListener("keydown", function(e) {

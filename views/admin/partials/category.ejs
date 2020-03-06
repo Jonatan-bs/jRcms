@@ -1,24 +1,38 @@
 <a href="<%= nameID %>/add">add new item</a>
 
+
 <p>All from <%= title %></p>
 
+        
+        
 
 <% for(let document of documents) {%>
+    
+    <% document = document.toObject()%>
+<% console.log(document); %>
     <% for(let key in document) {%>
-        
-        <% if(rewrite[key]) {%>
-            <%= rewrite[key] %>:
-        <% } else { %>
-            <%= key %>:
+        <% if (key=== "rewriteObj" || key==="contentType" ) continue;%>
+        <% let field = document[key]; %>
+        <% let contentType = document.contentType[key]; %>
+        <% let rewrite = document.rewriteObj[key] %>
+       
+        <% if(rewrite) {%>
+            <%= rewrite %>: <br>
+        <% } else { %> 
+            <%= key %>: <br>
         <% } %> 
-        <%if(document[key].type === "image"){%>
+
+   
+
+        <%if(contentType === "image"){%>
             <img src="<%= "uploads/" + document[key].filename  %>"/>
         <%} else {%> 
             <!-- admin/uploads/ -->
          
-            <%= document[key] %>
+            <%- document[key] %>
         <%}%> 
         <br>
     <% } %> 
     <br><br>
 <% } %> 
+

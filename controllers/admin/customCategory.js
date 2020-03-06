@@ -14,17 +14,15 @@ controller = {
     let model;
 
     initCatModels()
-      // Get model from category matching req.params.category
       .then(() => {
+        // Get model from category matching req.params.category
         model = mongoose.models[category];
-
         if (!model) throw new Error("Category doesn't exist!");
         // get all documents from collection
-        return model.find({}, "-__v", { lean: true });
+        return model.find({}, "-__v");
       })
       .then(response => {
         documents = response;
-
         return categoryModel.find({}, "name nameID -_id", {
           lean: true
         });
@@ -50,7 +48,6 @@ controller = {
   },
   addDocument: (req, res, next) => {
     let category = req.params.category;
-
     // insert image data
     req.files.forEach(file => {
       if (!req.body[file.fieldname]) {

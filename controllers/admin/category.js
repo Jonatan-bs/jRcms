@@ -39,6 +39,12 @@ controller = {
     req.body.fields.forEach(field => {
       req.body.rewriteObj[field.nameID] = field.name;
     });
+
+    req.body.contentType = {};
+    req.body.fields.forEach(field => {
+      req.body.contentType[field.nameID] = field.contentType;
+    });
+
     const newDocument = new categoryModel({
       _id: new mongoose.Types.ObjectId(),
       ...req.body

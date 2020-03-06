@@ -10,7 +10,7 @@ const addDocEvent = {
 
   function(e) {
     e.preventDefault();
-
+    tinyMCE.triggerSave(true, true);
     const form = document.querySelector(this.target);
     let formData = new FormData(form);
 

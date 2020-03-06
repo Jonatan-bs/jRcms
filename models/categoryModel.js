@@ -28,7 +28,8 @@ const categorySchema = new mongoose.Schema(
     name: { type: String, required: true, unique: true },
     description: { type: String },
     fields: { type: [fieldsSchema], required: true },
-    rewriteObj: { type: Array }
+    rewriteObj: { type: Object },
+    contentType: { type: Object }
   },
   { collection: "jr_category", timestamps: true }
 );

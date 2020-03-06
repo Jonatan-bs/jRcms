@@ -35,6 +35,7 @@ function setModels(objs) {
     let schemaObj = {
       _id: mongoose.Schema.Types.ObjectId
     };
+
     obj.fields.forEach(field => {
       if (field.contentType === "image") {
         schemaObj[field.nameID] = {
@@ -53,57 +54,18 @@ function setModels(objs) {
         };
       }
     });
-    let model = mongoose.model(
-      obj.nameID,
-      mongoose.Schema(schemaObj, {
-        collection: obj.nameID
-      })
-    );
-    //.categoryObj
-    mongoose.models[obj.nameID].categoryObj = obj;
-    console.log(model);
+    let schema = mongoose.Schema(schemaObj, {
+      collection: obj.nameID
+    });
+    schema.virtual("rewriteObj").get(function() {
+      return obj.rewriteObj;
+    });
+    schema.virtual("contentType").get(function() {
+      return obj.contentType;
+    });
+    // , versionKey=true
+    schema.set("toObject", { getters: true });
+
+    mongoose.model(obj.nameID, schema);
   });
 }
-
-// function createSchemaObj(objs, schemaObj, parent) {
-//   objs.forEach(group => {
-//     group.fields.forEach(field => {
-//       if (field.inputType === "image") {
-//         path[field.nameInDoc] = [
-//           {
-//             type: {
-//               type: String,
-//               required: true
-//             },
-//             originalname: {
-//               type: String,
-//               required: true
-//             },
-//             mimetype: {
-//               type: String,
-//               required: true
-//             },
-//             destination: {
-//               type: String,
-//               required: true
-//             },
-//             filename: {
-//               type: String,
-//               required: true
-//             },
-//             size: {
-//               type: String,
-//               required: true
-//             }
-//           }
-//         ];
-//       } else {
-//         path[field.nameInDoc] = {
-//           type: field.dataType,
-//           required: field.required,
-//           unique: field.unique
-//         };
-//       }
-//     });
-//   });
-// }
