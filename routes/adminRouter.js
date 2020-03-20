@@ -44,6 +44,18 @@ router.get("/collections/add", collectionCtrl.addCollectionPage);
 // Add collection
 router.post("/collections/add", collectionCtrl.addCollection);
 
+// Update collection page
+router.get(
+  "/collections/update/:collectionID",
+  collectionCtrl.updateCollectionPage
+);
+
+// Update collection
+router.post(
+  "/collections/update/:collectionID",
+  collectionCtrl.updateCollection
+);
+
 /////////////////
 //// USERS
 /////////////////

@@ -1,6 +1,7 @@
 const customCollectionDataModel = require("../../models/customCollectionDataModels");
 const mongoose = require("mongoose");
-const formData = require("./modules/formData");
+var ObjectID = require("mongodb").ObjectID;
+
 const initCatModels = require("../../models/customCollectionModels");
 
 controller = {
@@ -20,7 +21,7 @@ controller = {
   },
   collectionsPage: (req, res, next) => {
     customCollectionDataModel
-      .find({}, "name nameID -_id", {
+      .find({}, "name nameID", {
         lean: true
       })
       .then(collectionsDB => {
@@ -33,22 +34,11 @@ controller = {
       .catch(next);
   },
   addCollection: (req, res, next) => {
-    // req.body.rewriteObj = {};
-
-    // req.body.rewriteObj[req.body.nameID] = req.body.name;
-    // req.body.fields.forEach(field => {
-    //   req.body.rewriteObj[field.nameID] = field.name;
-    // });
-
-    // req.body.contentType = {};
-    // req.body.fields.forEach(field => {
-    //   req.body.contentType[field.nameID] = field.contentType;
-    // });
-
     const newDocument = new customCollectionDataModel({
       _id: new mongoose.Types.ObjectId(),
       ...req.body
     });
+
     newDocument
       .save()
       .then(() => {
@@ -59,6 +49,47 @@ controller = {
         });
       })
       .catch(err => res.status("500").json(err));
+  },
+  updateCollectionPage: (req, res, next) => {
+    const id = req.params.collectionID;
+
+    customCollectionDataModel
+      .find({}, "", {
+        lean: true
+      })
+      .then(collectionsDB => {
+        collection = collectionsDB.find(element => element._id == id);
+        res.render("admin/index", {
+          title: "Update " + "",
+          partial: "updateCollection",
+          collection: collection,
+          collections: collectionsDB
+        });
+      })
+      .catch(next);
+  },
+  updateCollection: (req, res, next) => {
+    const id = req.params.collectionID;
+
+    // customCollectionDataModel
+    //   .find({}, "", {
+    //     lean: true
+    //   })
+    //   .then(res => {
+    //     console.log(res);
+    //   })
+    //   .catch(next);
+
+    customCollectionDataModel
+      .updateOne({ _id: id }, { $set: req.body }, { runValidators: true })
+      .then(() => {
+        initCatModels(true);
+
+        res.status("201").json({
+          message: "Document updated"
+        });
+      })
+      .catch(err => res.status("500").json({ err }));
   }
 };
 module.exports = controller;

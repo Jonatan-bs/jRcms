@@ -1,0 +1,49 @@
+<div class="flex">
+
+    <div class="innerMenu">
+    <div id="contentTypes"></div>
+    </div>
+
+  <div class="content">
+
+    
+    <button id="updateCollection" class="update">Update</button>
+
+    <div id="createCollection">
+
+        <input type="hidden" id="collectionID" value="<%= collection._id %>" />
+
+      <div class="autoNameId">
+      <label for="name">Name</label>
+      <input type="text" id="catName" value="<%= collection.name %>" />
+     
+      <label for="nameID">Name ID</label>
+      <input type="text" id="catNameID" value="<%= collection.nameID %>" />
+    </div>
+      <label for="description" value="<%= collection.description %>">Description</label>
+      <input type="text" id="catDescription" value="<%= collection.description %>" />
+    </div>
+    <div id="fields">
+      <% collection.fields.forEach(field => {%>
+        <div class="field">
+        <input type="hidden" class="fieldType" value="<%= field.fieldType %>" />
+        <input type="hidden" class="name" value="<%= field.name %>" />
+        <input type="hidden" class="nameID" value="<%= field.nameID %>" />
+
+        <%if (field.options.length>0){%>
+          <div class="groupWrap">
+          <% field.options.forEach( option => {%>
+            <div class="group">
+            <input class="name" type="hidden" value="<%= option.name %>" />
+            <input class="value"type="hidden" value="<%= option.value %>" />
+            </div>
+          <% })%>
+          </div>
+        <%}%>
+      
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</div>
+

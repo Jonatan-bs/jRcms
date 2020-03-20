@@ -12,6 +12,11 @@ let initCatModels = reInitialise => {
     });
   }
 
+  for (model in mongoose.models) {
+    if (model === "jr_user" || model === "jr_customCollectionData") continue;
+    mongoose.deleteModel(model);
+  }
+
   return collection
     .find({}, "-__v", { lean: true })
     .then(collections => {

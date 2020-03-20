@@ -1,7 +1,7 @@
 <div class="flex">
   <div class="innerMenu">
     <% collections.forEach((collection => { %>
-      <a href="http://localhost:3000/admin/collections/<%= collection.nameID  %>"><%= collection.name %> </a>
+      <a href="http://localhost:3000/admin/collections/update/<%= collection._id  %>"><%= collection.name %> </a>
   <% })) %>
   </div>
   <div class="content">

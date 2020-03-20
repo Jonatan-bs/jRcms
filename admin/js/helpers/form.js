@@ -4,8 +4,8 @@ export const contentTypes = [
     name: "String",
     description: "",
     fieldType: "string",
-    domElm() {
-      return domElm(this);
+    domElm(args) {
+      return domElm(this, args);
     }
   },
   {
@@ -13,8 +13,8 @@ export const contentTypes = [
     name: "Text",
     description: "",
     fieldType: "text",
-    domElm() {
-      return domElm(this);
+    domElm(args) {
+      return domElm(this, args);
     }
   },
   {
@@ -22,8 +22,8 @@ export const contentTypes = [
     name: "Number",
     description: "",
     fieldType: "number",
-    domElm() {
-      return domElm(this);
+    domElm(args) {
+      return domElm(this, args);
     }
   },
   {
@@ -31,8 +31,8 @@ export const contentTypes = [
     name: "Boolean",
     description: "",
     fieldType: "checkbox",
-    domElm() {
-      return domElm(this);
+    domElm(args) {
+      return domElm(this, args);
     }
   },
   {
@@ -40,8 +40,8 @@ export const contentTypes = [
     name: "Options",
     description: "",
     fieldType: ["radio", "select", "checkbox"],
-    domElm() {
-      return domElm(this);
+    domElm(args) {
+      return domElm(this, args);
     }
   },
   {
@@ -49,14 +49,14 @@ export const contentTypes = [
     name: "Image",
     description: "",
     fieldType: "image",
-    domElm() {
-      return domElm(this);
+    domElm(args) {
+      return domElm(this, args);
     }
   }
 ];
 
 // Create field dom element
-function domElm(contentType) {
+function domElm(contentType, args = {}) {
   let divWrap = createElm.div({ class: "field" });
   let contentTypePar = createElm.par({
     text: contentType.name
@@ -83,12 +83,18 @@ function domElm(contentType) {
     class: "name",
     placeholder: "name"
   });
+  if (args.name) {
+    name.value = args.name;
+  }
   let nameID = createElm.input({
     type: "text",
     name: "nameID",
     class: "nameID",
     placeholder: "nameID"
   });
+  if (args.nameID) {
+    nameID.value = args.nameID;
+  }
   divWrap.appendChild(name);
   divWrap.appendChild(nameID);
 
@@ -128,25 +134,64 @@ function domElm(contentType) {
     divExtra.appendChild(radio);
 
     // add options groups
-    const groupWrapDiv = createElm.div({ class: "groupWrap" });
-    const groupDiv = createElm.div({ class: "group" });
-    const button = createElm.button({ text: "Add option", class: "addGroup" });
-    groupWrapDiv.appendChild(button);
-    groupWrapDiv.appendChild(groupDiv);
+    if (!args.options || !args.options.length) {
+      const groupWrapDiv = createElm.div({ class: "groupWrap" });
+      const groupDiv = createElm.div({ class: "group" });
+      const button = createElm.button({
+        text: "Add option",
+        class: "addGroup"
+      });
+      groupWrapDiv.appendChild(button);
+      groupWrapDiv.appendChild(groupDiv);
 
-    label = createElm.label({ text: "Name", for: "optionName" });
-    const optionName = createElm.input({ type: "text", name: "optionName" });
-    groupDiv.appendChild(label);
-    groupDiv.appendChild(optionName);
+      label = createElm.label({ text: "Name", for: "optionName" });
+      const optionName = createElm.input({ type: "text", name: "optionName" });
+      groupDiv.appendChild(label);
+      groupDiv.appendChild(optionName);
 
-    label = createElm.label({ text: "Value", for: "optionValue" });
-    const optionValue = createElm.input({ type: "text", name: "optionValue" });
-    groupDiv.appendChild(label);
-    groupDiv.appendChild(optionValue);
+      label = createElm.label({ text: "Value", for: "optionValue" });
+      const optionValue = createElm.input({
+        type: "text",
+        name: "optionValue"
+      });
+      groupDiv.appendChild(label);
+      groupDiv.appendChild(optionValue);
 
-    divExtra.appendChild(groupWrapDiv);
+      divExtra.appendChild(groupWrapDiv);
+    } else {
+      const groupWrapDiv = createElm.div({ class: "groupWrap" });
+
+      const button = createElm.button({
+        text: "Add option",
+        class: "addGroup"
+      });
+      groupWrapDiv.appendChild(button);
+
+      args.options.forEach(option => {
+        const groupDiv = createElm.div({ class: "group" });
+        groupWrapDiv.appendChild(groupDiv);
+        label = createElm.label({ text: "Name", for: "optionName" });
+        const optionName = createElm.input({
+          type: "text",
+          name: "optionName",
+          value: option.name
+        });
+        groupDiv.appendChild(label);
+        groupDiv.appendChild(optionName);
+
+        label = createElm.label({ text: "Value", for: "optionValue" });
+        const optionValue = createElm.input({
+          type: "text",
+          name: "optionValue",
+          value: option.value
+        });
+        groupDiv.appendChild(label);
+        groupDiv.appendChild(optionValue);
+
+        divExtra.appendChild(groupWrapDiv);
+      });
+    }
   }
-
   return divWrap;
 }
 
