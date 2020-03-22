@@ -3,10 +3,10 @@ const router = express.Router();
 const multer = require("multer"); // Handle file uploads
 const indexCtrl = require("../controllers/admin/index");
 const userCtrl = require("../controllers/admin/user");
-const collectionCtrl = require("../controllers/admin/collections");
-const apiCtrl = require("../controllers/admin/api");
+const collectionCtrl = require("../controllers/admin/ccData");
 const customCollectionCtrl = require("../controllers/admin/customCollection");
 
+// MULTER MIDDLEWARE
 const storage = multer.diskStorage({
   destination(req, file, callback) {
     callback(null, "admin/uploads/");
@@ -36,65 +36,41 @@ router.get("/", indexCtrl.getMainPage);
 //// COLLECTION
 /////////////////
 
-// collections page
-router.get("/collections", collectionCtrl.collectionsPage);
+// retrieve collections
+router.post("/ccData", collectionCtrl.retrieve);
 
-// Add Collection page
-router.get("/collections/add", collectionCtrl.addCollectionPage);
+// create collections
+router.post("/ccData/create", collectionCtrl.create);
 
-// Add collection
-router.post("/collections/add", collectionCtrl.addCollection);
-
-// Update collection page
-router.get(
-  "/collections/update/:collectionID",
-  collectionCtrl.updateCollectionPage
-);
-
-// Update collection
-router.post(
-  "/collections/update/:collectionID",
-  collectionCtrl.updateCollection
-);
+// update collections
+router.post("/ccData/update/:collectionID", collectionCtrl.update);
 
 /////////////////
 //// USERS
 /////////////////
 
-// Add user page
-router.get("/signup", userCtrl.signupPage);
-
 // Add user
 router.post("/signup", userCtrl.addUser);
-
-module.exports = router;
-
-/////////////////
-//// API
-/////////////////
-
-// Custom collection page
-router.post("/api/:collection", apiCtrl.getData);
 
 /////////////////
 //// CUSTOM collections
 /////////////////
 
-// Custom collection page
-router.get("/:collection", customCollectionCtrl.getPage);
+// retrieve documents
+router.post("/cc/:collection", upload.any(), customCollectionCtrl.retrieve);
 
-// Add custom collection document page
-router.get("/:collection/add", customCollectionCtrl.addDocumentPage);
-
-// Add custom collection document
-router.post("/:collection/add", upload.any(), customCollectionCtrl.addDocument);
-
-// document page
-router.get("/:collection/:id", customCollectionCtrl.docPage);
+// create custom collection document
+router.post(
+  "/cc/:collection/create",
+  upload.any(),
+  customCollectionCtrl.create
+);
 
 // update document
 router.post(
-  "/:collection/:id/update",
+  "/cc/:collection/update/:docID",
   upload.any(),
-  customCollectionCtrl.updateDoc
+  customCollectionCtrl.update
 );
+
+module.exports = router;
