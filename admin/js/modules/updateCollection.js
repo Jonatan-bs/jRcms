@@ -1,6 +1,7 @@
 import * as formHelper from "../helpers/form.js";
 
 document.querySelectorAll(".field").forEach(field => {
+  console.log(field);
   let fieldType = field.querySelector(".fieldType").value;
   let name = field.querySelector(".name").value;
   let nameID = field.querySelector(".nameID").value;

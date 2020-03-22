@@ -11,7 +11,7 @@ document.addEventListener("click", function(e) {
     }
   });
 
-  // add document
+  // add & update document
   addDoc.forEach(event => {
     if (e.target.matches(event.element)) {
       event.function(e);

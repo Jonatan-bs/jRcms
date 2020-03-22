@@ -1,0 +1,50 @@
+
+<p><%= title %></p>
+<form id="updateDocumentForm">
+    <% for (key in document){ %>
+        <% const value = document[key] %>
+        <% if(key === "_id") continue;%>
+        <% const field = collection.fields.find(obj => obj.nameID === key ) %>
+
+        <% if(field.fieldType === "select"){%>
+            <br><br><label for="<%= field.nameID %>"><%= field.name %></label><br>
+                <select name="<%= field.nameID %>">
+                    <% field.options.forEach(option => { %>
+                        <option value="<%= option.value %>"><%= option.name %></option>
+                    <% }) %>
+                </select>
+    
+            <% } else if  (field.fieldType === "radio"){%>
+                <br><br><label ><%= field.name %> </label> <br>
+                    <% field.options.forEach(option => { %>
+                        <label for="<%= option.name %>"> <%= option.name %> </label>
+                         <input type="radio" name="<%= field.nameID %>" value="<%= option.value %>">
+                    <% }) %>
+            <% } else if  (field.fieldType === "text"){%>
+                <br><br> <label for="<%= field.nameID %>"><%= field.name %></label><br>
+            <textArea class="tinyMce" type="<%= field.inputType %>" name="<%= field.nameID %>"> <%= value %></textArea>
+            <% } else if  (field.fieldType === "image"){ %>
+                <br><br><label for="<%= field.nameID %>"><%= field.name %></label><br>
+            <input type="file" name="<%= field.nameID %>" >
+            <% } else if  (field.fieldType === "string"){ %>
+                <br><br><label for="<%= field.nameID %>"><%= field.name %></label><br>
+            <input type="<%= field.fieldType %>" name="<%= field.nameID %>" value="<%= value %>">
+            <% } %>
+
+
+
+    <% } %>
+
+   
+    <input type="hidden" name="id" value="<%= id %>"/>
+<input type="hidden" name="collection" value="<%= collection.nameID %>"/>
+<button id="updateDocument" >update</button>
+
+</form>
+
+<script>
+    tinymce.init({
+      selector: '.tinyMce'
+    });
+    
+</script>

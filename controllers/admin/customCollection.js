@@ -58,6 +58,7 @@ controller = {
         };
       }
     });
+
     initCatModels()
       .then(() => {
         model = mongoose.models[collection];
@@ -110,6 +111,75 @@ controller = {
         });
       })
       .catch(next);
+  },
+  docPage: (req, res, next) => {
+    const collection = req.params.collection;
+    const id = req.params.id;
+    const model = mongoose.models[collection];
+    let collectionData;
+    let collectionsObj;
+
+    initCatModels()
+      .then(() => {
+        return customCollectionDataModel.find({}, "-_id", {
+          lean: true
+        });
+      })
+      .then(collections => {
+        collectionsObj = collections;
+        return customCollectionDataModel.findOne(
+          { nameID: collection },
+          "-_id",
+          {
+            lean: true
+          }
+        );
+      })
+      .then(response => {
+        collectionData = response;
+        return model.findOne({ _id: id }, "-__v", { lean: true });
+      })
+      .then(document => {
+        res.render("admin/index", {
+          title: collectionData.name,
+          id: document._id,
+          partial: "document",
+          collection: collectionData,
+          document: document,
+          collections: collectionsObj
+        });
+      })
+      .catch(next);
+  },
+  updateDoc: (req, res, next) => {
+    const collection = req.params.collection;
+    const id = req.params.id;
+    const model = mongoose.models[collection];
+
+    // insert image data
+    req.files.forEach(file => {
+      if (!req.body[file.fieldname]) {
+        req.body[file.fieldname] = {
+          originalname: file.originalname,
+          mimetype: file.mimetype,
+          destination: file.destination,
+          filename: file.filename,
+          size: file.size,
+          type: "image"
+        };
+      }
+    });
+
+    console.log(req.body);
+
+    model
+      .updateOne({ _id: id }, { $set: req.body }, { runValidators: true })
+      .then(document => {
+        res.status("201").json({
+          message: "Document updated"
+        });
+      })
+      .catch(err => res.status("500").json({ err }));
   }
 };
 module.exports = controller;
