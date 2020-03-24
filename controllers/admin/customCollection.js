@@ -5,12 +5,14 @@ const initCatModels = require("../../models/customCollectionModels");
 controller = {
   retrieve: (req, res, next) => {
     const collection = req.params.collection;
+    const body = req.body;
+    const query = body.query ? body.query : {};
+    const options = body.options ? body.options : { lean: true };
+    const fields = body.fields ? body.fields : null;
     const model = mongoose.models[collection];
 
     return model
-      .find({}, "", {
-        lean: true
-      })
+      .find(query, fields, options)
       .then(response => {
         res.status("201").json(response);
       })
