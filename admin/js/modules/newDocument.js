@@ -16,7 +16,7 @@ const addDocEvent = {
 
     const collection = formData.get("nameID");
 
-    fetch("http://localhost:3000/admin/" + collection + "/add", {
+    fetch("http://localhost:4000/admin/" + collection + "/add", {
       method: "post",
       body: formData
     })
@@ -44,7 +44,7 @@ const updateDocEvent = {
     const collection = formData.get("collection");
     const id = formData.get("id");
 
-    fetch("http://localhost:3000/admin/" + collection + "/" + id + "/update", {
+    fetch("http://localhost:4000/admin/" + collection + "/" + id + "/update", {
       method: "post",
       body: formData
     })

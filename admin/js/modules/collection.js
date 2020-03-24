@@ -71,7 +71,7 @@ if (document.querySelector("#saveCollection")) {
       collection.fields.push(tempField);
     });
 
-    fetch("http://localhost:3000/admin/collections/add", {
+    fetch("http://localhost:4000/admin/collections/add", {
       method: "post",
       headers: {
         "Content-Type": "application/json"
@@ -134,7 +134,7 @@ if (document.querySelector("#updateCollection")) {
       collection.fields.push(tempField);
     });
 
-    fetch("http://localhost:3000/admin/collections/update/" + collectionID, {
+    fetch("http://localhost:4000/admin/collections/update/" + collectionID, {
       method: "post",
       headers: {
         "Content-Type": "application/json"

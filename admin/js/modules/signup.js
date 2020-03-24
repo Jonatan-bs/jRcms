@@ -12,7 +12,7 @@ const addUser = {
     const form = document.querySelector(this.target);
     const jsonBody = formHelper.JSONstring(form);
 
-    fetch("http://localhost:3000/admin/signup", {
+    fetch("http://localhost:4000/admin/signup", {
       method: "post",
       headers: {
         "Content-Type": "application/json"
