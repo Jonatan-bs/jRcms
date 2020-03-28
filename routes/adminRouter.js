@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer"); // Handle file uploads
-const indexCtrl = require("../controllers/admin/index");
-const userCtrl = require("../controllers/admin/user");
+// const indexCtrl = require("../controllers/admin/index");
 const collectionCtrl = require("../controllers/admin/ccData");
 const customCollectionCtrl = require("../controllers/admin/customCollection");
+const userCtrl = require("../controllers/admin/user");
 
 // MULTER MIDDLEWARE
 const storage = multer.diskStorage({
@@ -30,7 +30,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter }); // Handle f
 /////////////////
 //// MAIN PAGE
 /////////////////
-router.get("/", indexCtrl.getMainPage);
+// router.get("/", indexCtrl.getMainPage);
 
 /////////////////
 //// COLLECTION
@@ -49,15 +49,24 @@ router.post("/ccData/update/:collectionID", collectionCtrl.update);
 //// USERS
 /////////////////
 
-// Add user
-router.post("/signup", userCtrl.addUser);
+// create user
+router.post("/user/create", userCtrl.create);
+
+// retrieve users
+router.post("/user/retrieve", userCtrl.retrieve);
+
+// signIn
+router.post("/user/signin", userCtrl.signIn);
+
+// update user
+router.post("/user/update/:id", userCtrl.update);
 
 /////////////////
 //// CUSTOM collections
 /////////////////
 
 // retrieve documents
-router.post("/cc/:collection", upload.any(), customCollectionCtrl.retrieve);
+router.post("/cc/:collection", customCollectionCtrl.retrieve);
 
 // create custom collection document
 router.post(

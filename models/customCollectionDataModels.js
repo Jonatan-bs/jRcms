@@ -3,19 +3,21 @@ const mongoose = require("mongoose");
 // Create schema for group
 const fieldsSchema = new mongoose.Schema(
   {
-    dataType: { type: String, required: true },
-    fieldType: { type: String, required: true },
+    type: { type: String, required: true },
     name: { type: String, required: true, unique: true },
     nameID: { type: String, required: true, unique: true },
     unique: { type: Boolean, required: true },
     required: { type: Boolean, required: true },
     //inputType: { type: String, required: true },
-    options: [
-      {
-        name: { type: String, required: true },
-        value: { type: String, required: true }
-      }
-    ]
+    options: {
+      type: [
+        {
+          name: { type: String, required: true },
+          value: { type: String, required: true }
+        }
+      ],
+      _id: false
+    }
   },
   { _id: false }
 );
@@ -27,7 +29,7 @@ const collectionSchema = new mongoose.Schema(
     nameID: { type: String, required: true, unique: true },
     name: { type: String, required: true, unique: true },
     description: { type: String },
-    fields: { type: [fieldsSchema], required: true }
+    fields: { type: [fieldsSchema], required: false }
     //rewriteObj: { type: Object },
     //contentType: { type: Object }
   },

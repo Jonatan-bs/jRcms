@@ -1,6 +1,16 @@
 const collection = require("./customCollectionDataModels");
 const mongoose = require("mongoose");
 
+const type2Datatype = {
+  string: "string",
+  number: "number",
+  image: "file",
+  boolean: "boolean",
+  select: "string",
+  radio: "string",
+  text: "string"
+};
+
 // Get all collections from database and create models
 
 let Initialised = false;
@@ -42,7 +52,7 @@ function setModels(objs) {
     };
 
     obj.fields.forEach(field => {
-      if (field.fieldType === "image") {
+      if (field.type === "image") {
         schemaObj[field.nameID] = {
           type: { type: String, required: true, default: "image" },
           originalname: { type: String, required: true },
@@ -53,7 +63,7 @@ function setModels(objs) {
         };
       } else {
         schemaObj[field.nameID] = {
-          type: field.dataType,
+          type: type2Datatype[field.type],
           required: field.required,
           unique: field.unique
         };
@@ -81,7 +91,6 @@ function setModels(objs) {
     schema.virtual("rewrite.nameID2fieldType").get(() => nameID2contentType);
     // , versionKey=true
     schema.set("toObject", { getters: true });
-
     mongoose.model(obj.nameID, schema);
   });
 }

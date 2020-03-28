@@ -20,6 +20,7 @@ controller = {
   },
   create: (req, res, next) => {
     let collection = req.params.collection;
+    console.log(req.body);
     // insert image data
     req.files.forEach(file => {
       if (!req.body[file.fieldname]) {

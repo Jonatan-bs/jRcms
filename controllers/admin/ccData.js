@@ -36,7 +36,6 @@ controller = {
 
   update: (req, res, next) => {
     const collectionID = req.params.collectionID;
-
     customCollectionDataModel
       .updateOne(
         { _id: collectionID },
