@@ -74,7 +74,15 @@ controller = {
     });
 
     model
-      .updateOne({ _id: id }, { $set: req.body }, { runValidators: true })
+      .findById(id)
+      .then(doc => {
+        for (const key in req.body) {
+          const field = req.body[key];
+          doc[key] = field;
+        }
+        return doc.save();
+      })
+
       .then(document => {
         res.status("201").json({
           message: "Document updated"

@@ -77,7 +77,7 @@ router.post(
 
 // update document
 router.post(
-  "/cc/:collection/update/:docID",
+  "/cc/:collection/update/:id",
   upload.any(),
   customCollectionCtrl.update
 );
