@@ -12,13 +12,14 @@ controller = {
 
     newDocument
       .save()
-      .then(() => {
+      .then(response => {
         res.status("201").json({
-          message: "Document created",
-          createdDocument: newDocument
+          message: "User created"
         });
       })
-      .catch(next);
+      .catch(err => {
+        res.status("500").json(err);
+      });
   },
   update: (req, res, next) => {
     const id = req.params.id;
