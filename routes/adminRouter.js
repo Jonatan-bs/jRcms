@@ -5,6 +5,7 @@ const multer = require("multer"); // Handle file uploads
 const collectionCtrl = require("../controllers/admin/ccData");
 const customCollectionCtrl = require("../controllers/admin/customCollection");
 const userCtrl = require("../controllers/admin/user");
+const imageLibraryCtrl = require("../controllers/admin/imageLibrary");
 
 // MULTER MIDDLEWARE
 const storage = multer.diskStorage({
@@ -60,6 +61,24 @@ router.post("/user/signin", userCtrl.signIn);
 
 // update user
 router.post("/user/update/:id", userCtrl.update);
+
+/////////////////
+//// IMAGE LIBRARY
+/////////////////
+
+// create image
+router.post(
+  "/imageLibrary/create",
+  upload.single("image"),
+  imageLibraryCtrl.create
+);
+
+// update image
+router.post(
+  "/imageLibrary/update/:id",
+  upload.single("image"),
+  imageLibraryCtrl.update
+);
 
 /////////////////
 //// CUSTOM collections
