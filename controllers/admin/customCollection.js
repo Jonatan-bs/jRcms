@@ -12,10 +12,20 @@ controller = {
     const fields = body.fields ? body.fields : null;
     const model = mongoose.models[collection];
 
-    return model
-      .find(query, fields, options)
-      .populate({
-        path: "images.imageID image.imageID"
+    customCollectionDataModel
+      .findOne({ nameID: collection })
+      .then(response => {
+        console.log(response);
+        imgPaths = "";
+        response.fields.forEach(field => {
+          if (field.type === "image") imgPaths += field.nameID + ".imageID ";
+        });
+        return imgPaths;
+      })
+      .then(imgPaths => {
+        return model.find(query, fields, options).populate({
+          path: imgPaths
+        });
       })
       .then(response => {
         res.status("201").json(response);
