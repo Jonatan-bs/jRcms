@@ -20,20 +20,6 @@ controller = {
   },
   create: (req, res, next) => {
     let collection = req.params.collection;
-    console.log(req.body);
-    // insert image data
-    req.files.forEach(file => {
-      if (!req.body[file.fieldname]) {
-        req.body[file.fieldname] = {
-          originalname: file.originalname,
-          mimetype: file.mimetype,
-          destination: file.destination,
-          filename: file.filename,
-          size: file.size
-        };
-      }
-    });
-
     initCatModels()
       .then(() => {
         model = mongoose.models[collection];
@@ -58,20 +44,6 @@ controller = {
     const collection = req.params.collection;
     const id = req.params.id;
     const model = mongoose.models[collection];
-
-    // insert image data
-    req.files.forEach(file => {
-      if (!req.body[file.fieldname]) {
-        req.body[file.fieldname] = {
-          originalname: file.originalname,
-          mimetype: file.mimetype,
-          destination: file.destination,
-          filename: file.filename,
-          size: file.size,
-          type: "image"
-        };
-      }
-    });
 
     model
       .findById(id)

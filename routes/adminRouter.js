@@ -74,11 +74,10 @@ router.post(
 );
 
 // update image
-router.post(
-  "/imageLibrary/update/:id",
-  upload.single("image"),
-  imageLibraryCtrl.update
-);
+router.post("/imageLibrary/update/:id", imageLibraryCtrl.update);
+
+// retrieve images
+router.post("/imageLibrary", imageLibraryCtrl.retrieve);
 
 /////////////////
 //// CUSTOM collections
@@ -88,16 +87,12 @@ router.post(
 router.post("/cc/:collection", customCollectionCtrl.retrieve);
 
 // create custom collection document
-router.post(
-  "/cc/:collection/create",
-  upload.any(),
-  customCollectionCtrl.create
-);
+router.post("/cc/:collection/create", customCollectionCtrl.create);
 
 // update document
 router.post(
   "/cc/:collection/update/:id",
-  upload.any(),
+
   customCollectionCtrl.update
 );
 

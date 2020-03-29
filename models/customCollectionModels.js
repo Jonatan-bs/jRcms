@@ -54,12 +54,18 @@ function setModels(objs) {
     obj.fields.forEach(field => {
       if (field.type === "image") {
         schemaObj[field.nameID] = {
-          type: { type: String, required: true, default: "image" },
-          originalname: { type: String, required: true },
-          mimetype: { type: String, required: true },
-          destination: { type: String, required: true },
-          filename: { type: String, required: true },
-          size: { type: Number, required: true }
+          type: [
+            {
+              _id: false,
+              caption: {
+                type: "string"
+              },
+              imageID: {
+                type: "string",
+                required: true
+              }
+            }
+          ]
         };
       } else {
         schemaObj[field.nameID] = {

@@ -3,9 +3,10 @@ const mongoose = require("mongoose");
 const imgLibrarySchema = mongoose.Schema(
   {
     _id: mongoose.Schema.Types.ObjectId,
-    name: { type: String, required: true },
-    alt: { type: String, required: true },
-    description: { type: String, required: true, default: "" },
+    name: { type: String, required: false, default: "" },
+    alt: { type: String, required: false, default: "" },
+    caption: { type: String, required: false, default: "" },
+    description: { type: String, required: false, default: "" },
     originalname: { type: String, required: true },
     mimetype: { type: String, required: true },
     destination: { type: String, required: true },
