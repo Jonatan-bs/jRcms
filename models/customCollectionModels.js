@@ -62,7 +62,8 @@ function setModels(objs) {
               },
               imageID: {
                 type: "string",
-                required: true
+                required: true,
+                ref: "imgLibrary"
               }
             }
           ]

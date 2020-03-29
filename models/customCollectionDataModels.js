@@ -8,7 +8,7 @@ const fieldsSchema = new mongoose.Schema(
     nameID: { type: String, required: true, unique: true },
     unique: { type: Boolean, required: true },
     required: { type: Boolean, required: true },
-    //inputType: { type: String, required: true },
+    multi: { type: Boolean, required: true, default: false },
     options: {
       type: [
         {

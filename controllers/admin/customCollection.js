@@ -1,6 +1,7 @@
 const customCollectionDataModel = require("../../models/customCollectionDataModels");
 const mongoose = require("mongoose");
 const initCatModels = require("../../models/customCollectionModels");
+const ImageLibrary = require("./../../models/imageLibraryModel");
 
 controller = {
   retrieve: (req, res, next) => {
@@ -13,6 +14,9 @@ controller = {
 
     return model
       .find(query, fields, options)
+      .populate({
+        path: "images.imageID image.imageID"
+      })
       .then(response => {
         res.status("201").json(response);
       })
@@ -44,7 +48,6 @@ controller = {
     const collection = req.params.collection;
     const id = req.params.id;
     const model = mongoose.models[collection];
-
     model
       .findById(id)
       .then(doc => {
