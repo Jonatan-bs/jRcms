@@ -6,6 +6,7 @@ const express = require("express"); // Håndtering af server
 const logger = require("morgan"); // module for logging
 const adminRouter = require("./routes/adminRouter"); // Routing
 const bodyParser = require("body-parser");
+const init = require("./init/init");
 
 var app = express();
 
@@ -59,7 +60,10 @@ mongoose
     useUnifiedTopology: true,
     useCreateIndex: true
   })
-  .then(res => console.log("connected to database"))
+  .then(res => {
+    console.log("connected to database");
+    init();
+  })
   .catch(error => handleError("error connecting to database"));
 
 module.exports = app;

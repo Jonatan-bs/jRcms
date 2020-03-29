@@ -26,6 +26,7 @@ controller = {
       .save()
       .then(() => {
         initCatModels(true);
+
         res.status("201").json({
           message: "Document created",
           createdDocument: newDocument

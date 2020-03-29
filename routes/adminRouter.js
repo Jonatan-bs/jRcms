@@ -6,6 +6,7 @@ const collectionCtrl = require("../controllers/admin/ccData");
 const customCollectionCtrl = require("../controllers/admin/customCollection");
 const userCtrl = require("../controllers/admin/user");
 const imageLibraryCtrl = require("../controllers/admin/imageLibrary");
+const userRoleCtrl = require("../controllers/admin/userRole");
 
 // MULTER MIDDLEWARE
 const storage = multer.diskStorage({
@@ -61,6 +62,22 @@ router.post("/user/signin", userCtrl.signIn);
 
 // update user
 router.post("/user/update/:id", userCtrl.update);
+
+/////////////////
+//// USER ROLES
+/////////////////
+
+// retrieve user userroles
+router.post("/userrole", userRoleCtrl.retrieve);
+
+// create user userrole
+router.post("/userrole/create", userRoleCtrl.create);
+
+// delete userrole
+router.post("/userrole/delete/:id", userRoleCtrl.delete);
+
+// update userroles
+router.post("/userrole/update/:id", userRoleCtrl.update);
 
 /////////////////
 //// IMAGE LIBRARY
