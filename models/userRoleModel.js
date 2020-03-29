@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const PermissionSchema = mongoose.Schema({
-  name: { type: Boolean, required: true },
+  collectionID: { type: String, required: true },
   find: { type: Boolean, required: true },
   findOne: { type: Boolean, required: true },
   create: { type: Boolean, required: true },

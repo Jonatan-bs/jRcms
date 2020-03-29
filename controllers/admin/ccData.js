@@ -1,5 +1,5 @@
-const customCollectionDataModel = require("../../models/customCollectionDataModels");
 const mongoose = require("mongoose");
+const customCollectionDataModel = mongoose.models["jr_customCollectionData"];
 const initCatModels = require("../../models/customCollectionModels");
 
 controller = {

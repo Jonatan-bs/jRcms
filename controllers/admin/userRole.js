@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const UserRoleModel = require("./../../models/userRoleModel");
+const UserRoleModel = mongoose.models["userRole"];
 
 controller = {
   create: (req, res, next) => {

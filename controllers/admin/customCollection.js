@@ -1,7 +1,7 @@
-const customCollectionDataModel = require("../../models/customCollectionDataModels");
 const mongoose = require("mongoose");
+const customCollectionDataModel = mongoose.models["jr_customCollectionData"];
 const initCatModels = require("../../models/customCollectionModels");
-const ImageLibrary = require("./../../models/imageLibraryModel");
+const ImageLibrary = mongoose.models["imageLibraryModel"];
 
 controller = {
   retrieve: (req, res, next) => {

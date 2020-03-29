@@ -1,5 +1,5 @@
-const collection = require("./customCollectionDataModels");
 const mongoose = require("mongoose");
+const collection = mongoose.models["jr_customCollectionData"];
 
 const type2Datatype = {
   string: "string",
@@ -23,7 +23,13 @@ let initCatModels = reInitialise => {
   }
 
   for (model in mongoose.models) {
-    if (model === "jr_user" || model === "jr_customCollectionData") continue;
+    if (
+      model === "jr_customCollectionData" ||
+      model === "imgLibrary" ||
+      model === "user" ||
+      model === "userRole"
+    )
+      continue;
     mongoose.deleteModel(model);
   }
 

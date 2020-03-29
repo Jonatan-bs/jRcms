@@ -1,4 +1,4 @@
-const customCollectionDataModel = require("../../models/customCollectionDataModels");
+const customCollectionDataModel = mongoose.models["jr_customCollectionData"];
 
 controller = {
   getMainPage: (req, res, next) => {

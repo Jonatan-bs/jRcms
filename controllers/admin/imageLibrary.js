@@ -1,5 +1,5 @@
-const ImageLibrary = require("./../../models/imageLibraryModel");
 const mongoose = require("mongoose");
+const ImageLibrary = mongoose.models["imgLibrary"];
 
 controller = {
   create: (req, res, next) => {

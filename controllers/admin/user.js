@@ -1,7 +1,5 @@
-const User = require("../../models/userModel");
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
-const saltTurns = 10;
+const User = mongoose.models["user"];
 
 controller = {
   create: (req, res, next) => {

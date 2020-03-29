@@ -1,13 +1,13 @@
 const createError = require("http-errors");
 const path = require("path");
 const mongoose = require("mongoose");
+const initModels = require("./models/initModels");
 const cookieParser = require("cookie-parser");
 const express = require("express"); // Håndtering af server
 const logger = require("morgan"); // module for logging
 const adminRouter = require("./routes/adminRouter"); // Routing
 const bodyParser = require("body-parser");
 const init = require("./init/init");
-
 var app = express();
 
 // App temporary cors
@@ -64,6 +64,6 @@ mongoose
     console.log("connected to database");
     init();
   })
-  .catch(error => handleError("error connecting to database"));
+  .catch(err => console.log(err));
 
 module.exports = app;
